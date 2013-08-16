@@ -1,0 +1,572 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		09EA47C717BE39A60026664E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47C617BE39A60026664E /* Foundation.framework */; };
+		09EA47C917BE39A60026664E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47C817BE39A60026664E /* CoreGraphics.framework */; };
+		09EA47CB17BE39A60026664E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47CA17BE39A60026664E /* UIKit.framework */; };
+		09EA47D117BE39A60026664E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09EA47CF17BE39A60026664E /* InfoPlist.strings */; };
+		09EA47D317BE39A60026664E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47D217BE39A60026664E /* main.m */; };
+		09EA47D717BE39A60026664E /* OGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47D617BE39A60026664E /* OGAppDelegate.m */; };
+		09EA47D917BE39A60026664E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 09EA47D817BE39A60026664E /* Images.xcassets */; };
+		09EA47E017BE39A60026664E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47DF17BE39A60026664E /* XCTest.framework */; };
+		09EA47E117BE39A60026664E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47C617BE39A60026664E /* Foundation.framework */; };
+		09EA47E217BE39A60026664E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47CA17BE39A60026664E /* UIKit.framework */; };
+		09EA47EA17BE39A60026664E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09EA47E817BE39A60026664E /* InfoPlist.strings */; };
+		09EA47EC17BE39A60026664E /* OGCoreDataStackProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47EB17BE39A60026664E /* OGCoreDataStackProjectTests.m */; };
+		09EA480F17BE39FA0026664E /* NSFetchRequest+OGCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47F817BE39FA0026664E /* NSFetchRequest+OGCoreDataStack.m */; };
+		09EA481017BE39FA0026664E /* NSManagedObject+OGCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47FA17BE39FA0026664E /* NSManagedObject+OGCoreDataStack.m */; };
+		09EA481117BE39FA0026664E /* NSManagedObject+OGCoreDataStackAsynchronous.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47FC17BE39FA0026664E /* NSManagedObject+OGCoreDataStackAsynchronous.m */; };
+		09EA481217BE39FA0026664E /* NSManagedObjectContext+OGCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47FE17BE39FA0026664E /* NSManagedObjectContext+OGCoreDataStack.m */; };
+		09EA481317BE39FA0026664E /* NSManagedObjectModel+OGCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA480017BE39FA0026664E /* NSManagedObjectModel+OGCoreDataStack.m */; };
+		09EA481417BE39FA0026664E /* NSPersistentStoreCoordinator+OGCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA480217BE39FA0026664E /* NSPersistentStoreCoordinator+OGCoreDataStack.m */; };
+		09EA481517BE39FA0026664E /* OGCoreDataStackCollectionViewVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA480517BE39FA0026664E /* OGCoreDataStackCollectionViewVendor.m */; };
+		09EA481617BE39FA0026664E /* OGCoreDataStackPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA480717BE39FA0026664E /* OGCoreDataStackPrivate.m */; };
+		09EA481717BE39FA0026664E /* OGCoreDataStackTableViewVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA480917BE39FA0026664E /* OGCoreDataStackTableViewVendor.m */; };
+		09EA481817BE39FA0026664E /* OGCoreDataStackVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA480B17BE39FA0026664E /* OGCoreDataStackVendor.m */; };
+		09EA481E17BE42A60026664E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09EA481C17BE42A60026664E /* Model.xcdatamodeld */; };
+		09EA482117BE430B0026664E /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482017BE430B0026664E /* Person.m */; };
+		09EA482417BE430C0026664E /* Wallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482317BE430C0026664E /* Wallet.m */; };
+		09EA482717BE430C0026664E /* Creditcard.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482617BE430C0026664E /* Creditcard.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		09EA47E317BE39A60026664E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 09EA47BB17BE39A60026664E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09EA47C217BE39A60026664E;
+			remoteInfo = OGCoreDataStackProject;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		09EA47C317BE39A60026664E /* OGCoreDataStackProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OGCoreDataStackProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		09EA47C617BE39A60026664E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		09EA47C817BE39A60026664E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		09EA47CA17BE39A60026664E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		09EA47CE17BE39A60026664E /* OGCoreDataStackProject-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OGCoreDataStackProject-Info.plist"; sourceTree = "<group>"; };
+		09EA47D017BE39A60026664E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		09EA47D217BE39A60026664E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		09EA47D417BE39A60026664E /* OGCoreDataStackProject-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OGCoreDataStackProject-Prefix.pch"; sourceTree = "<group>"; };
+		09EA47D517BE39A60026664E /* OGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGAppDelegate.h; sourceTree = "<group>"; };
+		09EA47D617BE39A60026664E /* OGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OGAppDelegate.m; sourceTree = "<group>"; };
+		09EA47D817BE39A60026664E /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		09EA47DE17BE39A60026664E /* OGCoreDataStackProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OGCoreDataStackProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		09EA47DF17BE39A60026664E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		09EA47E717BE39A60026664E /* OGCoreDataStackProjectTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OGCoreDataStackProjectTests-Info.plist"; sourceTree = "<group>"; };
+		09EA47E917BE39A60026664E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		09EA47EB17BE39A60026664E /* OGCoreDataStackProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackProjectTests.m; sourceTree = "<group>"; };
+		09EA47F517BE39FA0026664E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		09EA47F717BE39FA0026664E /* NSFetchRequest+OGCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFetchRequest+OGCoreDataStack.h"; sourceTree = "<group>"; };
+		09EA47F817BE39FA0026664E /* NSFetchRequest+OGCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFetchRequest+OGCoreDataStack.m"; sourceTree = "<group>"; };
+		09EA47F917BE39FA0026664E /* NSManagedObject+OGCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+OGCoreDataStack.h"; sourceTree = "<group>"; };
+		09EA47FA17BE39FA0026664E /* NSManagedObject+OGCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+OGCoreDataStack.m"; sourceTree = "<group>"; };
+		09EA47FB17BE39FA0026664E /* NSManagedObject+OGCoreDataStackAsynchronous.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+OGCoreDataStackAsynchronous.h"; sourceTree = "<group>"; };
+		09EA47FC17BE39FA0026664E /* NSManagedObject+OGCoreDataStackAsynchronous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+OGCoreDataStackAsynchronous.m"; sourceTree = "<group>"; };
+		09EA47FD17BE39FA0026664E /* NSManagedObjectContext+OGCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+OGCoreDataStack.h"; sourceTree = "<group>"; };
+		09EA47FE17BE39FA0026664E /* NSManagedObjectContext+OGCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+OGCoreDataStack.m"; sourceTree = "<group>"; };
+		09EA47FF17BE39FA0026664E /* NSManagedObjectModel+OGCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectModel+OGCoreDataStack.h"; sourceTree = "<group>"; };
+		09EA480017BE39FA0026664E /* NSManagedObjectModel+OGCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectModel+OGCoreDataStack.m"; sourceTree = "<group>"; };
+		09EA480117BE39FA0026664E /* NSPersistentStoreCoordinator+OGCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSPersistentStoreCoordinator+OGCoreDataStack.h"; sourceTree = "<group>"; };
+		09EA480217BE39FA0026664E /* NSPersistentStoreCoordinator+OGCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSPersistentStoreCoordinator+OGCoreDataStack.m"; sourceTree = "<group>"; };
+		09EA480317BE39FA0026664E /* OGCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStack.h; sourceTree = "<group>"; };
+		09EA480417BE39FA0026664E /* OGCoreDataStackCollectionViewVendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackCollectionViewVendor.h; sourceTree = "<group>"; };
+		09EA480517BE39FA0026664E /* OGCoreDataStackCollectionViewVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackCollectionViewVendor.m; sourceTree = "<group>"; };
+		09EA480617BE39FA0026664E /* OGCoreDataStackPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackPrivate.h; sourceTree = "<group>"; };
+		09EA480717BE39FA0026664E /* OGCoreDataStackPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackPrivate.m; sourceTree = "<group>"; };
+		09EA480817BE39FA0026664E /* OGCoreDataStackTableViewVendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackTableViewVendor.h; sourceTree = "<group>"; };
+		09EA480917BE39FA0026664E /* OGCoreDataStackTableViewVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackTableViewVendor.m; sourceTree = "<group>"; };
+		09EA480A17BE39FA0026664E /* OGCoreDataStackVendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackVendor.h; sourceTree = "<group>"; };
+		09EA480B17BE39FA0026664E /* OGCoreDataStackVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackVendor.m; sourceTree = "<group>"; };
+		09EA480D17BE39FA0026664E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		09EA481D17BE42A60026664E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		09EA481F17BE430B0026664E /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		09EA482017BE430B0026664E /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		09EA482217BE430C0026664E /* Wallet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wallet.h; sourceTree = "<group>"; };
+		09EA482317BE430C0026664E /* Wallet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Wallet.m; sourceTree = "<group>"; };
+		09EA482517BE430C0026664E /* Creditcard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creditcard.h; sourceTree = "<group>"; };
+		09EA482617BE430C0026664E /* Creditcard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creditcard.m; sourceTree = "<group>"; };
+		09EA482817BE46D30026664E /* OGCoreDataStackCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackCommon.h; sourceTree = "<group>"; };
+		09EA482917BE47C30026664E /* OGCoreDataStack.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = OGCoreDataStack.podspec; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		09EA47C017BE39A60026664E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09EA47C917BE39A60026664E /* CoreGraphics.framework in Frameworks */,
+				09EA47CB17BE39A60026664E /* UIKit.framework in Frameworks */,
+				09EA47C717BE39A60026664E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09EA47DB17BE39A60026664E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09EA47E017BE39A60026664E /* XCTest.framework in Frameworks */,
+				09EA47E217BE39A60026664E /* UIKit.framework in Frameworks */,
+				09EA47E117BE39A60026664E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		09EA47BA17BE39A60026664E = {
+			isa = PBXGroup;
+			children = (
+				09EA47F517BE39FA0026664E /* LICENSE */,
+				09EA480D17BE39FA0026664E /* README.md */,
+				09EA482917BE47C30026664E /* OGCoreDataStack.podspec */,
+				09EA47F617BE39FA0026664E /* OGCoreDataStack */,
+				09EA47CC17BE39A60026664E /* OGCoreDataStackProject */,
+				09EA47E517BE39A60026664E /* OGCoreDataStackProjectTests */,
+				09EA47C517BE39A60026664E /* Frameworks */,
+				09EA47C417BE39A60026664E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		09EA47C417BE39A60026664E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				09EA47C317BE39A60026664E /* OGCoreDataStackProject.app */,
+				09EA47DE17BE39A60026664E /* OGCoreDataStackProjectTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		09EA47C517BE39A60026664E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				09EA47C617BE39A60026664E /* Foundation.framework */,
+				09EA47C817BE39A60026664E /* CoreGraphics.framework */,
+				09EA47CA17BE39A60026664E /* UIKit.framework */,
+				09EA47DF17BE39A60026664E /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		09EA47CC17BE39A60026664E /* OGCoreDataStackProject */ = {
+			isa = PBXGroup;
+			children = (
+				09EA481B17BE428E0026664E /* Models */,
+				09EA47D817BE39A60026664E /* Images.xcassets */,
+				09EA47CD17BE39A60026664E /* Supporting Files */,
+				09EA47D517BE39A60026664E /* OGAppDelegate.h */,
+				09EA47D617BE39A60026664E /* OGAppDelegate.m */,
+			);
+			path = OGCoreDataStackProject;
+			sourceTree = "<group>";
+		};
+		09EA47CD17BE39A60026664E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				09EA47CE17BE39A60026664E /* OGCoreDataStackProject-Info.plist */,
+				09EA47CF17BE39A60026664E /* InfoPlist.strings */,
+				09EA47D217BE39A60026664E /* main.m */,
+				09EA47D417BE39A60026664E /* OGCoreDataStackProject-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		09EA47E517BE39A60026664E /* OGCoreDataStackProjectTests */ = {
+			isa = PBXGroup;
+			children = (
+				09EA47EB17BE39A60026664E /* OGCoreDataStackProjectTests.m */,
+				09EA47E617BE39A60026664E /* Supporting Files */,
+			);
+			path = OGCoreDataStackProjectTests;
+			sourceTree = "<group>";
+		};
+		09EA47E617BE39A60026664E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				09EA47E717BE39A60026664E /* OGCoreDataStackProjectTests-Info.plist */,
+				09EA47E817BE39A60026664E /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		09EA47F617BE39FA0026664E /* OGCoreDataStack */ = {
+			isa = PBXGroup;
+			children = (
+				09EA47F717BE39FA0026664E /* NSFetchRequest+OGCoreDataStack.h */,
+				09EA47F817BE39FA0026664E /* NSFetchRequest+OGCoreDataStack.m */,
+				09EA47F917BE39FA0026664E /* NSManagedObject+OGCoreDataStack.h */,
+				09EA47FA17BE39FA0026664E /* NSManagedObject+OGCoreDataStack.m */,
+				09EA47FB17BE39FA0026664E /* NSManagedObject+OGCoreDataStackAsynchronous.h */,
+				09EA47FC17BE39FA0026664E /* NSManagedObject+OGCoreDataStackAsynchronous.m */,
+				09EA47FD17BE39FA0026664E /* NSManagedObjectContext+OGCoreDataStack.h */,
+				09EA47FE17BE39FA0026664E /* NSManagedObjectContext+OGCoreDataStack.m */,
+				09EA47FF17BE39FA0026664E /* NSManagedObjectModel+OGCoreDataStack.h */,
+				09EA480017BE39FA0026664E /* NSManagedObjectModel+OGCoreDataStack.m */,
+				09EA480117BE39FA0026664E /* NSPersistentStoreCoordinator+OGCoreDataStack.h */,
+				09EA480217BE39FA0026664E /* NSPersistentStoreCoordinator+OGCoreDataStack.m */,
+				09EA480317BE39FA0026664E /* OGCoreDataStack.h */,
+				09EA482817BE46D30026664E /* OGCoreDataStackCommon.h */,
+				09EA480417BE39FA0026664E /* OGCoreDataStackCollectionViewVendor.h */,
+				09EA480517BE39FA0026664E /* OGCoreDataStackCollectionViewVendor.m */,
+				09EA480617BE39FA0026664E /* OGCoreDataStackPrivate.h */,
+				09EA480717BE39FA0026664E /* OGCoreDataStackPrivate.m */,
+				09EA480817BE39FA0026664E /* OGCoreDataStackTableViewVendor.h */,
+				09EA480917BE39FA0026664E /* OGCoreDataStackTableViewVendor.m */,
+				09EA480A17BE39FA0026664E /* OGCoreDataStackVendor.h */,
+				09EA480B17BE39FA0026664E /* OGCoreDataStackVendor.m */,
+			);
+			path = OGCoreDataStack;
+			sourceTree = "<group>";
+		};
+		09EA481B17BE428E0026664E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				09EA481C17BE42A60026664E /* Model.xcdatamodeld */,
+				09EA482517BE430C0026664E /* Creditcard.h */,
+				09EA482617BE430C0026664E /* Creditcard.m */,
+				09EA482217BE430C0026664E /* Wallet.h */,
+				09EA482317BE430C0026664E /* Wallet.m */,
+				09EA481F17BE430B0026664E /* Person.h */,
+				09EA482017BE430B0026664E /* Person.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		09EA47C217BE39A60026664E /* OGCoreDataStackProject */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09EA47EF17BE39A60026664E /* Build configuration list for PBXNativeTarget "OGCoreDataStackProject" */;
+			buildPhases = (
+				09EA47BF17BE39A60026664E /* Sources */,
+				09EA47C017BE39A60026664E /* Frameworks */,
+				09EA47C117BE39A60026664E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OGCoreDataStackProject;
+			productName = OGCoreDataStackProject;
+			productReference = 09EA47C317BE39A60026664E /* OGCoreDataStackProject.app */;
+			productType = "com.apple.product-type.application";
+		};
+		09EA47DD17BE39A60026664E /* OGCoreDataStackProjectTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 09EA47F217BE39A60026664E /* Build configuration list for PBXNativeTarget "OGCoreDataStackProjectTests" */;
+			buildPhases = (
+				09EA47DA17BE39A60026664E /* Sources */,
+				09EA47DB17BE39A60026664E /* Frameworks */,
+				09EA47DC17BE39A60026664E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				09EA47E417BE39A60026664E /* PBXTargetDependency */,
+			);
+			name = OGCoreDataStackProjectTests;
+			productName = OGCoreDataStackProjectTests;
+			productReference = 09EA47DE17BE39A60026664E /* OGCoreDataStackProjectTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		09EA47BB17BE39A60026664E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = OG;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Orange Groove";
+				TargetAttributes = {
+					09EA47DD17BE39A60026664E = {
+						TestTargetID = 09EA47C217BE39A60026664E;
+					};
+				};
+			};
+			buildConfigurationList = 09EA47BE17BE39A60026664E /* Build configuration list for PBXProject "OGCoreDataStackProject" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 09EA47BA17BE39A60026664E;
+			productRefGroup = 09EA47C417BE39A60026664E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				09EA47C217BE39A60026664E /* OGCoreDataStackProject */,
+				09EA47DD17BE39A60026664E /* OGCoreDataStackProjectTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		09EA47C117BE39A60026664E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09EA47D117BE39A60026664E /* InfoPlist.strings in Resources */,
+				09EA47D917BE39A60026664E /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09EA47DC17BE39A60026664E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09EA47EA17BE39A60026664E /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		09EA47BF17BE39A60026664E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09EA481617BE39FA0026664E /* OGCoreDataStackPrivate.m in Sources */,
+				09EA481017BE39FA0026664E /* NSManagedObject+OGCoreDataStack.m in Sources */,
+				09EA482117BE430B0026664E /* Person.m in Sources */,
+				09EA47D717BE39A60026664E /* OGAppDelegate.m in Sources */,
+				09EA481217BE39FA0026664E /* NSManagedObjectContext+OGCoreDataStack.m in Sources */,
+				09EA482417BE430C0026664E /* Wallet.m in Sources */,
+				09EA481817BE39FA0026664E /* OGCoreDataStackVendor.m in Sources */,
+				09EA481517BE39FA0026664E /* OGCoreDataStackCollectionViewVendor.m in Sources */,
+				09EA47D317BE39A60026664E /* main.m in Sources */,
+				09EA481117BE39FA0026664E /* NSManagedObject+OGCoreDataStackAsynchronous.m in Sources */,
+				09EA481317BE39FA0026664E /* NSManagedObjectModel+OGCoreDataStack.m in Sources */,
+				09EA481717BE39FA0026664E /* OGCoreDataStackTableViewVendor.m in Sources */,
+				09EA482717BE430C0026664E /* Creditcard.m in Sources */,
+				09EA480F17BE39FA0026664E /* NSFetchRequest+OGCoreDataStack.m in Sources */,
+				09EA481E17BE42A60026664E /* Model.xcdatamodeld in Sources */,
+				09EA481417BE39FA0026664E /* NSPersistentStoreCoordinator+OGCoreDataStack.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		09EA47DA17BE39A60026664E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				09EA47EC17BE39A60026664E /* OGCoreDataStackProjectTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		09EA47E417BE39A60026664E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 09EA47C217BE39A60026664E /* OGCoreDataStackProject */;
+			targetProxy = 09EA47E317BE39A60026664E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		09EA47CF17BE39A60026664E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				09EA47D017BE39A60026664E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		09EA47E817BE39A60026664E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				09EA47E917BE39A60026664E /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		09EA47ED17BE39A60026664E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		09EA47EE17BE39A60026664E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		09EA47F017BE39A60026664E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OGCoreDataStackProject/OGCoreDataStackProject-Prefix.pch";
+				INFOPLIST_FILE = "OGCoreDataStackProject/OGCoreDataStackProject-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		09EA47F117BE39A60026664E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OGCoreDataStackProject/OGCoreDataStackProject-Prefix.pch";
+				INFOPLIST_FILE = "OGCoreDataStackProject/OGCoreDataStackProject-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		09EA47F317BE39A60026664E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OGCoreDataStackProject.app/OGCoreDataStackProject";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OGCoreDataStackProject/OGCoreDataStackProject-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "OGCoreDataStackProjectTests/OGCoreDataStackProjectTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		09EA47F417BE39A60026664E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/OGCoreDataStackProject.app/OGCoreDataStackProject";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "OGCoreDataStackProject/OGCoreDataStackProject-Prefix.pch";
+				INFOPLIST_FILE = "OGCoreDataStackProjectTests/OGCoreDataStackProjectTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		09EA47BE17BE39A60026664E /* Build configuration list for PBXProject "OGCoreDataStackProject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09EA47ED17BE39A60026664E /* Debug */,
+				09EA47EE17BE39A60026664E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		09EA47EF17BE39A60026664E /* Build configuration list for PBXNativeTarget "OGCoreDataStackProject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09EA47F017BE39A60026664E /* Debug */,
+				09EA47F117BE39A60026664E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		09EA47F217BE39A60026664E /* Build configuration list for PBXNativeTarget "OGCoreDataStackProjectTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				09EA47F317BE39A60026664E /* Debug */,
+				09EA47F417BE39A60026664E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		09EA481C17BE42A60026664E /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				09EA481D17BE42A60026664E /* Model.xcdatamodel */,
+			);
+			currentVersion = 09EA481D17BE42A60026664E /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 09EA47BB17BE39A60026664E /* Project object */;
+}
