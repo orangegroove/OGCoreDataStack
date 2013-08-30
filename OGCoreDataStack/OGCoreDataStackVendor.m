@@ -49,6 +49,7 @@
 	if (block)
 		block(request);
 	
+	_fetchRequest			= request;
 	_managedObjectContext	= context;
 	_sectionNameKeyPath		= sectionNameKeyPath;
 	_cacheName				= cacheName;
