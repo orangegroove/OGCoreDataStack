@@ -34,6 +34,10 @@
 {
 	if (self = [super init]) {
 		
+		_insertionAnimation	= UITableViewRowAnimationAutomatic;
+		_deletionAnimation	= UITableViewRowAnimationAutomatic;
+		_updateAnimation	= UITableViewRowAnimationAutomatic;
+		_reloadThreshold	= 50;
 	}
 	
 	return self;
@@ -43,23 +47,24 @@
 
 - (void)setTableView:(UITableView *)tableView
 {
-	_tableView = tableView;
+	_tableView										= tableView;
+	__weak OGCoreDataStackTableViewVendor* wSelf	= self;
 	
 	if (tableView)
 		self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {
 			
 			NSUInteger count = insertedSections.count + deletedSections.count + insertedItems.count + deletedItems.count + updatedItems.count;
 			
-			if (count > 50)
+			if (count > wSelf.reloadThreshold)
 				[tableView reloadData];
 			else {
 				
 				[tableView beginUpdates];
-				[tableView deleteSections:deletedSections withRowAnimation:UITableViewRowAnimationAutomatic];
-				[tableView insertSections:insertedSections withRowAnimation:UITableViewRowAnimationAutomatic];
-				[tableView deleteRowsAtIndexPaths:deletedItems withRowAnimation:UITableViewRowAnimationAutomatic];
-				[tableView insertRowsAtIndexPaths:insertedItems withRowAnimation:UITableViewRowAnimationAutomatic];
-				[tableView reloadRowsAtIndexPaths:updatedItems withRowAnimation:UITableViewRowAnimationAutomatic];
+				[tableView deleteSections:deletedSections withRowAnimation:wSelf.deletionAnimation];
+				[tableView insertSections:insertedSections withRowAnimation:wSelf.insertionAnimation];
+				[tableView deleteRowsAtIndexPaths:deletedItems withRowAnimation:wSelf.deletionAnimation];
+				[tableView insertRowsAtIndexPaths:insertedItems withRowAnimation:wSelf.insertionAnimation];
+				[tableView reloadRowsAtIndexPaths:updatedItems withRowAnimation:wSelf.updateAnimation];
 				[tableView endUpdates];
 			}
 		};

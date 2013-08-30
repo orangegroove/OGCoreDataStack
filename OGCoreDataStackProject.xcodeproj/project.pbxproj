@@ -544,6 +544,7 @@
 				09EA47F117BE39A60026664E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		09EA47F217BE39A60026664E /* Build configuration list for PBXNativeTarget "OGCoreDataStackProjectTests" */ = {
 			isa = XCConfigurationList;
@@ -552,6 +553,7 @@
 				09EA47F417BE39A60026664E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

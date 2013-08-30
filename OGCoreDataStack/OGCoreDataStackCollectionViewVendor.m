@@ -34,6 +34,7 @@
 {
 	if (self = [super init]) {
 		
+		_reloadThreshold = 50;
 	}
 	
 	return self;
@@ -43,14 +44,15 @@
 
 - (void)setCollectionView:(UICollectionView *)collectionView
 {
-	_collectionView = collectionView;
+	_collectionView										= collectionView;
+	__weak OGCoreDataStackCollectionViewVendor* wSelf	= self;
 	
 	if (collectionView)
 		self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {
 			
 			NSUInteger count = insertedSections.count + deletedSections.count + insertedItems.count + deletedItems.count + updatedItems.count;
 			
-			if (count > 50)
+			if (count > wSelf.reloadThreshold)
 				[collectionView reloadData];
 			else {
 				

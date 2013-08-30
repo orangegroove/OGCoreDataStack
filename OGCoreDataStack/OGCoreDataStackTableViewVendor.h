@@ -26,6 +26,10 @@
 
 @interface OGCoreDataStackTableViewVendor : OGCoreDataStackVendor
 
-@property (strong, nonatomic) UITableView*	tableView;
+@property (strong, nonatomic) UITableView*				tableView;
+@property (assign, nonatomic) UITableViewRowAnimation	insertionAnimation;
+@property (assign, nonatomic) UITableViewRowAnimation	deletionAnimation;
+@property (assign, nonatomic) UITableViewRowAnimation	updateAnimation;
+@property (assign, nonatomic) NSUInteger				reloadThreshold;
 
 @end

@@ -27,5 +27,6 @@
 @interface OGCoreDataStackCollectionViewVendor : OGCoreDataStackVendor
 
 @property (strong, nonatomic) UICollectionView*	collectionView;
+@property (assign, nonatomic) NSUInteger		reloadThreshold;
 
 @end
