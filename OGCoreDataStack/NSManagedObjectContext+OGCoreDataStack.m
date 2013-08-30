@@ -74,7 +74,7 @@ static id						_ogWorkContextObserver				= nil;
 	
 #ifdef DEBUG
 	if (!success)
-		OGLog(@"OGCoreDataStack Save Error: %@", error.localizedDescription);
+		OGCoreDataStackLog(@"Save Error: %@", error.localizedDescription);
 #endif
 	
 	return success;
@@ -137,7 +137,7 @@ static id						_ogWorkContextObserver				= nil;
 	
 #ifdef DEBUG
 	if (!success)
-		OGLog(@"OGCoreDataStack ObtainPermanentIDs Error: %@", error.localizedDescription);
+		OGCoreDataStackLog(@"ObtainPermanentIDs Error: %@", error.localizedDescription);
 #endif
 	
 	return success;

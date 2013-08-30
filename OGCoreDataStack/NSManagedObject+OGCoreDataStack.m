@@ -33,7 +33,7 @@ static NSArray* fetchRequest(NSManagedObjectContext* context, NSFetchRequest* re
 	
 #ifdef DEBUG
 	if (error)
-		OGLog(@"OGCoreDataStack Fetch Error: %@", error.localizedDescription);
+		OGCoreDataStackLog(@"Fetch Error: %@", error.localizedDescription);
 #endif
 	
 	return objects;
@@ -46,7 +46,7 @@ static NSUInteger countRequest(NSManagedObjectContext* context, NSFetchRequest* 
 	
 #ifdef DEBUG
 	if (error)
-		OGLog(@"OGCoreDataStack Count Error: %@", error.localizedDescription);
+		OGCoreDataStackLog(@"Count Error: %@", error.localizedDescription);
 #endif
 	
 	return count;
@@ -167,7 +167,7 @@ static Class classForAttributeType(NSAttributeType attributeType)
 	
 #ifdef DEBUG
 	if (error)
-		OGLog(@"OGCoreDataStack Fetch Existing Object Error: %@", error.localizedDescription);
+		OGCoreDataStackLog(@"Fetch Existing Object Error: %@", error.localizedDescription);
 #endif
 	
 	return object;
@@ -303,7 +303,7 @@ static Class classForAttributeType(NSAttributeType attributeType)
 	if (missingKeys.count)
 		[str appendFormat:@"\nUnused keys: %@", [missingKeys componentsJoinedByString:@" "]];
 	
-	OGLog(@"OGCoreDataStack %@", str);
+	OGCoreDataStackLog(@"%@", str);
 #endif
 }
 

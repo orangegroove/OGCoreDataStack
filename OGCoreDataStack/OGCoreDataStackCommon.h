@@ -24,9 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef OGLog
-#define OGLog(f, ...)	NSLog((@"\n%s[%d]\n" f),__func__,__LINE__,##__VA_ARGS__)
-#endif
+#define OGCoreDataStackLog(f, ...)	NSLog((@"\nOGCoreDataStack %s[%d]\n" f),__func__,__LINE__,##__VA_ARGS__)
 
 typedef void (^OGCoreDataStackFetchRequestBlock)(NSFetchRequest* request);
 typedef void (^OGCoreDataStackDeleteCompletionBlock)(void);

@@ -32,7 +32,7 @@ NSURL* _ogMomdURL()
 	if (urls.count == 1)
 		return urls[0];
 	
-	OGLog(@"OGCoreDataStack Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %i", urls.count);
+	OGCoreDataStackLog(@"Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %i", urls.count);
 	return nil;
 }
 

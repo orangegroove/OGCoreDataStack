@@ -175,7 +175,7 @@
 		if (!_fetchRequest || !_managedObjectContext) {
 			
 #ifdef DEBUG
-			OGLog(@"OGCoreDataStack Cannot vend without fetchRequest and managedObjectContext");
+			OGCoreDataStackLog(@"Cannot vend without fetchRequest and managedObjectContext");
 #endif
 			return;
 		}

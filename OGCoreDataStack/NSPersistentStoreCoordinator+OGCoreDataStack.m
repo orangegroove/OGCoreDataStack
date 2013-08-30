@@ -46,8 +46,8 @@ static NSDictionary*					_ogPersistentStoreOptions			= nil;
 		
 		if (![_ogPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:_ogSQLiteURL() options:_ogPersistentStoreOptions error:&error]) {
 #ifdef DEBUG
-			OGLog(@"OGCoreDataStack Add Persistent Store Error: %@", error.localizedDescription);
-			OGLog(@"OGCoreDataStack Missing migration? %@", ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
+			OGCoreDataStackLog(@"Add Persistent Store Error: %@", error.localizedDescription);
+			OGCoreDataStackLog(@"Missing migration? %@", ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
 #endif
 		}
 	});
@@ -65,7 +65,7 @@ static NSDictionary*					_ogPersistentStoreOptions			= nil;
 	
 	if (![_ogPersistentStoreCoordinator removePersistentStore:_ogPersistentStoreCoordinator.persistentStores[0] error:&error]) {
 #ifdef DEBUG
-		OGLog(@"OGCoreDataStack Remove Persistent Store Error: %@", error.localizedDescription);
+		OGCoreDataStackLog(@"Remove Persistent Store Error: %@", error.localizedDescription);
 #endif
 		return NO;
 	}
@@ -75,7 +75,7 @@ static NSDictionary*					_ogPersistentStoreOptions			= nil;
 	
 	if (![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
 #ifdef DEBUG
-		OGLog(@"OGCoreDataStack Remove Persistent Store File Error: %@", error.localizedDescription);
+		OGCoreDataStackLog(@"Remove Persistent Store File Error: %@", error.localizedDescription);
 #endif
 		return NO;
 	}
