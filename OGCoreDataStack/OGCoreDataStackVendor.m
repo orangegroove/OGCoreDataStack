@@ -31,9 +31,9 @@
 @property (strong, nonatomic) NSFetchedResultsController*	fetchedResultsController;
 @property (strong, nonatomic) NSMutableIndexSet*			insertedSections;
 @property (strong, nonatomic) NSMutableIndexSet*			deletedSections;
-@property (strong, nonatomic) NSMutableArray*				insertedItems;
-@property (strong, nonatomic) NSMutableArray*				deletedItems;
-@property (strong, nonatomic) NSMutableArray*				updatedItems;
+@property (strong, nonatomic) NSMutableArray*				insertedObjects;
+@property (strong, nonatomic) NSMutableArray*				deletedObjects;
+@property (strong, nonatomic) NSMutableArray*				updatedObjects;
 
 - (BOOL)indexPathIsValid:(NSIndexPath *)indexPath;
 
@@ -60,7 +60,7 @@
 	return (NSInteger)_fetchedResultsController.sections.count;
 }
 
-- (NSInteger)numberOfItemsInSection:(NSInteger)section
+- (NSInteger)numberOfObjectsInSection:(NSInteger)section
 {
 	NSArray* sections = _fetchedResultsController.sections;
 	
@@ -70,6 +70,16 @@
 	id<NSFetchedResultsSectionInfo> sectionInfo = sections[(NSUInteger)section];
 	
 	return (NSInteger)sectionInfo.numberOfObjects;
+}
+
+- (NSInteger)totalNumberOfObjects
+{
+	NSInteger count = 0;
+	
+	for (NSInteger i = 0; i < self.numberOfSections; i++)
+		count += [self numberOfObjectsInSection:i];
+	
+	return 0;
 }
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath
@@ -85,18 +95,72 @@
 	return [_fetchedResultsController indexPathForObject:object];
 }
 
+- (id)firstObject
+{
+	NSIndexPath* indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+	
+	return [self objectAtIndexPath:indexPath];
+}
+
+- (id)lastObject
+{
+	NSInteger section		= self.numberOfSections-1;
+	NSInteger item			= [self numberOfObjectsInSection:section]-1;
+	NSIndexPath* indexPath	= [NSIndexPath indexPathForItem:item inSection:section];
+	
+	return [self objectAtIndexPath:indexPath];
+}
+
+- (id)firstObjectInSection:(NSInteger)section
+{
+	NSIndexPath* indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+	
+	return [self objectAtIndexPath:indexPath];
+}
+
+- (id)lastObjectInSection:(NSInteger)section
+{
+	NSInteger item			= [self numberOfObjectsInSection:section]-1;
+	NSIndexPath* indexPath	= [NSIndexPath indexPathForItem:item inSection:section];
+	
+	return [self objectAtIndexPath:indexPath];
+}
+
+- (NSArray *)objectsInSection:(NSInteger)section
+{
+	NSArray* sections = _fetchedResultsController.sections;
+	
+	if (section > ((NSInteger)sections.count)-1)
+		return nil;
+	
+	id<NSFetchedResultsSectionInfo> sectionInfo = sections[(NSUInteger)section];
+	
+	return sectionInfo.objects;
+}
+
+- (NSArray *)allObjects
+{
+	NSArray* sections		= _fetchedResultsController.sections;
+	NSMutableArray* objects = [NSMutableArray array];
+	
+	for (id<NSFetchedResultsSectionInfo> sectionInfo in sections)
+		[objects addObjectsFromArray:sectionInfo.objects];
+	
+	return [NSArray arrayWithArray:objects];
+}
+
 #pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
 	if (_objectsUpdated)
-		_objectsUpdated(self.insertedSections, self.deletedSections, self.insertedItems, self.deletedItems, self.updatedItems);
+		_objectsUpdated(self.insertedSections, self.deletedSections, self.insertedObjects, self.deletedObjects, self.updatedObjects);
 	
 	_deletedSections	= nil;
 	_insertedSections	= nil;
-	_deletedItems		= nil;
-	_insertedItems		= nil;
-	_updatedItems		= nil;
+	_deletedObjects		= nil;
+	_insertedObjects	= nil;
+	_updatedObjects		= nil;
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
@@ -123,30 +187,30 @@
 		case NSFetchedResultsChangeInsert:
 			
 			if (![self.insertedSections containsIndex:newIndexPath.section])
-				[self.insertedItems addObject:newIndexPath];
+				[self.insertedObjects addObject:newIndexPath];
 			
 			break;
 			
 		case NSFetchedResultsChangeDelete:
 			
 			if (![self.deletedSections containsIndex:indexPath.section])
-				[self.deletedItems addObject:indexPath];
+				[self.deletedObjects addObject:indexPath];
 			
 			break;
 			
 		case NSFetchedResultsChangeMove:
 			
 			if (![self.insertedSections containsIndex:newIndexPath.section])
-				[self.insertedItems addObject:newIndexPath];
+				[self.insertedObjects addObject:newIndexPath];
 			
 			if (![self.deletedSections containsIndex:indexPath.section])
-				[self.deletedItems addObject:indexPath];
+				[self.deletedObjects addObject:indexPath];
 			
 			break;
 			
 		case NSFetchedResultsChangeUpdate:
 			
-			[self.updatedItems addObject:indexPath];
+			[self.updatedObjects addObject:indexPath];
 			
 			break;
 	}
@@ -203,11 +267,6 @@
 	_vending = vending;
 }
 
-- (NSArray *)allObjects
-{
-	return _fetchedResultsController.fetchedObjects;
-}
-
 - (NSMutableIndexSet *)deletedSections
 {
 	if (_deletedSections)
@@ -228,34 +287,34 @@
 	return _insertedSections;
 }
 
-- (NSMutableArray *)insertedItems
+- (NSMutableArray *)insertedObjects
 {
-	if (_insertedItems)
-		return _insertedItems;
+	if (_insertedObjects)
+		return _insertedObjects;
 	
-	_insertedItems = [NSMutableArray array];
+	_insertedObjects = [NSMutableArray array];
 	
-	return _insertedItems;
+	return _insertedObjects;
 }
 
-- (NSMutableArray *)deletedItems
+- (NSMutableArray *)deletedObjects
 {
-	if (_deletedItems)
-		return _deletedItems;
+	if (_deletedObjects)
+		return _deletedObjects;
 	
-	_deletedItems = [NSMutableArray array];
+	_deletedObjects = [NSMutableArray array];
 	
-	return _deletedItems;
+	return _deletedObjects;
 }
 
-- (NSMutableArray *)updatedItems
+- (NSMutableArray *)updatedObjects
 {
-	if (_updatedItems)
-		return _updatedItems;
+	if (_updatedObjects)
+		return _updatedObjects;
 	
-	_updatedItems = [NSMutableArray array];
+	_updatedObjects = [NSMutableArray array];
 	
-	return _updatedItems;
+	return _updatedObjects;
 }
 
 @end

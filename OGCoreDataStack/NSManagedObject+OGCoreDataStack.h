@@ -105,14 +105,16 @@
 + (NSArray *)fetchWithKeyPath:(NSString *)keyPath matchingValues:(NSArray *)values request:(OGCoreDataStackFetchRequestBlock)block allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
 
 /**
- Fetches objects and populates them with data.
+ Fetches objects and populates them with data. All objects are first fetched or inserted as needed, then populated.
  @param keyPath The keyPath used for identification. This must be the same in both the entity and the populationDictionaries.
  @param populationDictionaries The dictionaries used for population. @see translatedPopulationDictionary: and populateWithDictionary:typeCheck: for more details.
  @param block Passes the NSFetchRequest for configuration.
+ @param batchSize How often to run the batchBlock. This is not called during insertions, but only during the population phase. 0 or batchBlock as nil disables this.
+ @param batchBlock A non-nil block here will be called every for every batchSize populations.
  @param context The context in which to fetch objects.
  @note Any objects not existing before this method is run will be inserted.
  */
-+ (NSArray *)createAndPopulateWithKeyPath:(NSString *)keyPath populationDictionaries:(NSArray *)populationDictionaries request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
++ (NSArray *)createAndPopulateWithKeyPath:(NSString *)keyPath populationDictionaries:(NSArray *)populationDictionaries request:(OGCoreDataStackFetchRequestBlock)block batchSize:(NSUInteger)batchSize batchBlock:(OGCoreDataStackBatchPopulationBlock)batchBlock context:(NSManagedObjectContext *)context;
 
 /** @name Populating */
 

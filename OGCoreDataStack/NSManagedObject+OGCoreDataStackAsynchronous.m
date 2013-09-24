@@ -129,34 +129,4 @@
 	}];
 }
 
-+ (void)asynchronouslyCreateAndPopulateWithKeyPath:(NSString *)keyPath populationDictionaries:(NSArray *)populationDictionaries request:(OGCoreDataStackFetchRequestBlock)block completion:(OGCoreDataStackFetchCompletionBlock)completion
-{
-	NSManagedObjectContext* context = [NSManagedObjectContext workContext];
-	
-	[context performBlock:^{
-		
-		NSArray* objects			= [self createAndPopulateWithKeyPath:keyPath populationDictionaries:populationDictionaries request:block context:context];
-		NSMutableArray* objectIDs	= [NSMutableArray arrayWithCapacity:objects.count];
-		
-		for (NSManagedObject* object in objects)
-			[objectIDs addObject:object.objectID];
-		
-		if (completion)
-			dispatch_async(dispatch_get_main_queue(), ^{
-				
-				if (!objects.count)
-					completion(@[]);
-				else
-					completion([self fetchWithRequest:^(NSFetchRequest *request) {
-						
-						if (block)
-							block(request);
-						
-						request.predicate = [NSPredicate predicateWithFormat:@"SELF IN %@", objectIDs];
-						
-					} context:[NSManagedObjectContext mainContext]]);
-			});
-	}];
-}
-
 @end

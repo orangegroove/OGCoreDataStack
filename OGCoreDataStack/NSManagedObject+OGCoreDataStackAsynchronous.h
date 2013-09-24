@@ -74,14 +74,4 @@
  */
 + (void)asynchronouslyFetchWithKeyPath:(NSString *)keyPath matchingValues:(NSArray *)values request:(OGCoreDataStackFetchRequestBlock)block allowNil:(BOOL)allowNil completion:(OGCoreDataStackFetchCompletionBlock)completion;
 
-/**
- Fetches objects and populates them with data.
- @param keyPath The keyPath used for identification. This must be the same in both the entity and the populationDictionaries.
- @param populationDictionaries The dictionaries used for population. See translatedPopulationDictionary: and populateWithDictionary:typeCheck: for more details.
- @param block Passes the NSFetchRequest for configuration.
- @param completion The block to be run upon completion. Runs on the main thread.
- @note Any objects not existing before this method is run will be inserted. Because NSManagedObjects are not thread safe, objects are first fetched in the work context, and then re-fetched in the main context, but with simple predicate. This requires two roundtrips to the persistent store, so it is probably only useful for very complicated predicates.
- */
-+ (void)asynchronouslyCreateAndPopulateWithKeyPath:(NSString *)keyPath populationDictionaries:(NSArray *)populationDictionaries request:(OGCoreDataStackFetchRequestBlock)block completion:(OGCoreDataStackFetchCompletionBlock)completion;
-
 @end

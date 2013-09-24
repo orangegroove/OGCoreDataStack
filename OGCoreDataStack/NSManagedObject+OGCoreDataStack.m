@@ -225,15 +225,17 @@ static Class classForAttributeType(NSAttributeType attributeType)
 	return objects;
 }
 
-+ (NSArray *)createAndPopulateWithKeyPath:(NSString *)keyPath populationDictionaries:(NSArray *)populationDictionaries request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (NSArray *)createAndPopulateWithKeyPath:(NSString *)keyPath populationDictionaries:(NSArray *)populationDictionaries request:(OGCoreDataStackFetchRequestBlock)block batchSize:(NSUInteger)batchSize batchBlock:(OGCoreDataStackBatchPopulationBlock)batchBlock context:(NSManagedObjectContext *)context
 {
 	NSMutableArray* dictionaries	= [NSMutableArray arrayWithArray:populationDictionaries];
 	NSMutableArray* values			= [NSMutableArray arrayWithCapacity:populationDictionaries.count];
+	BOOL shouldBreak				= batchSize > 0 && batchBlock != nil;
 	
 	for (NSDictionary* dictionary in populationDictionaries)
 		[values addObject:dictionary[keyPath]];
 	
-	NSArray* objects = [self fetchWithKeyPath:keyPath matchingValues:values request:block allowNil:NO context:context];
+	NSUInteger counter	= 0;
+	NSArray* objects	= [self fetchWithKeyPath:keyPath matchingValues:values request:block allowNil:NO context:context];
 	
 	for (NSManagedObject* object in objects) {
 		
@@ -251,6 +253,14 @@ static Class classForAttributeType(NSAttributeType attributeType)
 			
 			[dictionaries removeObject:dictionary];
 			[object populateWithDictionary:dictionary typeCheck:YES];
+		}
+		
+		if (shouldBreak) {
+			
+			counter++;
+			
+			if (counter % batchSize == 0)
+				batchBlock();
 		}
 	}
 	
