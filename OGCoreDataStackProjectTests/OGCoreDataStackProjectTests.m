@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "OGObjectLayer.h"
+#import "OGCoreDataStack.h"
 #import "Person.h"
 #import "Wallet.h"
 #import "Creditcard.h"
@@ -208,7 +208,7 @@
 		
 		for (NSInteger i = 0; i < count; i++) {
 			
-			NSString* name	= [NSString stringWithFormat:@"person %i", i];
+			NSString* name	= [NSString stringWithFormat:@"person %li", (long)i];
 			Person* person	= [Person insertInContext:context];
 			
 			[person setName:name];
