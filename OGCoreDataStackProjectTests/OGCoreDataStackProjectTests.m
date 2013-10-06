@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "OGObjectLayer.h"
+#import "OGCoreDataStack.h"
 #import "Person.h"
 #import "Wallet.h"
 #import "Creditcard.h"
