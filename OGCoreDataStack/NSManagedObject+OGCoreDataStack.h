@@ -82,7 +82,7 @@
  Fetches a single object with the specified NSManagedObjectID.
  @param objectID The NSManagedObjectID.
  @param context The context in which to fetch the object.
- @note Useful for passing objects between contexts.
+ @note Useful for passing objects between contexts. Only performs I/O if needed.
  */
 + (instancetype)fetchWithObjectID:(NSManagedObjectID *)objectID context:(NSManagedObjectContext *)context;
 
