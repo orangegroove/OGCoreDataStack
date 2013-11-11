@@ -25,7 +25,7 @@
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
-NSURL* _ogMomdURL()
+NSURL* _ogMomdURL(void)
 {
 	NSArray* urls = [[NSBundle bundleWithIdentifier:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey]] URLsForResourcesWithExtension:@"momd" subdirectory:nil];
 	
@@ -36,11 +36,41 @@ NSURL* _ogMomdURL()
 	return nil;
 }
 
-NSURL* _ogSQLiteURL()
+NSURL* _ogSQLiteURL(void)
 {
 	NSString* filename	= _ogMomdURL().lastPathComponent;
 	NSString* modelname	= [filename substringWithRange:NSMakeRange(0, filename.length-5)];
 	NSArray* urls		= [[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
 	
 	return [urls.lastObject URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", modelname]];
+}
+
+Class classForAttributeType(NSAttributeType attributeType)
+{
+	switch (attributeType) {
+		case NSInteger16AttributeType:
+		case NSInteger32AttributeType:
+		case NSInteger64AttributeType:
+		case NSFloatAttributeType:
+		case NSDoubleAttributeType:
+		case NSBooleanAttributeType:
+			return NSNumber.class;
+			
+		case NSDecimalAttributeType:
+			return NSDecimalNumber.class;
+			
+		case NSStringAttributeType:
+			return NSString.class;
+			
+		case NSDateAttributeType:
+			return NSDate.class;
+			
+		case NSBinaryDataAttributeType:
+			return NSData.class;
+			
+		case NSUndefinedAttributeType:
+			return NSNull.class;
+	}
+	
+	return nil;
 }

@@ -27,9 +27,7 @@
 #import "OGCoreDataStackCommon.h"
 #import "NSFetchRequest+OGCoreDataStack.h"
 #import "NSManagedObject+OGCoreDataStack.h"
-#import "NSManagedObject+OGCoreDataStackAsynchronous.h"
 #import "NSManagedObjectContext+OGCoreDataStack.h"
-#import "NSManagedObjectModel+OGCoreDataStack.h"
 #import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
 
 #import "OGCoreDataStackVendor.h"

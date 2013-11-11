@@ -25,27 +25,38 @@
 #import <CoreData/CoreData.h>
 #import "OGCoreDataStackCommon.h"
 
+typedef NS_ENUM(NSUInteger, OGCoreDataStackContextConcurrency)
+{
+	OGCoreDataStackContextConcurrencyMainQueue,
+	OGCoreDataStackContextConcurrencyBackgroundQueue
+};
+
 @interface NSManagedObjectContext (OGCoreDataStack)
 
 /** @name Lifecycle */
 
 /**
- Returns the NSManagedObjectContext for the UI thread.
- @return The context.
- */
-+ (instancetype)mainContext;
 
-/**
- Returns the NSManagedObjectContext for heavy operations. Runs on a background thread. Saving this context propagates changes to the mainContext.
- @return The context.
- */
-+ (instancetype)workContext;
+*/
++ (instancetype)contextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency;
 
 /**
  Saves the context. Shorthand for save:, but handles the error by printing to the console if DEBUG is defined.
  @return Operation success.
  */
 - (BOOL)save;
+
+/** @name Observing */
+
+/**
+ 
+ */
+- (void)observeSavesInContext:(NSManagedObjectContext *)context;
+
+/**
+ 
+ */
+- (void)stopObservingSavesInContext:(NSManagedObjectContext *)context;
 
 /** @name Operations */
 
@@ -65,7 +76,27 @@
  */
 - (void)performBlockAndWait:(void (^)(NSArray* objects))block passObjects:(NSArray *)objects;
 
-/** @name Miscellaneous */
+/** @name Entities */
+
+/**
+ 
+ */
+- (NSArray *)fetchEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
+
+/**
+ 
+ */
+- (NSUInteger)countEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
+
+/**
+ 
+ */
+- (void)deleteEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
+
+/**
+ 
+ */
+- (void)deleteObjects:(NSArray *)objects;
 
 /**
  Obtains permanent NSManagedObjectIDs for objects. Shorthand for obtainPermanentIDsForObjects:error:, but handles the error by printing to the console if DEBUG is defined.

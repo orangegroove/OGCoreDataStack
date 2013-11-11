@@ -22,53 +22,42 @@
 //  IN THE SOFTWARE.
 //
 
+#import <objc/runtime.h>
 #import "NSManagedObjectContext+OGCoreDataStack.h"
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
-static dispatch_once_t			_ogMainManagedObjectContextToken	= 0;
-static dispatch_once_t			_ogWorkManagedObjectContextToken	= 0;
-static NSManagedObjectContext*	_ogMainManagedObjectContext			= nil;
-static NSManagedObjectContext*	_ogWorkManagedObjectContext			= nil;
-static id						_ogWorkContextObserver				= nil;
+static const void* kObserverKey = "OGCoreDataStackObserverKey";
 
 @implementation NSManagedObjectContext (OGCoreDataStack)
 
 #pragma mark - Lifecycle
 
-+ (instancetype)mainContext
++ (instancetype)contextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
 {
-	dispatch_once(&_ogMainManagedObjectContextToken, ^{
-		
-		_ogMainManagedObjectContext								= [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-		_ogMainManagedObjectContext.mergePolicy					= NSMergeByPropertyObjectTrumpMergePolicy;
-		_ogMainManagedObjectContext.persistentStoreCoordinator	= [NSPersistentStoreCoordinator persistentStoreCoordinator];
-		_ogWorkContextObserver									= [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:[self workContext] queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+	NSUInteger concurrencyType;
+	
+	switch (concurrency) {
+		case OGCoreDataStackContextConcurrencyMainQueue:
 			
-			[_ogMainManagedObjectContext mergeChangesFromContextDidSaveNotification:note];
-		}];
-	});
+			concurrencyType = NSMainQueueConcurrencyType;
+			break;
+			
+		case OGCoreDataStackContextConcurrencyBackgroundQueue:
+			
+			concurrencyType = NSPrivateQueueConcurrencyType;
+			break;
+	}
 	
-	return _ogMainManagedObjectContext;
-}
-
-+ (instancetype)workContext
-{
-	dispatch_once(&_ogWorkManagedObjectContextToken, ^{
-		
-		_ogWorkManagedObjectContext								= [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-		_ogWorkManagedObjectContext.mergePolicy					= NSMergeByPropertyObjectTrumpMergePolicy;
-		_ogWorkManagedObjectContext.persistentStoreCoordinator	= [NSPersistentStoreCoordinator persistentStoreCoordinator];
-	});
+	NSManagedObjectContext* context		= [[NSManagedObjectContext alloc] initWithConcurrencyType:concurrencyType];
+	context.persistentStoreCoordinator	= NSPersistentStoreCoordinator.sharedPersistentStoreCoordinator;
+	context.retainsRegisteredObjects	= YES;
 	
-	return _ogWorkManagedObjectContext;
+	return context;
 }
 
 - (BOOL)save
 {
-	if (!self.hasChanges)
-		return YES;
-	
 	NSError* error	= nil;
 	BOOL success	= [self save:&error];
 	
@@ -78,6 +67,30 @@ static id						_ogWorkContextObserver				= nil;
 #endif
 	
 	return success;
+}
+
+#pragma mark - Observing
+
+- (void)observeSavesInContext:(NSManagedObjectContext *)context
+{
+	__block id weakSelf = self;
+	id observer			= [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
+		
+		[weakSelf mergeChangesFromContextDidSaveNotification:note];
+	}];
+	
+	objc_setAssociatedObject(self, kObserverKey, observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)stopObservingSavesInContext:(NSManagedObjectContext *)context
+{
+	id observer = objc_getAssociatedObject(self, kObserverKey);
+	
+	if (observer) {
+		
+		objc_setAssociatedObject(self, kObserverKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+		[NSNotificationCenter.defaultCenter removeObserver:observer];
+	}
 }
 
 #pragma mark - Operations
@@ -95,7 +108,12 @@ static id						_ogWorkContextObserver				= nil;
 		
 		for (NSManagedObjectID* objectID in objectIDs) {
 			
-			NSManagedObject* object = [NSManagedObject fetchWithObjectID:objectID context:self];
+			NSError* error			= nil;
+			NSManagedObject* object = [self existingObjectWithID:objectID error:&error];
+			
+#ifdef DEBUG
+			OGCoreDataStackLog(@"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
+#endif
 			
 			if (object)
 				[passedObjects addObject:object];
@@ -118,7 +136,12 @@ static id						_ogWorkContextObserver				= nil;
 		
 		for (NSManagedObjectID* objectID in objectIDs) {
 			
-			NSManagedObject* object = [NSManagedObject fetchWithObjectID:objectID context:self];
+			NSError* error			= nil;
+			NSManagedObject* object = [self existingObjectWithID:objectID error:&error];
+			
+#ifdef DEBUG
+			OGCoreDataStackLog(@"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
+#endif
 			
 			if (object)
 				[passedObjects addObject:object];
@@ -128,7 +151,63 @@ static id						_ogWorkContextObserver				= nil;
 	}];
 }
 
-#pragma mark - Miscellaneous
+#pragma mark - Entities
+
+- (NSArray *)fetchEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
+{
+	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:[entity entityName]];
+	NSError* error			= nil;
+	
+	if (block)
+		block(request);
+	
+	NSArray* objects = [self executeFetchRequest:request error:&error];
+	
+#ifdef DEBUG
+	if (error)
+		OGCoreDataStackLog(@"Fetch Error: %@", error.localizedDescription);
+#endif
+	
+	return objects;
+}
+
+- (NSUInteger)countEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
+{
+	NSFetchRequest* request	= [NSFetchRequest fetchRequestWithEntityName:[entity entityName]];
+	NSError* error			= nil;
+	
+	if (block)
+		block(request);
+	
+	NSUInteger count = [self countForFetchRequest:request error:&error];
+	
+#ifdef DEBUG
+	if (count == NSNotFound)
+		OGCoreDataStackLog(@"Count Error: %@", error.localizedDescription);
+#endif
+	
+	return count;
+}
+
+- (void)deleteEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
+{
+	NSArray* objects = [self fetchEntity:entity withRequest:^(NSFetchRequest *request) {
+		
+		if (block)
+			block(request);
+		
+		request.includesPropertyValues	= NO;
+		request.sortDescriptors			= nil;
+	}];
+	
+	[self deleteObjects:objects];
+}
+
+- (void)deleteObjects:(NSArray *)objects
+{
+	for (NSManagedObject* object in objects)
+		[self deleteObject:object];
+}
 
 - (BOOL)obtainPermanentIDsForObjects:(NSArray *)objects
 {
@@ -144,20 +223,5 @@ static id						_ogWorkContextObserver				= nil;
 }
 
 #pragma mark - Private
-
-+ (void)_ogResetMainManagedObjectContext
-{
-	if (_ogWorkContextObserver)
-		[[NSNotificationCenter defaultCenter] removeObserver:_ogWorkContextObserver];
-	
-	_ogMainManagedObjectContextToken	= 0;
-	_ogMainManagedObjectContext			= nil;
-}
-
-+ (void)_ogResetWorkManagedObjectContext
-{
-	_ogWorkManagedObjectContextToken	= 0;
-	_ogWorkManagedObjectContext			= nil;
-}
 
 @end

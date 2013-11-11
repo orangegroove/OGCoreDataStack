@@ -27,8 +27,4 @@
 #define OGCoreDataStackLog(f, ...)	NSLog((@"\nOGCoreDataStack %s[%d]\n" f),__func__,__LINE__,##__VA_ARGS__)
 
 typedef void (^OGCoreDataStackFetchRequestBlock)(NSFetchRequest* request);
-typedef void (^OGCoreDataStackDeleteCompletionBlock)(void);
-typedef void (^OGCoreDataStackCountCompletionBlock)(NSUInteger count);
-typedef void (^OGCoreDataStackBatchPopulationBlock)(void);
-typedef void (^OGCoreDataStackFetchCompletionBlock)(NSArray* objects);
 typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);

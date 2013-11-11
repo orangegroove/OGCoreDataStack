@@ -253,7 +253,7 @@
 		
 		if (!vending) {
 #ifdef DEBUG
-			NSLog(@"%@", error);
+			OGCoreDataStackLog(@"%@", error);
 #endif
 			self.vending = NO;
 		}

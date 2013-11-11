@@ -26,75 +26,77 @@
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
-static dispatch_once_t					_ogPersistentStoreCoordinatorToken	= 0;
-static NSPersistentStoreCoordinator*	_ogPersistentStoreCoordinator		= nil;
-static NSDictionary*					_ogPersistentStoreOptions			= nil;
+static dispatch_once_t					_ogCoreDataStackToken						= 0;
+static NSPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
+static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
-@implementation NSPersistentStoreCoordinator (OGCoreDataStack)
+@implementation NSPersistentStoreCoordinator (OGModelStack)
 
 #pragma mark - Lifecycle
 
-+ (instancetype)persistentStoreCoordinator
++ (instancetype)sharedPersistentStoreCoordinator
 {
-	dispatch_once(&_ogPersistentStoreCoordinatorToken, ^{
+	[self setupWithStoreType:nil options:nil];
+	
+	return _ogCoreDataStackPersistentStoreCoordinator;
+}
+
++ (void)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
+{
+	dispatch_once(&_ogCoreDataStackToken, ^{
 		
-		NSError* error					= nil;
-		_ogPersistentStoreCoordinator	= [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[NSManagedObjectModel managedObjectModel]];
+		NSString* coordinatorStoreType		= storeType;
+		NSDictionary* coordinatorOptions	= options;
 		
-		if (!_ogPersistentStoreOptions)
-			_ogPersistentStoreOptions = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
+		if (!coordinatorStoreType)
+			coordinatorStoreType = NSSQLiteStoreType;
 		
-		if (![_ogPersistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:_ogSQLiteURL() options:_ogPersistentStoreOptions error:&error]) {
+		if (!coordinatorOptions)
+			coordinatorOptions = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
+		
+		NSError* error								= nil;
+		NSManagedObjectModel* model					= [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
+		_ogCoreDataStackPersistentStoreCoordinator	= [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+		
+		if (![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogSQLiteURL() options:coordinatorOptions error:&error]) {
 #ifdef DEBUG
 			OGCoreDataStackLog(@"Add Persistent Store Error: %@", error.localizedDescription);
 			OGCoreDataStackLog(@"Missing migration? %@", ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
 #endif
 		}
 	});
-	
-	return _ogPersistentStoreCoordinator;
 }
 
-+ (BOOL)clearPersistentStore
++ (BOOL)reset
 {
-	if (!_ogPersistentStoreCoordinator.persistentStores.count)
+	if (!_ogCoreDataStackPersistentStoreCoordinator.persistentStores.count)
 		return YES;
 	
 	NSError* error	= nil;
 	NSString* path	= _ogSQLiteURL().path;
 	
-	if (![_ogPersistentStoreCoordinator removePersistentStore:_ogPersistentStoreCoordinator.persistentStores[0] error:&error]) {
+	if (![_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:_ogCoreDataStackPersistentStoreCoordinator.persistentStores[0] error:&error]) {
 #ifdef DEBUG
 		OGCoreDataStackLog(@"Remove Persistent Store Error: %@", error.localizedDescription);
 #endif
 		return NO;
 	}
 	
-	if (![[NSFileManager defaultManager] fileExistsAtPath:path])
+	if (![NSFileManager.defaultManager fileExistsAtPath:path])
 		return YES;
 	
-	if (![[NSFileManager defaultManager] removeItemAtPath:path error:&error]) {
+	if (![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
 #ifdef DEBUG
 		OGCoreDataStackLog(@"Remove Persistent Store File Error: %@", error.localizedDescription);
 #endif
 		return NO;
 	}
 	
-	[NSManagedObjectModel _ogResetManagedObjectModel];
-	[NSManagedObjectContext _ogResetMainManagedObjectContext];
-	[NSManagedObjectContext _ogResetWorkManagedObjectContext];
-	
-	_ogPersistentStoreCoordinatorToken	= 0;
-	_ogPersistentStoreCoordinator		= nil;
+	_ogCoreDataStackToken						= 0;
+	_ogCoreDataStackPersistentStoreCoordinator	= nil;
+	_ogCoreDataStackManagedObjectModel			= nil;
 	
 	return YES;
-}
-
-#pragma mark - Configuration
-
-+ (void)setPersistentStoreCoordinatorOptions:(NSDictionary *)options
-{
-	_ogPersistentStoreOptions = options;
 }
 
 @end

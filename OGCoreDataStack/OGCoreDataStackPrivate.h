@@ -25,18 +25,6 @@
 #import <CoreData/CoreData.h>
 #import "OGCoreDataStackCommon.h"
 
-NSURL* _ogMomdURL();
-NSURL* _ogSQLiteURL();
-
-@interface NSManagedObjectModel (OGCoreDataStackPrivate)
-
-+ (void)_ogResetManagedObjectModel;
-
-@end
-
-@interface NSManagedObjectContext (OGCoreDataStackPrivate)
-
-+ (void)_ogResetMainManagedObjectContext;
-+ (void)_ogResetWorkManagedObjectContext;
-
-@end
+NSURL* _ogMomdURL(void);
+NSURL* _ogSQLiteURL(void);
+Class classForAttributeType(NSAttributeType attributeType);

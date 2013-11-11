@@ -27,26 +27,25 @@
 
 @interface NSPersistentStoreCoordinator (OGCoreDataStack)
 
-/** @name Lifecycle */
-
 /**
-
+ 
  @return
-*/
-+ (instancetype)persistentStoreCoordinator;
-
-/**
- 
  */
-+ (BOOL)clearPersistentStore;
-
-/** Configuration */
++ (instancetype)sharedPersistentStoreCoordinator;
 
 /**
  
+ @param storeType
  @param options
- @note Use this before accessing the stack for the first time since application launch.
+ @note
  */
-+ (void)setPersistentStoreCoordinatorOptions:(NSDictionary *)options;
++ (void)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
+
+/**
+ 
+ @return
+ @note Delete contexts first
+ */
++ (BOOL)reset;
 
 @end
