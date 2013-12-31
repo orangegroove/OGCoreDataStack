@@ -222,6 +222,4 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	return success;
 }
 
-#pragma mark - Private
-
 @end

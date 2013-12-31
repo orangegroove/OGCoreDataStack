@@ -40,7 +40,7 @@ NSURL* _ogSQLiteURL(void)
 {
 	NSString* filename	= _ogMomdURL().lastPathComponent;
 	NSString* modelname	= [filename substringWithRange:NSMakeRange(0, filename.length-5)];
-	NSArray* urls		= [[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+	NSArray* urls		= [NSFileManager.defaultManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
 	
 	return [urls.lastObject URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", modelname]];
 }
