@@ -22,7 +22,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import <CoreData/CoreData.h>
+@import CoreData;
 
 #import "OGCoreDataStackCommon.h"
 #import "NSFetchRequest+OGCoreDataStack.h"

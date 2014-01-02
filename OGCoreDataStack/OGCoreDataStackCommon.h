@@ -22,7 +22,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 #define OGCoreDataStackLog(f, ...)	NSLog((@"\nOGCoreDataStack %s[%d]\n" f),__func__,__LINE__,##__VA_ARGS__)
 
