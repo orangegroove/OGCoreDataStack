@@ -27,4 +27,4 @@
 
 NSURL* _ogMomdURL(void);
 NSURL* _ogSQLiteURL(void);
-Class classForAttributeType(NSAttributeType attributeType);
+Class _ogClassForAttributeType(NSAttributeType attributeType);

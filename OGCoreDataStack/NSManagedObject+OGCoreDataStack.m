@@ -37,7 +37,7 @@
 
 #pragma mark - Populating
 
-+ (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary
+- (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary
 {
 	return dictionary;
 }
@@ -46,43 +46,20 @@
 {
 	NSDictionary* attributes			= self.entity.attributesByName;
 	NSMutableArray* attributeKeys		= [NSMutableArray arrayWithArray:attributes.allKeys];
-	dictionary							= [self.class translatedPopulationDictionary:dictionary];
-#ifdef DEBUG
-	NSArray* relationshipKeys			= self.entity.relationshipsByName.allKeys;
-	NSMutableArray* missingKeys			= [NSMutableArray array];
-	NSMutableArray* relationships		= [NSMutableArray array];
-#endif
+	dictionary							= [self translatedPopulationDictionary:dictionary];
 	
-	[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+	[dictionary enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id key, id obj, BOOL *stop) {
 		
 		if ([attributeKeys containsObject:key]) {
 			
 			NSAttributeDescription* attribute = attributes[key];
 			
-			if (!typeCheck || [obj isKindOfClass:classForAttributeType(attribute.attributeType)])
+			if (!typeCheck || [obj isKindOfClass:_ogClassForAttributeType(attribute.attributeType)])
 				[self setValue:obj forKey:key];
 			
 			[attributeKeys removeObject:key];
 		}
-#ifdef DEBUG
-		else if ([relationshipKeys containsObject:key])
-			[relationships addObject:key];
-		else
-			[missingKeys addObject:key];
-#endif
 	}];
-	
-#ifdef DEBUG
-	NSMutableString* str = [NSMutableString stringWithFormat:@"Populating %@", NSStringFromClass(self.class)];
-	
-	if (relationships.count)
-		[str appendFormat:@"\nRelationship keys found but not populated: %@", [relationships componentsJoinedByString:@" "]];
-	
-	if (missingKeys.count)
-		[str appendFormat:@"\nUnused keys: %@", [missingKeys componentsJoinedByString:@" "]];
-	
-	OGCoreDataStackLog(@"%@", str);
-#endif
 }
 
 @end

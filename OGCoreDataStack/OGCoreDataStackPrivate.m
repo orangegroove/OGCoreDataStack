@@ -45,7 +45,7 @@ NSURL* _ogSQLiteURL(void)
 	return [urls.lastObject URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", modelname]];
 }
 
-Class classForAttributeType(NSAttributeType attributeType)
+Class _ogClassForAttributeType(NSAttributeType attributeType)
 {
 	switch (attributeType) {
 		case NSInteger16AttributeType:

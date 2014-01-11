@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name                 = "OGCoreDataStack"
   s.version              = "0.1.7"
-  s.summary              = "Core Data stack"
+  s.summary              = "A multi-threaded Core Data stack. Design goals are ease of use and compile-time checks."
   s.homepage             = "https://github.com/OrangeGroove/OGCoreDataStack"
   s.license              = { :type => "MIT" }
   s.authors              = { "Jesper" => "jesper@orangegroove.net" }

@@ -35,19 +35,21 @@
 @property (strong, nonatomic, readonly)			NSString*							cacheName;
 @property (copy, nonatomic)						OGCoreDataStackVendorObjectsUpdated	objectsUpdated;
 
-- (void)fetchEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName;
+- (void)setEntity:(Class)entity request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName;
 
 - (NSInteger)numberOfSections;
 - (NSInteger)numberOfObjectsInSection:(NSInteger)section;
-- (NSInteger)totalNumberOfObjects;
+- (NSInteger)numberOfObjects;
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)indexPathForObject:(id)object;
 
-- (id)firstObject;
-- (id)lastObject;
+- (id)objectForKeyedSubscript:(id)key;
+
 - (id)firstObjectInSection:(NSInteger)section;
 - (id)lastObjectInSection:(NSInteger)section;
+- (id)firstObject;
+- (id)lastObject;
 
 - (NSArray *)objectsInSection:(NSInteger)section;
 - (NSArray *)allObjects;

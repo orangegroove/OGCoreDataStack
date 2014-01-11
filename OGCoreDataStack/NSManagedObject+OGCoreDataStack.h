@@ -32,18 +32,17 @@
 /**
  The entity name for this class. Override this if your entity is not named the same as your class.
  @return The entity name in the NSManagedObjectModel.
+ @note mogenerator generates this method automatically.
  */
 + (NSString *)entityName;
 
 /** @name Populating */
 
 /**
- Called before populateWithDictionary:typeCheck: so that keys and values can be transformed as needed.
- @param dictionary The dictionary to modify.
- @return The modified dictionary.
- @note The default implementation returns the parameter, so there's no need to call super.
+ Called by populateWithDictionary:typeCheck: to transform keys or values as needed.
+ @return The translated dictionary.
  */
-+ (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary;
+- (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary;
 
 /**
  Populates an object with values from a dictionary. Keys in the dictionary must match attributes in the entity.

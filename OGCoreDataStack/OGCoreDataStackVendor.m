@@ -42,7 +42,7 @@
 
 #pragma mark - Public
 
-- (void)fetchEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName
+- (void)setEntity:(Class)entity request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName
 {
 	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:[entity entityName]];
 	
@@ -72,14 +72,14 @@
 	return (NSInteger)sectionInfo.numberOfObjects;
 }
 
-- (NSInteger)totalNumberOfObjects
+- (NSInteger)numberOfObjects
 {
 	NSInteger count = 0;
 	
-	for (NSInteger i = 0; i < self.numberOfSections; i++)
-		count += [self numberOfObjectsInSection:i];
+	for (id<NSFetchedResultsSectionInfo> sectionInfo in _fetchedResultsController.sections)
+		count += (NSInteger)sectionInfo.numberOfObjects;
 	
-	return 0;
+	return count;
 }
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath
@@ -95,20 +95,12 @@
 	return [_fetchedResultsController indexPathForObject:object];
 }
 
-- (id)firstObject
+- (id)objectForKeyedSubscript:(id)key
 {
-	NSIndexPath* indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+	if (![key isKindOfClass:NSIndexPath.class] || ![self indexPathIsValid:key])
+		return nil;
 	
-	return [self objectAtIndexPath:indexPath];
-}
-
-- (id)lastObject
-{
-	NSInteger section		= self.numberOfSections-1;
-	NSInteger item			= [self numberOfObjectsInSection:section]-1;
-	NSIndexPath* indexPath	= [NSIndexPath indexPathForItem:item inSection:section];
-	
-	return [self objectAtIndexPath:indexPath];
+	return [_fetchedResultsController objectAtIndexPath:key];
 }
 
 - (id)firstObjectInSection:(NSInteger)section
@@ -120,6 +112,22 @@
 
 - (id)lastObjectInSection:(NSInteger)section
 {
+	NSInteger item			= [self numberOfObjectsInSection:section]-1;
+	NSIndexPath* indexPath	= [NSIndexPath indexPathForItem:item inSection:section];
+	
+	return [self objectAtIndexPath:indexPath];
+}
+
+- (id)firstObject
+{
+	NSIndexPath* indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+	
+	return [self objectAtIndexPath:indexPath];
+}
+
+- (id)lastObject
+{
+	NSInteger section		= self.numberOfSections-1;
 	NSInteger item			= [self numberOfObjectsInSection:section]-1;
 	NSIndexPath* indexPath	= [NSIndexPath indexPathForItem:item inSection:section];
 	
@@ -140,13 +148,7 @@
 
 - (NSArray *)allObjects
 {
-	NSArray* sections		= _fetchedResultsController.sections;
-	NSMutableArray* objects = [NSMutableArray array];
-	
-	for (id<NSFetchedResultsSectionInfo> sectionInfo in sections)
-		[objects addObjectsFromArray:sectionInfo.objects];
-	
-	return [NSArray arrayWithArray:objects];
+	return _fetchedResultsController.fetchedObjects;
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
