@@ -81,7 +81,12 @@ typedef NS_ENUM(NSUInteger, OGCoreDataStackContextConcurrency)
 /**
  
  */
-- (NSArray *)fetchEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
+- (id)insertInEntity:(Class)entity;
+
+/**
+ 
+ */
+- (NSArray *)fetchFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
 
 /**
  
@@ -91,7 +96,7 @@ typedef NS_ENUM(NSUInteger, OGCoreDataStackContextConcurrency)
 /**
  
  */
-- (void)deleteEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
+- (void)deleteFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
 
 /**
  

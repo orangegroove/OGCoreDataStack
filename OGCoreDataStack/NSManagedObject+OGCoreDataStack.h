@@ -36,6 +36,13 @@
  */
 + (NSString *)entityName;
 
+/**
+ The attribute name that represents the unique id for this entity.
+ @return The unique id key. Defaults to nil (no id attribute).
+ @note For use in conjunction with
+ */
++ (NSString *)uniqueIdAttributeName;
+
 /** @name Populating */
 
 /**

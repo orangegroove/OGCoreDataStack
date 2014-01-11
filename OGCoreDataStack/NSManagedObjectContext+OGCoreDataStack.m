@@ -153,7 +153,12 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 
 #pragma mark - Entities
 
-- (NSArray *)fetchEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
+- (id)insertInEntity:(Class)entity
+{
+	return [NSEntityDescription insertNewObjectForEntityForName:[entity entityName] inManagedObjectContext:self];
+}
+
+- (NSArray *)fetchFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
 {
 	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:[entity entityName]];
 	NSError* error			= nil;
@@ -179,7 +184,8 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	if (block)
 		block(request);
 	
-	NSUInteger count = [self countForFetchRequest:request error:&error];
+	request.sortDescriptors	= nil;
+	NSUInteger count		= [self countForFetchRequest:request error:&error];
 	
 #ifdef DEBUG
 	if (count == NSNotFound)
@@ -189,15 +195,17 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	return count;
 }
 
-- (void)deleteEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
+- (void)deleteFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
 {
-	NSArray* objects = [self fetchEntity:entity withRequest:^(NSFetchRequest *request) {
+	NSArray* objects = [self fetchFromEntity:entity withRequest:^(NSFetchRequest *request) {
 		
 		if (block)
 			block(request);
 		
-		request.includesPropertyValues	= NO;
-		request.sortDescriptors			= nil;
+		request.returnsObjectsAsFaults				= YES;
+		request.includesPropertyValues				= NO;
+		request.sortDescriptors						= nil;
+		request.relationshipKeyPathsForPrefetching	= nil;
 	}];
 	
 	[self deleteObjects:objects];
