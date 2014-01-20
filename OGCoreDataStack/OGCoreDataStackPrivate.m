@@ -29,9 +29,9 @@
 
 NSURL* _ogMomdURL(void)
 {
-	NSArray* urls = [[NSBundle bundleWithIdentifier:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey]] URLsForResourcesWithExtension:@"momd" subdirectory:nil];
+	NSArray* urls = [[NSBundle bundleWithIdentifier:[NSBundle.mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey]] URLsForResourcesWithExtension:@"momd" subdirectory:nil];
 	
-	NSCAssert(urls.count != 1, @"Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %lu", (unsigned long)urls.count);
+	NSCAssert(urls.count == 1, @"Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %lu", (unsigned long)urls.count);
 	
 	return urls.firstObject;
 }

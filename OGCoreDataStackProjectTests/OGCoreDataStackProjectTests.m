@@ -31,7 +31,7 @@
 
 - (void)tearDown
 {
-	[self deleteData];
+	[self deleteDataInContext:[NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue]];
 	
 	[super tearDown];
 }
@@ -40,176 +40,162 @@
 
 - (void)testInsert
 {
-	[self seedPeople:1];
+	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:[NSManagedObjectContext mainContext]] == 1, @"");
+	[self seedPeople:1 inContext:context];
 	
-	[self deleteData];
+	XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 1, @"");
+	
+	[self deleteDataInContext:context];
 }
 
 - (void)testDelete
 {
-	[self seedPeople:1];
+	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
-	[Person deleteWithRequest:nil context:[NSManagedObjectContext mainContext]];
+	[self seedPeople:1 inContext:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:[NSManagedObjectContext mainContext]] == 0, @"");
+	XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 1, @"");
+	
+	[context deleteFromEntity:Person.class withRequest:nil];
+	
+	XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 0, @"");
 }
 
 - (void)testFetch
 {
-	[self seedPeople:1];
+	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:[NSManagedObjectContext mainContext]] == 1, @"");
+	[self seedPeople:1 inContext:context];
 	
-	[self seedPeople:5];
+	XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 1, @"");
 	
-	XCTAssertTrue([Person countWithRequest:nil context:[NSManagedObjectContext mainContext]] == 6, @"");
+	[self seedPeople:5 inContext:context];
 	
-	[self deleteData];
+	XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 6, @"");
+	
+	[self deleteDataInContext:context];
 }
 
 - (void)testPassObjects
 {
-	[self seedPeople:1];
+	NSManagedObjectContext* context		 = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* otherContext = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
 	
-	NSManagedObjectContext* mainContext	= [NSManagedObjectContext mainContext];
-	NSManagedObjectContext* workContext	= [NSManagedObjectContext workContext];
+	[otherContext observeSavesInContext:context];
+	[self seedPeople:1 inContext:context];
 	
-	[workContext performBlock:^{
+	[otherContext performBlock:^{
 		
-		Person* person				= [Person fetchSingleWithRequest:nil context:workContext];
+		Person* person = [otherContext fetchFromEntity:Person.class withRequest:nil].firstObject;
+		
 		NSManagedObjectID* objectID	= person.objectID;
 		
-		XCTAssertEqualObjects(person.managedObjectContext, workContext, @"");
+		XCTAssertEqualObjects(person.managedObjectContext, otherContext, @"");
 		
-		[mainContext performBlock:^(NSArray *objects) {
+		[context performBlock:^(NSArray *objects) {
 			
 			XCTAssertTrue(objects.count == 1, @"");
 			
-			Person* passedPerson = objects[0];
+			Person* passedPerson = objects.firstObject;
 			
-			XCTAssertEqualObjects(passedPerson.managedObjectContext, mainContext, @"");
+			XCTAssertEqualObjects(passedPerson.managedObjectContext, context, @"");
 			XCTAssertEqualObjects(objectID, passedPerson.objectID, @"");
 			
 		} passObjects:@[person]];
 	}];
 	
-	[self deleteData];
+	[self deleteDataInContext:context];
+	[otherContext stopObservingSavesInContext:context];
 }
 
 - (void)testContextRelationship
 {
-	NSManagedObjectContext* mainContext	= [NSManagedObjectContext mainContext];
-	NSManagedObjectContext* workContext	= [NSManagedObjectContext workContext];
+	NSManagedObjectContext* context		 = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* otherContext = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
 	
-	[self seedPeople:3];
-	[workContext performBlockAndWait:^{
+	[otherContext observeSavesInContext:context];
+	[self deleteDataInContext:context];
+	[self seedPeople:3 inContext:context];
+	
+	XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 3, @"");
+	
+	[otherContext performBlockAndWait:^{
 		
-		XCTAssertTrue([Person countWithRequest:nil context:workContext] == 3, @"");
+		XCTAssertTrue([otherContext countEntity:Person.class withRequest:nil] == 3, @"");
 	}];
-	[mainContext performBlockAndWait:^{
+	[context performBlockAndWait:^{
 		
-		XCTAssertTrue([Person countWithRequest:nil context:mainContext] == 3, @"");
+		XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 3, @"");
 		
-		[Person insertInContext:mainContext];
-		[mainContext save];
+		[context createObjectForEntity:Person.class];
+		[context save];
 	}];
-	[workContext performBlockAndWait:^{
+	[otherContext performBlockAndWait:^{
 		
-		XCTAssertTrue([Person countWithRequest:nil context:mainContext] == 4, @"");
+		XCTAssertTrue([otherContext countEntity:Person.class withRequest:nil] == 4, @"");
 	}];
 	
-	[self deleteData];
-}
-
-- (void)testAsyncDelete
-{
-	[self seedPeople:3];
-	
-	[Person asynchronouslyDeleteWithRequest:nil completion:^{
-		
-		XCTAssertTrue([Person countWithRequest:nil context:[NSManagedObjectContext mainContext]] == 0, @"");
-	}];
-}
-
-- (void)testAsyncCount
-{
-	[self seedPeople:5];
-	
-	[Person asynchronouslyCountWithRequest:nil completion:^(NSUInteger count) {
-		
-		XCTAssertTrue(count == 5, @"");
-		
-		[self deleteData];
-	}];
-}
-
-- (void)testAsyncFetch
-{
-	[self seedPeople:4];
-	
-	[Person asynchronouslyFetchWithRequest:nil completion:^(NSArray *objects) {
-		
-		XCTAssertTrue(objects.count == 4, @"");
-		
-		[self deleteData];
-	}];
+	[self deleteDataInContext:context];
+	[otherContext stopObservingSavesInContext:context];
 }
 
 - (void)testFetchRequest
 {
-	[self seedPeople:5];
+	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
-	NSArray* objects = [Person fetchWithRequest:^(NSFetchRequest *request) {
+	[self seedPeople:5 inContext:context];
+	
+	NSArray* objects = [context fetchFromEntity:Person.class withRequest:^(NSFetchRequest *request) {
 		
 		[request addSortKey:@"name" ascending:YES];
 		[request addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"wallet.cash" ascending:NO]];
 		[request setPredicateWithFormat:@"%@ != nil", @"name"];
 		
-	} context:[NSManagedObjectContext mainContext]];
+	}];
 	
 	XCTAssertTrue(objects.count == 5, @"");
 	
-	[self deleteData];
+	[self deleteDataInContext:context];
 }
 
 - (void)testResetPersistentStore
 {
-	[self seedPeople:8];
+	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:[NSManagedObjectContext mainContext]] == 8, @"");
-	XCTAssertTrue([NSPersistentStoreCoordinator clearPersistentStore], @"");
-	XCTAssertTrue([Person countWithRequest:nil context:[NSManagedObjectContext mainContext]] == 0, @"");
+	[self seedPeople:8 inContext:context];
+	
+	XCTAssertTrue([context countEntity:Person.class withRequest:nil] == 8, @"");
+	XCTAssertTrue([NSPersistentStoreCoordinator reset], @"");
+	XCTAssertTrue([[NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue] countEntity:Person.class withRequest:nil] == 0, @"");
 }
 
 - (void)testPopulateWithDictionary
 {
-	Person* person					= [Person insertInContext:[NSManagedObjectContext mainContext]];
-	NSMutableDictionary* dictionary	= [NSMutableDictionary dictionaryWithObject:@"bob" forKey:@"name"];
+	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	Person* person					= [context createObjectForEntity:Person.class];
+	NSDictionary* dictionary		= @{@"name": @"bob"};
 	
 	XCTAssertFalse([@"bob" isEqualToString:person.name], @"");
 	
-	[person populateWithDictionary:dictionary typeCheck:YES];
+	[person populateWithDictionary:dictionary options:0];
 	
 	XCTAssertTrue([@"bob" isEqualToString:person.name], @"");
 	
-	[[NSManagedObjectContext mainContext] save];
-	[self deleteData];
+	[context save];
+	[self deleteDataInContext:context];
 }
 
 #pragma mark - Helpers
 
-- (void)seedPeople:(NSInteger)count
+- (void)seedPeople:(NSInteger)count inContext:(NSManagedObjectContext *)context
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext workContext];
-	
 	[context performBlockAndWait:^{
 		
 		for (NSInteger i = 0; i < count; i++) {
 			
 			NSString* name	= [NSString stringWithFormat:@"person %li", (long)i];
-			Person* person	= [Person insertInContext:context];
+			Person* person	= [context createObjectForEntity:Person.class];
 			
 			[person setName:name];
 		}
@@ -218,17 +204,16 @@
 	}];
 }
 
-- (void)deleteData
+- (void)deleteDataInContext:(NSManagedObjectContext *)context
 {
-	NSManagedObjectContext* context	= [NSManagedObjectContext workContext];
-	
 	[context performBlockAndWait:^{
 		
-		[Person deleteWithRequest:nil context:context];
-		[Wallet deleteWithRequest:nil context:context];
-		[Creditcard deleteWithRequest:nil context:context];
+		[context deleteFromEntity:Person.class withRequest:nil];
+		[context deleteFromEntity:Wallet.class withRequest:nil];
+		[context deleteFromEntity:Creditcard.class withRequest:nil];
 		
-		[context save];
+		if (context.persistentStoreCoordinator.persistentStores.count)
+			[context save];
 	}];
 }
 
