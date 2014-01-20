@@ -26,7 +26,7 @@
 #import "OGCoreDataStackCommon.h"
 
 NSURL*					_ogMomdURL(void);
-NSURL*					_ogSQLiteURL(void);
+NSURL*					_ogPersistentStoreURL(NSString* storeType);
 Class					_ogClassForAttributeType(NSAttributeType attributeType);
 NSMutableArray*			_ogTranslatedPopulationDictionaries(Class entity, NSArray* dictionaries);
 NSMutableArray*			_ogIdsForEntity(Class entity, NSArray* translatedDictionaries);

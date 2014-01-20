@@ -57,7 +57,7 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 		NSError* error								= nil;
 		NSManagedObjectModel* model					= [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
 		_ogCoreDataStackPersistentStoreCoordinator	= [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-		BOOL success								= [_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogSQLiteURL() options:coordinatorOptions error:&error];
+		BOOL success								= [_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogPersistentStoreURL(storeType) options:coordinatorOptions error:&error];
 		
 		NSAssert(success, @"Add Persistent Store Error: %@\nMissing migration? %@", error.localizedDescription, ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
 	});
@@ -68,9 +68,10 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 	if (!_ogCoreDataStackPersistentStoreCoordinator.persistentStores.count)
 		return YES;
 	
-	NSError* error	= nil;
-	NSString* path	= _ogSQLiteURL().path;
-	BOOL success	= [_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:_ogCoreDataStackPersistentStoreCoordinator.persistentStores[0] error:&error];
+	NSError* error				= nil;
+	NSPersistentStore* store	= _ogCoreDataStackPersistentStoreCoordinator.persistentStores.firstObject;
+	NSString* path				= _ogPersistentStoreURL(store.type).path;
+	BOOL success				= [_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:store error:&error];
 	
 	NSAssert(success, @"Remove Persistent Store Error: %@", error.localizedDescription);
 	

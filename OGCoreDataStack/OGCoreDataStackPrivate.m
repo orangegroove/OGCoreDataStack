@@ -36,13 +36,21 @@ NSURL* _ogMomdURL(void)
 	return urls.firstObject;
 }
 
-NSURL* _ogSQLiteURL(void)
+NSURL* _ogPersistentStoreURL(NSString* storeType)
 {
+	if ([storeType isEqualToString:NSInMemoryStoreType])
+		return nil;
+	
 	NSString* filename	= _ogMomdURL().lastPathComponent;
 	NSString* modelname	= [filename substringWithRange:NSMakeRange(0, filename.length-5)];
 	NSArray* urls		= [NSFileManager.defaultManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
 	
-	return [urls.lastObject URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", modelname]];
+	if ([storeType isEqualToString:NSSQLiteStoreType])
+		modelname = [modelname stringByAppendingString:@".sqlite"];
+	else if ([storeType isEqualToString:NSBinaryStoreType])
+		modelname = [modelname stringByAppendingString:@".bin"];
+	
+	return [urls.lastObject URLByAppendingPathComponent:modelname];
 }
 
 Class _ogClassForAttributeType(NSAttributeType attributeType)
