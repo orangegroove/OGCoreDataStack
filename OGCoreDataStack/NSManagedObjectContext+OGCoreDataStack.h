@@ -35,11 +35,6 @@
 /** @name Lifecycle */
 
 /**
- Enables or disables undo.
-*/
-@property (assign, nonatomic, getter=isUndoEnabled) BOOL undoEnabled;
-
-/**
  Returns a new context.
  @param concurrency Specifies the serial queue to which the context belongs. Rule of thumb: to modify the UI with objects from this context, use OGCoreDataStackContextConcurrencyMainQueue. To import many objects from an external source, use OGCoreDataStackContextConcurrencyBackgroundQueue.
  @return The new context.
@@ -48,7 +43,7 @@
 + (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency;
 
 /**
- Saves the context. Shorthand for save:, but handles the error by printing to the console if DEBUG is defined.
+ Saves the context. Shorthand for save:, but asserts that the operation was successful.
  @return Operation success.
  */
 - (BOOL)save;
@@ -145,8 +140,8 @@
 - (void)deleteObjects:(NSArray *)objects;
 
 /**
- Obtains permanent NSManagedObjectIDs for objects. Shorthand for obtainPermanentIDsForObjects:error:, but handles the error by printing to the console if DEBUG is defined.
- @param objects The NSManagedObjects to save.
+ Obtains permanent NSManagedObjectIDs for objects. Shorthand for obtainPermanentIDsForObjects:error:, but asserts that the operation was successful.
+ @param objects The NSManagedObjects to convert.
  @return Operation success.
  */
 - (BOOL)obtainPermanentIDsForObjects:(NSArray *)objects;

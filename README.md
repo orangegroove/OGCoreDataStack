@@ -52,6 +52,11 @@ NSManagedObjects can be setup to have an id property, much like tables in relati
 	- (void)populateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options;
 	- (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary;
 
+## Notes
+
+- If you don't disable Foundation assertions in production code, you might end with some exceptions.
+- Uses the @import keyword, so enable modules.
+
 # Documentation
 
 More specific documentation in the headers. It's really very easy to use if you understand the basic concepts of Core Data. Check out [Apple's documentation](https://developer.apple.com/library/ios/documentation/cocoa/conceptual/coredata/cdProgrammingGuide.html).

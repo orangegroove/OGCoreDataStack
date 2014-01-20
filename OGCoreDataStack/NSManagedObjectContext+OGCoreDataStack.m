@@ -33,19 +33,6 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 
 #pragma mark - Lifecycle
 
-- (void)setUndoEnabled:(BOOL)undoEnabled
-{
-	if (undoEnabled && !self.isUndoEnabled)
-		self.undoManager = [[NSUndoManager alloc] init];
-	else if (!undoEnabled)
-		self.undoManager = nil;
-}
-
-- (BOOL)isUndoEnabled
-{
-	return !!self.undoManager;
-}
-
 + (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
 {
 	NSUInteger concurrencyType;
