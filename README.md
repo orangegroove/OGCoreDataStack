@@ -11,9 +11,7 @@ A multi-threaded Core Data stack. Design goals are ease of use, compile-time che
 
 ## To whom it may concern
 
-This is not the be-all and end-all library for Core Data. For that, you might want to check out something more comprehensive, like [MagicalRecord](https://github.com/magicalpanda/MagicalRecord). It is, however, intended to cover most use-cases, favor convention of configuration, and simply make your life easier.
-
-It's probably not for you if you have some special requirements, e.g., a complex setup with multiple managed object models.
+This library is intended to cover most use-cases, favor convention of configuration, and simply make your life easier. It's probably not for you if you have some special requirements, e.g., a complex setup with multiple managed object models. For something that covers all your bases, you might want to check out [MagicalRecord](https://github.com/magicalpanda/MagicalRecord).
 
 ## Setup
 
@@ -54,7 +52,7 @@ NSManagedObjects can be setup to have an id property, much like tables in relati
 
 ## Notes
 
-- If you don't disable Foundation assertions in production code, you might end with some exceptions.
+- If you don't disable Foundation assertions in production code, you might end up with some unnecessary exceptions.
 - Uses the @import keyword, so enable modules.
 
 # Documentation

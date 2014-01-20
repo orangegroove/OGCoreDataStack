@@ -36,7 +36,7 @@
 
 /**
  Returns a new context.
- @param concurrency Specifies the serial queue to which the context belongs. Rule of thumb: to modify the UI with objects from this context, use OGCoreDataStackContextConcurrencyMainQueue. To import many objects from an external source, use OGCoreDataStackContextConcurrencyBackgroundQueue.
+ @param concurrency Specifies the serial queue to which the context belongs. See OGCoreDataStackCommon.h for details.
  @return The new context.
  @note The context will be tied directly to the persistent store and does not use the child/parent pattern.
 */

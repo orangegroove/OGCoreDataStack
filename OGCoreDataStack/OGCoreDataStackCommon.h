@@ -30,7 +30,14 @@ typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections
 
 typedef NS_ENUM(NSUInteger, OGCoreDataStackContextConcurrency)
 {
+	/**
+	 Runs on the main thread. Use for contexts that interact with the UI.
+	 */
 	OGCoreDataStackContextConcurrencyMainQueue,
+	
+	/**
+	 Runs on a serial queue. Use for long running operations, such as large data imports.
+	 */
 	OGCoreDataStackContextConcurrencyBackgroundQueue
 };
 
