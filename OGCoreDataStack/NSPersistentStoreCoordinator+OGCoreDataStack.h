@@ -44,9 +44,10 @@
  Customize the persistent store coordinator.
  @param storeType The type of store to create. Defaults to NSSQLiteStoreType.
  @param options The store options. Defaults to NSMigratePersistentStoresAutomaticallyOption and NSInferMappingModelAutomaticallyOption being YES for automatic light migrations.
+ @return Whether the operation is successful.
  @note Call this before accessing any other part of the stack. E.g., in application:didFinishLaunchingWithOptions:.
  */
-+ (void)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
++ (BOOL)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
 
 /**
  Delete the persistent store.

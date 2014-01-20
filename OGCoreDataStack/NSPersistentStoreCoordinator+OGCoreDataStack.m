@@ -36,13 +36,17 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
 + (instancetype)sharedPersistentStoreCoordinator
 {
-	[self setupWithStoreType:nil options:nil];
+	BOOL success __attribute__((unused)) = [self setupWithStoreType:nil options:nil];
+	
+	NSAssert(success, @"Persistent Store setup failed");
 	
 	return _ogCoreDataStackPersistentStoreCoordinator;
 }
 
-+ (void)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
++ (BOOL)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
 {
+	__block BOOL success = YES;
+	
 	dispatch_once(&_ogCoreDataStackToken, ^{
 		
 		NSString* coordinatorStoreType		= storeType;
@@ -57,10 +61,12 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 		NSError* error								= nil;
 		NSManagedObjectModel* model					= [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
 		_ogCoreDataStackPersistentStoreCoordinator	= [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-		BOOL success								= [_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogPersistentStoreURL(storeType) options:coordinatorOptions error:&error];
+		success										= !![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogPersistentStoreURL(storeType) options:coordinatorOptions error:&error];
 		
 		NSAssert(success, @"Add Persistent Store Error: %@\nMissing migration? %@", error.localizedDescription, ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
 	});
+	
+	return success;
 }
 
 + (BOOL)reset
