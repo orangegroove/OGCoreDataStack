@@ -58,68 +58,9 @@
 	}
 	
 	if (options & OGCoreDataStackPopulationOptionBatchNotifications)
-		[self _ogBatchNotificationsPopulateWithDictionary:dictionary options:options];
+		_ogPopulateObjectBatchKVO(self, dictionary, options);
 	else
-		[self _ogPopulateWithDictionary:dictionary options:options];
-}
-
-#pragma mark - Private
-
-- (void)_ogBatchNotificationsPopulateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options
-{
-	BOOL typeCheck						= options & OGCoreDataStackPopulationOptionTypeCheck;
-	NSDictionary* attributes			= self.entity.attributesByName;
-	NSMutableArray* attributeKeys		= [NSMutableArray arrayWithArray:attributes.allKeys];
-	NSMutableSet* accessedAttributes	= [NSMutableSet set];
-	
-	if (typeCheck)
-		[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-			
-			if ([attributeKeys containsObject:key]) {
-				
-				NSAttributeDescription* attribute = attributes[key];
-				
-				if ([obj isKindOfClass:_ogClassForAttributeType(attribute.attributeType)]) {
-					
-					[self willChangeValueForKey:key];
-					[accessedAttributes addObject:key];
-				}
-				
-				[attributeKeys removeObject:key];
-			}
-		}];
-	else
-		for (id key in dictionary)
-			if ([attributeKeys containsObject:key]) {
-				
-				[self willChangeValueForKey:key];
-				[accessedAttributes addObject:key];
-				[attributeKeys removeObject:key];
-			}
-	
-	for (id key in accessedAttributes)
-		[self setPrimitiveValue:dictionary[key] forKey:key];
-	
-	for (id key in accessedAttributes)
-		[self didChangeValueForKey:key];
-}
-
-- (void)_ogPopulateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options
-{
-	BOOL typeCheck					= options & OGCoreDataStackPopulationOptionTypeCheck;
-	NSDictionary* attributes		= self.entity.attributesByName;
-	NSMutableArray* attributeKeys	= [NSMutableArray arrayWithArray:attributes.allKeys];
-	
-	[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-		
-		if ([attributeKeys containsObject:key]) {
-			
-			if (!typeCheck || [obj isKindOfClass:_ogClassForAttributeType(((NSAttributeDescription *)attributes[key]).attributeType)])
-				[self setValue:obj forKey:key];
-			
-			[attributeKeys removeObject:key];
-		}
-	}];
+		_ogPopulateObject(self, dictionary, options);
 }
 
 @end

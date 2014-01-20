@@ -177,6 +177,48 @@ void _ogSortObjectsOfAfterId(Class entity, NSMutableArray* objects)
 	}
 }
 
-#pragma mark - Sorting
+void _ogPopulateObject(id object, NSDictionary* dictionary, OGCoreDataStackPopulationOptions options)
+{
+	BOOL typeCheck				= options & OGCoreDataStackPopulationOptionTypeCheck;
+	NSDictionary* attributes	= ((NSManagedObject *)object).entity.attributesByName;
+	
+	[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+		
+		if (!typeCheck || [obj isKindOfClass:_ogClassForAttributeType(((NSAttributeDescription *)attributes[key]).attributeType)])
+			[object setValue:obj forKey:key];
+	}];
+}
 
-
+void _ogPopulateObjectBatchKVO(id object, NSDictionary* dictionary, OGCoreDataStackPopulationOptions options)
+{
+	BOOL typeCheck				= options & OGCoreDataStackPopulationOptionTypeCheck;
+	NSDictionary* attributes	= ((NSManagedObject *)object).entity.attributesByName;
+	NSMutableSet* accessedAttributes;
+	
+	if (typeCheck) {
+		
+		accessedAttributes = [NSMutableSet set];
+		
+		[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+			
+			NSAttributeDescription* attribute = attributes[key];
+			
+			if (attribute && [obj isKindOfClass:_ogClassForAttributeType(attribute.attributeType)])
+				[accessedAttributes addObject:key];
+		}];
+	}
+	else {
+		
+		accessedAttributes = [NSMutableSet setWithSet:[NSSet setWithArray:attributes.allKeys]];
+		[accessedAttributes intersectSet:[NSSet setWithArray:dictionary.allKeys]];
+	}
+	
+	for (id key in accessedAttributes)
+		[object willChangeValueForKey:key];
+	
+	for (id key in accessedAttributes)
+		[object setPrimitiveValue:dictionary[key] forKey:key];
+	
+	for (id key in accessedAttributes)
+		[object didChangeValueForKey:key];
+}

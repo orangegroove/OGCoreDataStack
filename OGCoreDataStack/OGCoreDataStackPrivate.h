@@ -32,9 +32,5 @@ NSMutableArray*			_ogTranslatedPopulationDictionaries(Class entity, NSArray* dic
 NSMutableArray*			_ogIdsForEntity(Class entity, NSArray* translatedDictionaries);
 NSMutableDictionary*	_ogPopulationDictionaryMatchingId(Class entity, NSArray* dictionaries, id uniqueId);
 void					_ogSortObjectsOfAfterId(Class entity, NSMutableArray* objects);
-
-@interface NSManagedObject (OGCoreDataStackPrivate)
-
-- (void)populateWithDictionary:(NSMutableDictionary *)dictionary typeCheck:(BOOL)typeCheck batchNotifications:(BOOL)batchNotifications skipTranslation:(BOOL)skipTranslation ;
-
-@end
+void					_ogPopulateObject(id object, NSDictionary* dictionary, OGCoreDataStackPopulationOptions options);
+void					_ogPopulateObjectBatchKVO(id object, NSDictionary* dictionary, OGCoreDataStackPopulationOptions options);

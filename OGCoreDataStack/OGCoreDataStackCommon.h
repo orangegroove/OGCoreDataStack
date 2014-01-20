@@ -46,20 +46,20 @@ typedef NS_OPTIONS(uint64_t, OGCoreDataStackPopulationOptions)
 	/**
 	 Default behaviour.
 	 */
-	OGCoreDataStackPopulationOptionNone					= 0,
+	OGCoreDataStackPopulationOptionNone = 0,
 	
 	/**
 	 Only attempts to populate a value if the value class matches the attribute type.
 	 */
-	OGCoreDataStackPopulationOptionTypeCheck			= 1 << 1,
+	OGCoreDataStackPopulationOptionTypeCheck = 1 << 1,
 	
 	/**
 	 Sends KVO notifications in batches (per object) instead of per value.
 	 */
-	OGCoreDataStackPopulationOptionBatchNotifications	= 1 << 2,
+	OGCoreDataStackPopulationOptionBatchNotifications = 1 << 2,
 	
 	/**
 	 Skips calling +translatedPopulationDictionary:.
 	 */
-	OGCoreDataStackPopulationOptionSkipTranslation		= 1 << 3,
+	OGCoreDataStackPopulationOptionSkipTranslation = 1 << 3
 };
