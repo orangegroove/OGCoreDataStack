@@ -25,15 +25,15 @@
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
+#pragma mark - Public
+
 NSURL* _ogMomdURL(void)
 {
 	NSArray* urls = [[NSBundle bundleWithIdentifier:[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey]] URLsForResourcesWithExtension:@"momd" subdirectory:nil];
 	
-	if (urls.count == 1)
-		return urls[0];
+	NSCAssert(urls.count != 1, @"Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %lu", (unsigned long)urls.count);
 	
-	OGCoreDataStackLog(@"Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %lu", (unsigned long)urls.count);
-	return nil;
+	return urls.firstObject;
 }
 
 NSURL* _ogSQLiteURL(void)
@@ -74,3 +74,101 @@ Class _ogClassForAttributeType(NSAttributeType attributeType)
 	
 	return nil;
 }
+
+NSMutableArray* _ogTranslatedPopulationDictionaries(Class entity, NSArray* dictionaries)
+{
+	NSMutableArray* translatedDictionaries = [NSMutableArray array];
+	
+	for (NSMutableDictionary* dictionary in dictionaries)
+		[translatedDictionaries addObject:[entity translatedPopulationDictionary:dictionary]];
+	
+	return translatedDictionaries;
+}
+
+NSMutableArray*	_ogIdsForEntity(Class entity, NSArray* translatedDictionaries)
+{
+	NSMutableArray* ids = [NSMutableArray array];
+	NSString* attribute	= [entity uniqueIdAttributeName];
+	
+	for (NSMutableDictionary* dictionary in translatedDictionaries) {
+		
+		id obj = dictionary[attribute];
+		
+		if (obj)
+			[ids addObject:obj];
+	}
+	
+	return ids;
+}
+
+NSMutableDictionary* _ogPopulationDictionaryMatchingId(Class entity, NSArray* dictionaries, id uniqueId)
+{
+	if (!uniqueId)
+		return nil;
+	
+	NSString* attribute	= [entity uniqueIdAttributeName];
+	
+	for (NSMutableDictionary* dictionary in dictionaries)
+		if ([uniqueId isEqual:dictionary[attribute]])
+			return dictionary;
+	
+	return nil;
+}
+
+void _ogSortObjectsOfAfterId(Class entity, NSMutableArray* objects)
+{
+	NSString* attributeName				= [entity uniqueIdAttributeName];
+	NSDictionary* attributes			= ((NSManagedObject *)objects.firstObject).entity.attributesByName;
+	NSAttributeDescription* attribute	= attributes[attributeName];
+	
+	switch (attribute.attributeType) {
+		case NSInteger16AttributeType:
+		case NSInteger32AttributeType:
+		case NSInteger64AttributeType:
+		case NSDecimalAttributeType:
+		case NSDoubleAttributeType:
+		case NSFloatAttributeType:
+		case NSStringAttributeType:
+		case NSBooleanAttributeType:
+		case NSDateAttributeType:
+			
+			[objects sortUsingSelector:@selector(compare:)];
+			
+			break;
+		case NSObjectIDAttributeType:
+			
+			[objects sortUsingComparator:^NSComparisonResult(NSManagedObjectID* obj1, NSManagedObjectID* obj2) {
+				
+				return [obj1.URIRepresentation.absoluteString compare:obj2.URIRepresentation.absoluteString];
+			}];
+			
+			break;
+		case NSBinaryDataAttributeType:
+			
+			[objects sortUsingComparator:^NSComparisonResult(NSData* obj1, NSData* obj2) {
+				
+				return [[[NSString alloc] initWithData:obj1 encoding:NSUTF8StringEncoding] compare:[[NSString alloc] initWithData:obj2 encoding:NSUTF8StringEncoding]];
+			}];
+			
+			break;
+		case NSTransformableAttributeType: {
+			
+			// If your attribute is of NSTransformableAttributeType, the attributeValueClassName
+			// must be set or attribute value class must implement NSCopying.
+			NSString* className = attribute.userInfo[@"attributeValueClassName"];
+			
+			if (className.length) {
+				
+				
+			}
+			
+			break;
+		}
+		case NSUndefinedAttributeType:
+			break;
+	}
+}
+
+#pragma mark - Sorting
+
+

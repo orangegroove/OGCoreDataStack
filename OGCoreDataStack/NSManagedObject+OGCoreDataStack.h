@@ -25,8 +25,13 @@
 @import CoreData;
 #import "OGCoreDataStackCommon.h"
 
+/**
+ Extensions to NSManagedObject.
+ */
+
 @interface NSManagedObject (OGCoreDataStack)
 
+#pragma mark - Lifecycle
 /** @name Lifecycle */
 
 /**
@@ -37,26 +42,29 @@
 + (NSString *)entityName;
 
 /**
- The attribute name that represents the unique id for this entity.
+ The attribute name that represents the unique id attribute for this entity.
  @return The unique id key. Defaults to nil (no id attribute).
- @note For use in conjunction with
+ @note This is intended to be used for synchronizing data with relational databases (such as data from web services). To easily import such data use the NSManagedObjectContext method createObjectsForEntity:withPopulationDictionaries:avoidDuplicates:.
  */
 + (NSString *)uniqueIdAttributeName;
 
+#pragma mark - Populating
 /** @name Populating */
 
 /**
  Called by populateWithDictionary:typeCheck: to transform keys or values as needed.
  @return The translated dictionary.
+ @see populateWithDictionary:typeCheck:
  */
 - (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary;
 
 /**
  Populates an object with values from a dictionary. Keys in the dictionary must match attributes in the entity.
  @param dictionary The dictionary containing the values.
- @param typeCheck If YES, the types in the dictionary are checked before attempting to set the attribute to be of a compatible class.
+ @param options See OGCoreDataStackCommon.h for details.
  @note Relationships are not supported and must be handled manually.
+ @note This method is slightly faster if the passed dictionary is mutable.
  */
-- (void)populateWithDictionary:(NSMutableDictionary *)dictionary typeCheck:(BOOL)typeCheck;
+- (void)populateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options;
 
 @end

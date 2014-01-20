@@ -57,13 +57,9 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 		NSError* error								= nil;
 		NSManagedObjectModel* model					= [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
 		_ogCoreDataStackPersistentStoreCoordinator	= [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+		BOOL success								= [_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogSQLiteURL() options:coordinatorOptions error:&error];
 		
-		if (![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogSQLiteURL() options:coordinatorOptions error:&error]) {
-#ifdef DEBUG
-			OGCoreDataStackLog(@"Add Persistent Store Error: %@", error.localizedDescription);
-			OGCoreDataStackLog(@"Missing migration? %@", ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
-#endif
-		}
+		NSAssert(success, @"Add Persistent Store Error: %@\nMissing migration? %@", error.localizedDescription, ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
 	});
 }
 
@@ -74,23 +70,22 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 	
 	NSError* error	= nil;
 	NSString* path	= _ogSQLiteURL().path;
+	BOOL success	= [_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:_ogCoreDataStackPersistentStoreCoordinator.persistentStores[0] error:&error];
 	
-	if (![_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:_ogCoreDataStackPersistentStoreCoordinator.persistentStores[0] error:&error]) {
-#ifdef DEBUG
-		OGCoreDataStackLog(@"Remove Persistent Store Error: %@", error.localizedDescription);
-#endif
+	NSAssert(success, @"Remove Persistent Store Error: %@", error.localizedDescription);
+	
+	if (!success)
 		return NO;
-	}
 	
 	if (![NSFileManager.defaultManager fileExistsAtPath:path])
 		return YES;
 	
-	if (![NSFileManager.defaultManager removeItemAtPath:path error:&error]) {
-#ifdef DEBUG
-		OGCoreDataStackLog(@"Remove Persistent Store File Error: %@", error.localizedDescription);
-#endif
+	success = [NSFileManager.defaultManager removeItemAtPath:path error:&error];
+	
+	NSAssert(success, @"Remove Persistent Store File Error: %@", error.localizedDescription);
+	
+	if (!success)
 		return NO;
-	}
 	
 	_ogCoreDataStackToken						= 0;
 	_ogCoreDataStackPersistentStoreCoordinator	= nil;

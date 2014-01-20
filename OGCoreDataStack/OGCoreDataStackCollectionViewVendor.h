@@ -24,9 +24,20 @@
 
 #import "OGCoreDataStackVendor.h"
 
+/**
+ An OGCoreDataStackVendor specifically for UICollectionViews.
+ */
+
 @interface OGCoreDataStackCollectionViewVendor : OGCoreDataStackVendor
 
+/**
+ The collection view to update with the vendor.
+ */
 @property (strong, nonatomic) UICollectionView*	collectionView;
-@property (assign, nonatomic) NSUInteger		reloadThreshold;
+
+/**
+ The number of updated items in one batch before calling reloadData instead of reloading each item individually. Defaults to 50.
+ */
+@property (assign, nonatomic) NSUInteger reloadThreshold;
 
 @end

@@ -25,14 +25,18 @@
 @import CoreData;
 #import "OGCoreDataStackCommon.h"
 
+/**
+ Extensions to NSFetchRequest.
+ */
+
 @interface NSFetchRequest (OGCoreDataStack)
 
+#pragma mark - Configuration
 /** @name Configuration */
 
 /**
  A shorthand for setPredicate:[NSString stringWithFormat:format, ...]
  @param format The format string
- @param ... The parameters
  */
 - (void)setPredicateWithFormat:(NSString *)format, ...;
 

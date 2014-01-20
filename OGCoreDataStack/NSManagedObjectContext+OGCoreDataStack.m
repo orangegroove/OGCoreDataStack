@@ -33,7 +33,20 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 
 #pragma mark - Lifecycle
 
-+ (instancetype)contextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
+- (void)setUndoEnabled:(BOOL)undoEnabled
+{
+	if (undoEnabled && !self.isUndoEnabled)
+		self.undoManager = [[NSUndoManager alloc] init];
+	else if (!undoEnabled)
+		self.undoManager = nil;
+}
+
+- (BOOL)isUndoEnabled
+{
+	return !!self.undoManager;
+}
+
++ (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
 {
 	NSUInteger concurrencyType;
 	
@@ -61,10 +74,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	NSError* error	= nil;
 	BOOL success	= [self save:&error];
 	
-#ifdef DEBUG
-	if (!success)
-		OGCoreDataStackLog(@"Save Error: %@", error.localizedDescription);
-#endif
+	NSAssert(success, @"Save error: %@", error.localizedDescription);
 	
 	return success;
 }
@@ -73,24 +83,44 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 
 - (void)observeSavesInContext:(NSManagedObjectContext *)context
 {
-	__block id weakSelf = self;
-	id observer			= [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
+	if ([self isObservingSavesInContext:context])
+		return;
+	
+	__block id weakSelf				= self;
+	NSString* key					= [NSString stringWithFormat:@"%p", context];
+	NSMutableDictionary* observers	= objc_getAssociatedObject(self, kObserverKey);
+	
+	if (!observers) {
+		
+		observers = [NSMutableDictionary dictionary];
+		objc_setAssociatedObject(self, kObserverKey, observers, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+	
+	observers[key] = [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
 		
 		[weakSelf mergeChangesFromContextDidSaveNotification:note];
 	}];
-	
-	objc_setAssociatedObject(self, kObserverKey, observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)stopObservingSavesInContext:(NSManagedObjectContext *)context
 {
-	id observer = objc_getAssociatedObject(self, kObserverKey);
+	NSMutableDictionary* observers	= objc_getAssociatedObject(self, kObserverKey);
+	NSString* key					= [NSString stringWithFormat:@"%p", context];
+	id observer						= key.length? observers[key] : nil;
 	
 	if (observer) {
 		
-		objc_setAssociatedObject(self, kObserverKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 		[NSNotificationCenter.defaultCenter removeObserver:observer];
+		[observers removeObjectForKey:key];
 	}
+}
+
+- (BOOL)isObservingSavesInContext:(NSManagedObjectContext *)context
+{
+	NSMutableDictionary* observers	= objc_getAssociatedObject(self, kObserverKey);
+	NSString* key					= [NSString stringWithFormat:@"%p", context];
+	
+	return key.length && observers[key];
 }
 
 #pragma mark - Operations
@@ -111,9 +141,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 			NSError* error			= nil;
 			NSManagedObject* object = [self existingObjectWithID:objectID error:&error];
 			
-#ifdef DEBUG
-			OGCoreDataStackLog(@"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
-#endif
+			NSAssert(!error, @"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
 			
 			if (object)
 				[passedObjects addObject:object];
@@ -139,9 +167,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 			NSError* error			= nil;
 			NSManagedObject* object = [self existingObjectWithID:objectID error:&error];
 			
-#ifdef DEBUG
-			OGCoreDataStackLog(@"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
-#endif
+			NSAssert(!error, @"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
 			
 			if (object)
 				[passedObjects addObject:object];
@@ -153,9 +179,52 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 
 #pragma mark - Entities
 
-- (id)insertInEntity:(Class)entity
+- (NSManagedObject *)createObjectForEntity:(Class)entity
 {
 	return [NSEntityDescription insertNewObjectForEntityForName:[entity entityName] inManagedObjectContext:self];
+}
+
+- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries avoidDuplicates:(BOOL)avoidDuplicates
+{
+	if (!dictionaries.count)
+		return @[];
+	
+	NSMutableArray* objects					= [NSMutableArray array];
+	NSMutableArray* translatedDictionaries	= _ogTranslatedPopulationDictionaries(entity, dictionaries);
+	
+	if (avoidDuplicates) {
+		
+		NSString* idAttributeName = [entity uniqueIdAttributeName];
+		
+		if (idAttributeName) {
+			
+			NSMutableArray* ids = _ogIdsForEntity(entity, translatedDictionaries);
+			
+			[objects addObjectsFromArray:[self fetchFromEntity:entity withRequest:^(NSFetchRequest *request) {
+				
+				request.predicate = [NSPredicate predicateWithFormat:@"%K IN %@", idAttributeName, ids];
+			}]];
+			
+			for (id object in objects) {
+				
+				id idAttributeValue				= [object valueForKey:idAttributeName];
+				NSMutableDictionary* dictionary	= _ogPopulationDictionaryMatchingId(entity, translatedDictionaries, idAttributeValue);
+				
+				[translatedDictionaries removeObject:dictionary];
+				[object populateWithDictionary:dictionary options:OGCoreDataStackPopulationOptionSkipTranslation];
+			}
+		}
+	}
+	
+	for (NSMutableDictionary* dictionary in translatedDictionaries) {
+		
+		NSManagedObject* object = [self createObjectForEntity:entity];
+		
+		[object populateWithDictionary:dictionary options:OGCoreDataStackPopulationOptionSkipTranslation];
+		[objects addObject:object];
+	}
+	
+	return [NSArray arrayWithArray:objects];
 }
 
 - (NSArray *)fetchFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block
@@ -168,10 +237,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	
 	NSArray* objects = [self executeFetchRequest:request error:&error];
 	
-#ifdef DEBUG
-	if (error)
-		OGCoreDataStackLog(@"Fetch Error: %@", error.localizedDescription);
-#endif
+	NSAssert(!error, @"Fetch Error: %@", error.localizedDescription);
 	
 	return objects;
 }
@@ -187,10 +253,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	request.sortDescriptors	= nil;
 	NSUInteger count		= [self countForFetchRequest:request error:&error];
 	
-#ifdef DEBUG
-	if (count == NSNotFound)
-		OGCoreDataStackLog(@"Count Error: %@", error.localizedDescription);
-#endif
+	NSAssert(count != NSNotFound, @"Count Error: %@", error.localizedDescription);
 	
 	return count;
 }
@@ -222,10 +285,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	NSError* error	= nil;
 	BOOL success	= [self obtainPermanentIDsForObjects:objects error:&error];
 	
-#ifdef DEBUG
-	if (!success)
-		OGCoreDataStackLog(@"ObtainPermanentIDs Error: %@", error.localizedDescription);
-#endif
+	NSAssert(success, @"ObtainPermanentIDs Error: %@", error.localizedDescription);
 	
 	return success;
 }

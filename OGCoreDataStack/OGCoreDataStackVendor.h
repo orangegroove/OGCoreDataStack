@@ -25,33 +25,149 @@
 @import CoreData;
 #import "OGCoreDataStackCommon.h"
 
+/**
+ NSFetchedResultsController decorator.
+ */
+
 @interface OGCoreDataStackVendor : NSObject
 <NSFetchedResultsControllerDelegate>
 
-@property (assign, nonatomic, getter=isVending)	BOOL								vending;
-@property (strong, nonatomic, readonly)			NSFetchRequest*						fetchRequest;
-@property (strong, nonatomic, readonly)			NSManagedObjectContext*				managedObjectContext;
-@property (strong, nonatomic, readonly)			NSString*							sectionNameKeyPath;
-@property (strong, nonatomic, readonly)			NSString*							cacheName;
-@property (copy, nonatomic)						OGCoreDataStackVendorObjectsUpdated	objectsUpdated;
+/**
+ Toggles whether the vendor is enabled and serving objects.
+ */
+@property (assign, nonatomic, getter=isVending) BOOL vending;
 
+/**
+ The fetch request used for filtering and sorting objects. Any changes made to this object will not be reflected until the vending is toggled off, then on.
+ */
+@property (strong, nonatomic, readonly) NSFetchRequest* fetchRequest;
+
+/**
+ The context to which vended objects belong.
+ */
+@property (strong, nonatomic, readonly) NSManagedObjectContext* managedObjectContext;
+
+/**
+ The keypath on the objects used to divide them into sections.
+ */
+@property (copy, nonatomic, readonly) NSString* sectionNameKeyPath;
+
+/**
+ The name of the file in which to store the cached fetch.
+ */
+@property (strong, nonatomic, readonly) NSString* cacheName;
+
+/**
+ This block is called after every batch of updates to the objects.
+ */
+@property (copy, nonatomic) OGCoreDataStackVendorObjectsUpdated	objectsUpdated;
+
+#pragma mark - Lifecycle
+/** @name Lifecycle */
+
+/**
+ Initializes the vendor.
+ @param entity The class of the entity to vend.
+ @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate, or a sort descriptor). You must add at least one sort descriptor.
+ @param context The context in which to vend objects.
+ @param sectionNameKeyPath The keypath on the objects used to divide them into sections. Can be nil.
+ @param cacheName The name of the file in which to store the cached fetch. Can be nil.
+ */
 - (void)setEntity:(Class)entity request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName;
 
+#pragma mark - Counting
+/** @name Counting */
+
+/**
+ The section count.
+ @return The count.
+ */
 - (NSInteger)numberOfSections;
+
+/**
+ The object count for a section.
+ @param section The section to count.
+ @return The count.
+ */
 - (NSInteger)numberOfObjectsInSection:(NSInteger)section;
+
+/**
+ The object count over all sections.
+ @return The count.
+ */
 - (NSInteger)numberOfObjects;
 
+#pragma mark - Objects
+/** @name Objects */
+
+/**
+ Retrieves a specific object.
+ @param indexPath The indexpath of the object.
+ @return The object or nil.
+ */
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
+
+/**
+ Retrieves an indexpath of a specific object.
+ @param object The object.
+ @return The indexpath or nil.
+ */
 - (NSIndexPath *)indexPathForObject:(id)object;
 
+/**
+ Keyed subscript support for getting objects, like vendor[[NSIndexPath indexPathForItem:0 section:0]].
+ @param key The indexpath of the object.
+ @return The object or nil.
+ */
 - (id)objectForKeyedSubscript:(id)key;
 
+/**
+ Retrieves the first object of a section.
+ @param section The index of the section.
+ @return The object or nil.
+ */
 - (id)firstObjectInSection:(NSInteger)section;
+
+/**
+ Retrieves the last object of a section.
+ @param section The index of the section.
+ @return The object or nil.
+ */
 - (id)lastObjectInSection:(NSInteger)section;
+
+/**
+ Retrieves the first object in the vendor.
+ @return The object or nil.
+ */
 - (id)firstObject;
+
+/**
+ Retrieves the last object in the vendor.
+ @return The object or nil.
+ */
 - (id)lastObject;
 
+/**
+ Retrieves all objects in a section.
+ @param section The index of the section.
+ @return An array with zero or more objects, or nil.
+ */
 - (NSArray *)objectsInSection:(NSInteger)section;
+
+/**
+ Retrieves all objects.
+ @return An array with zero or more objects, or nil.
+ */
 - (NSArray *)allObjects;
+
+#pragma mark - Sections
+/** @name Sections */
+
+/**
+ Returns the section information object.
+ @param section The index of the section.
+ @return The section info object.
+ */
+- (id<NSFetchedResultsSectionInfo>)section:(NSInteger)section;
 
 @end

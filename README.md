@@ -10,3 +10,7 @@ A multi-threaded Core Data stack. Design goals are ease of use and compile-time 
 # Documentation
 
 Specific documentation in the headers.
+
+# Todo
+
+* Add persistent store asynchronously.

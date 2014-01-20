@@ -25,26 +25,33 @@
 @import CoreData;
 #import "OGCoreDataStackCommon.h"
 
+/**
+ Extensions to NSPersistentStoreCoordinator.
+ */
+
 @interface NSPersistentStoreCoordinator (OGCoreDataStack)
 
+#pragma mark - Lifecycle
+/** @name Lifecycle */
+
 /**
- 
- @return
+ The singleton NSPersistentStoreCoordinator for use with the stack.
+ @return The PSC.
  */
 + (instancetype)sharedPersistentStoreCoordinator;
 
 /**
- 
- @param storeType
- @param options
- @note
+ Customize the persistent store coordinator.
+ @param storeType The type of store to create. Defaults to NSSQLiteStoreType.
+ @param options The store options. Defaults to NSMigratePersistentStoresAutomaticallyOption and NSInferMappingModelAutomaticallyOption being YES for automatic light migrations.
+ @note Call this before accessing any other part of the stack. E.g., in application:didFinishLaunchingWithOptions:.
  */
 + (void)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
 
 /**
- 
- @return
- @note Delete contexts first
+ Delete the persistent store.
+ @return Whether the operation was successful.
+ @note Remove all references to NSManagedObjects and NSManagedObjectContexts before calling this method.
  */
 + (BOOL)reset;
 

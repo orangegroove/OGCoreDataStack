@@ -35,6 +35,11 @@
 	return NSStringFromClass(self.class);
 }
 
++ (NSString *)uniqueIdAttributeName
+{
+	return nil;
+}
+
 #pragma mark - Populating
 
 - (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary
@@ -42,19 +47,74 @@
 	return dictionary;
 }
 
-- (void)populateWithDictionary:(NSMutableDictionary *)dictionary typeCheck:(BOOL)typeCheck
+- (void)populateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options
 {
+	if (options & OGCoreDataStackPopulationOptionSkipTranslation) {
+		
+		if ([dictionary isKindOfClass:NSMutableDictionary.class])
+			dictionary = [self translatedPopulationDictionary:(NSMutableDictionary *)dictionary];
+		else
+			dictionary = [self translatedPopulationDictionary:[NSMutableDictionary dictionaryWithDictionary:dictionary]];
+	}
+	
+	if (options & OGCoreDataStackPopulationOptionBatchNotifications)
+		[self _ogBatchNotificationsPopulateWithDictionary:dictionary options:options];
+	else
+		[self _ogPopulateWithDictionary:dictionary options:options];
+}
+
+#pragma mark - Private
+
+- (void)_ogBatchNotificationsPopulateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options
+{
+	BOOL typeCheck						= options & OGCoreDataStackPopulationOptionTypeCheck;
 	NSDictionary* attributes			= self.entity.attributesByName;
 	NSMutableArray* attributeKeys		= [NSMutableArray arrayWithArray:attributes.allKeys];
-	dictionary							= [self translatedPopulationDictionary:dictionary];
+	NSMutableSet* accessedAttributes	= [NSMutableSet set];
 	
-	[dictionary enumerateKeysAndObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id key, id obj, BOOL *stop) {
+	if (typeCheck)
+		[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+			
+			if ([attributeKeys containsObject:key]) {
+				
+				NSAttributeDescription* attribute = attributes[key];
+				
+				if ([obj isKindOfClass:_ogClassForAttributeType(attribute.attributeType)]) {
+					
+					[self willChangeValueForKey:key];
+					[accessedAttributes addObject:key];
+				}
+				
+				[attributeKeys removeObject:key];
+			}
+		}];
+	else
+		for (id key in dictionary)
+			if ([attributeKeys containsObject:key]) {
+				
+				[self willChangeValueForKey:key];
+				[accessedAttributes addObject:key];
+				[attributeKeys removeObject:key];
+			}
+	
+	for (id key in accessedAttributes)
+		[self setPrimitiveValue:dictionary[key] forKey:key];
+	
+	for (id key in accessedAttributes)
+		[self didChangeValueForKey:key];
+}
+
+- (void)_ogPopulateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options
+{
+	BOOL typeCheck					= options & OGCoreDataStackPopulationOptionTypeCheck;
+	NSDictionary* attributes		= self.entity.attributesByName;
+	NSMutableArray* attributeKeys	= [NSMutableArray arrayWithArray:attributes.allKeys];
+	
+	[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		
 		if ([attributeKeys containsObject:key]) {
 			
-			NSAttributeDescription* attribute = attributes[key];
-			
-			if (!typeCheck || [obj isKindOfClass:_ogClassForAttributeType(attribute.attributeType)])
+			if (!typeCheck || [obj isKindOfClass:_ogClassForAttributeType(((NSAttributeDescription *)attributes[key]).attributeType)])
 				[self setValue:obj forKey:key];
 			
 			[attributeKeys removeObject:key];

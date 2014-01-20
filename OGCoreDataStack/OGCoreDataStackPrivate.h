@@ -25,6 +25,16 @@
 @import CoreData;
 #import "OGCoreDataStackCommon.h"
 
-NSURL* _ogMomdURL(void);
-NSURL* _ogSQLiteURL(void);
-Class _ogClassForAttributeType(NSAttributeType attributeType);
+NSURL*					_ogMomdURL(void);
+NSURL*					_ogSQLiteURL(void);
+Class					_ogClassForAttributeType(NSAttributeType attributeType);
+NSMutableArray*			_ogTranslatedPopulationDictionaries(Class entity, NSArray* dictionaries);
+NSMutableArray*			_ogIdsForEntity(Class entity, NSArray* translatedDictionaries);
+NSMutableDictionary*	_ogPopulationDictionaryMatchingId(Class entity, NSArray* dictionaries, id uniqueId);
+void					_ogSortObjectsOfAfterId(Class entity, NSMutableArray* objects);
+
+@interface NSManagedObject (OGCoreDataStackPrivate)
+
+- (void)populateWithDictionary:(NSMutableDictionary *)dictionary typeCheck:(BOOL)typeCheck batchNotifications:(BOOL)batchNotifications skipTranslation:(BOOL)skipTranslation ;
+
+@end

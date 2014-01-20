@@ -24,12 +24,35 @@
 
 #import "OGCoreDataStackVendor.h"
 
+/**
+ An OGCoreDataStackVendor specifically for UITableViews.
+ */
+
 @interface OGCoreDataStackTableViewVendor : OGCoreDataStackVendor
 
-@property (strong, nonatomic) UITableView*				tableView;
-@property (assign, nonatomic) UITableViewRowAnimation	insertionAnimation;
-@property (assign, nonatomic) UITableViewRowAnimation	deletionAnimation;
-@property (assign, nonatomic) UITableViewRowAnimation	updateAnimation;
-@property (assign, nonatomic) NSUInteger				reloadThreshold;
+/**
+ The table view to update with the vendor.
+ */
+@property (strong, nonatomic) UITableView* tableView;
+
+/**
+ The animation used for row insertions. Defaults to UITableViewRowAnimationAutomatic.
+ */
+@property (assign, nonatomic) UITableViewRowAnimation insertionAnimation;
+
+/**
+ The animation used for row deletions. Defaults to UITableViewRowAnimationAutomatic.
+ */
+@property (assign, nonatomic) UITableViewRowAnimation deletionAnimation;
+
+/**
+ The animation used for row updates. Defaults to UITableViewRowAnimationAutomatic.
+ */
+@property (assign, nonatomic) UITableViewRowAnimation updateAnimation;
+
+/**
+ The number of updated rows in one batch before calling reloadData instead of reloading each row individually. Defaults to 50.
+ */
+@property (assign, nonatomic) NSUInteger reloadThreshold;
 
 @end

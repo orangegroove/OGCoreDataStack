@@ -44,6 +44,8 @@
 
 - (void)setEntity:(Class)entity request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName
 {
+	NSAssert(entity && context, @"Must supply entity (%@) and context (%@)", NSStringFromClass(entity), context);
+	
 	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:[entity entityName]];
 	
 	if (block)
@@ -51,7 +53,7 @@
 	
 	_fetchRequest			= request;
 	_managedObjectContext	= context;
-	_sectionNameKeyPath		= sectionNameKeyPath;
+	_sectionNameKeyPath		= [sectionNameKeyPath copy];
 	_cacheName				= cacheName;
 }
 
@@ -136,19 +138,22 @@
 
 - (NSArray *)objectsInSection:(NSInteger)section
 {
-	NSArray* sections = _fetchedResultsController.sections;
-	
-	if (section > ((NSInteger)sections.count)-1)
-		return nil;
-	
-	id<NSFetchedResultsSectionInfo> sectionInfo = sections[(NSUInteger)section];
-	
-	return sectionInfo.objects;
+	return [self section:section].objects;
 }
 
 - (NSArray *)allObjects
 {
 	return _fetchedResultsController.fetchedObjects;
+}
+
+- (id<NSFetchedResultsSectionInfo>)section:(NSInteger)section
+{
+	NSArray* sections = _fetchedResultsController.sections;
+	
+	if (section > ((NSInteger)sections.count)-1)
+		return nil;
+	
+	return sections[(NSUInteger)section];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
@@ -239,34 +244,24 @@
 {
 	if (vending && !_vending) {
 		
-		if (!_fetchRequest || !_managedObjectContext) {
-			
-#ifdef DEBUG
-			OGCoreDataStackLog(@"Cannot vend without fetchRequest and managedObjectContext");
-#endif
-			return;
-		}
+		NSAssert(_fetchRequest && _managedObjectContext, @"Cannot vend without fetchRequest (%@) and managedObjectContext (%@)", _fetchRequest, _managedObjectContext);
 		
-		_fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:_sectionNameKeyPath cacheName:_cacheName];
-		
+		_fetchedResultsController			= [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:_sectionNameKeyPath cacheName:_cacheName];
 		_fetchedResultsController.delegate	= self;
 		NSError* error						= nil;
-		vending								= [_fetchedResultsController performFetch:&error];
+		_vending							= [_fetchedResultsController performFetch:&error];
 		
-		if (!vending) {
-#ifdef DEBUG
-			OGCoreDataStackLog(@"%@", error);
-#endif
+		NSAssert(vending, @"Enable vending error: %@", error);
+		
+		if (!_vending)
 			self.vending = NO;
-		}
 	}
 	else if (!vending) {
 		
 		_fetchedResultsController.delegate	= nil;
 		_fetchedResultsController			= nil;
+		_vending							= NO;
 	}
-	
-	_vending = vending;
 }
 
 - (NSMutableIndexSet *)deletedSections

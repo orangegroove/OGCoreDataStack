@@ -24,7 +24,35 @@
 
 @import Foundation;
 
-#define OGCoreDataStackLog(f, ...)	NSLog((@"\nOGCoreDataStack %s[%d]\n" f),__func__,__LINE__,##__VA_ARGS__)
-
+typedef void (^OGCoreDataStackStoreSetupCallbackBlock)(BOOL success, NSError* error);
 typedef void (^OGCoreDataStackFetchRequestBlock)(NSFetchRequest* request);
 typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);
+
+typedef NS_ENUM(NSUInteger, OGCoreDataStackContextConcurrency)
+{
+	OGCoreDataStackContextConcurrencyMainQueue,
+	OGCoreDataStackContextConcurrencyBackgroundQueue
+};
+
+typedef NS_OPTIONS(uint64_t, OGCoreDataStackPopulationOptions)
+{
+	/**
+	 Default behaviour.
+	 */
+	OGCoreDataStackPopulationOptionNone					= 0,
+	
+	/**
+	 Only attempts to populate a value if the value class matches the attribute type.
+	 */
+	OGCoreDataStackPopulationOptionTypeCheck			= 1 << 1,
+	
+	/**
+	 Sends KVO notifications in batches (per object) instead of per value.
+	 */
+	OGCoreDataStackPopulationOptionBatchNotifications	= 1 << 2,
+	
+	/**
+	 Skips calling +translatedPopulationDictionary:.
+	 */
+	OGCoreDataStackPopulationOptionSkipTranslation		= 1 << 3,
+};
