@@ -102,7 +102,7 @@
  @param entity The class of the entity to insert.
  @return The newly created object.
  */
-- (NSManagedObject *)createObjectForEntity:(Class)entity;
+- (id)createObjectForEntity:(Class)entity;
 
 /**
  Inserts objects and populates them with the specified dictionaries.

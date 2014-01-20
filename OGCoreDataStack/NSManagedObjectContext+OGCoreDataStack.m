@@ -179,7 +179,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 
 #pragma mark - Entities
 
-- (NSManagedObject *)createObjectForEntity:(Class)entity
+- (id)createObjectForEntity:(Class)entity
 {
 	return [NSEntityDescription insertNewObjectForEntityForName:[entity entityName] inManagedObjectContext:self];
 }
