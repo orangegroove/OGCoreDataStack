@@ -56,6 +56,18 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	return context;
 }
 
+- (OGCoreDataStackContextConcurrency)contextConcurrency
+{
+	switch (self.concurrencyType) {
+		case NSMainQueueConcurrencyType:
+			return OGCoreDataStackContextConcurrencyMainQueue;
+		case NSPrivateQueueConcurrencyType:
+			return OGCoreDataStackContextConcurrencyBackgroundQueue;
+		default:
+			return NSUIntegerMax;
+	}
+}
+
 - (BOOL)save
 {
 	NSError* error	= nil;

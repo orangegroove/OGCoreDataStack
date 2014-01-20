@@ -43,6 +43,11 @@
 + (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency;
 
 /**
+ Returns the concurrency type of the context.
+ */
+- (OGCoreDataStackContextConcurrency)contextConcurrency;
+
+/**
  Saves the context. Shorthand for save:, but asserts that the operation was successful.
  @return Operation success.
  */
