@@ -42,10 +42,8 @@
 
 - (void)addSortDescriptor:(NSSortDescriptor *)sortDescriptor
 {
-	NSArray* sortDescriptors = self.sortDescriptors;
-	
-	if (sortDescriptors)
-		self.sortDescriptors = [sortDescriptors arrayByAddingObject:sortDescriptor];
+	if (self.sortDescriptors.count)
+		self.sortDescriptors = [self.sortDescriptors arrayByAddingObject:sortDescriptor];
 	else
 		self.sortDescriptors = @[sortDescriptor];
 }

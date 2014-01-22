@@ -185,7 +185,7 @@ void _ogPopulateObject(id object, NSDictionary* dictionary, OGCoreDataStackPopul
 	[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
 		
 		if (!typeCheck || [obj isKindOfClass:_ogClassForAttributeType(((NSAttributeDescription *)attributes[key]).attributeType)])
-			[object setValue:obj forKey:key];
+			[object setValue:(obj == NSNull.null? nil : obj) forKey:key];
 	}];
 }
 
@@ -216,8 +216,11 @@ void _ogPopulateObjectBatchKVO(id object, NSDictionary* dictionary, OGCoreDataSt
 	for (id key in accessedAttributes)
 		[object willChangeValueForKey:key];
 	
-	for (id key in accessedAttributes)
-		[object setPrimitiveValue:dictionary[key] forKey:key];
+	for (id key in accessedAttributes) {
+		
+		id obj = dictionary[key];
+		[object setPrimitiveValue:(obj == NSNull.null? nil : obj) forKey:key];
+	}
 	
 	for (id key in accessedAttributes)
 		[object didChangeValueForKey:key];
