@@ -38,6 +38,11 @@
 @property (assign, nonatomic, getter=isVending) BOOL vending;
 
 /**
+ Pauses vending. Stops calling of the objectsUpdated block, but it's still possible to get objects manually.
+ */
+@property (assign, nonatomic, getter=isPaused) BOOL paused;
+
+/**
  The fetch request used for filtering and sorting objects. Any changes made to this object will not be reflected until the vending is toggled off, then on.
  */
 @property (strong, nonatomic, readonly) NSFetchRequest* fetchRequest;
@@ -115,7 +120,7 @@
 - (NSIndexPath *)indexPathForObject:(id)object;
 
 /**
- Keyed subscript support for getting objects, like vendor[[NSIndexPath indexPathForItem:0 section:0]].
+ Keyed subscript support for getting objects, like so: vendor[[NSIndexPath indexPathForItem:0 section:0]].
  @param key The indexpath of the object.
  @return The object or nil.
  */

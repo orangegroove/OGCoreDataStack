@@ -36,6 +36,7 @@
 @property (strong, nonatomic) NSMutableArray*				updatedObjects;
 
 - (BOOL)indexPathIsValid:(NSIndexPath *)indexPath;
+- (void)callObjectsUpdatedBlock;
 
 @end
 @implementation OGCoreDataStackVendor
@@ -160,14 +161,11 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	if (_objectsUpdated)
-		_objectsUpdated(self.insertedSections, self.deletedSections, self.insertedObjects, self.deletedObjects, self.updatedObjects);
+	if (!self.isPaused)
+		return;
 	
-	_deletedSections	= nil;
-	_insertedSections	= nil;
-	_deletedObjects		= nil;
-	_insertedObjects	= nil;
-	_updatedObjects		= nil;
+	if (_objectsUpdated)
+		[self callObjectsUpdatedBlock];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
@@ -223,7 +221,7 @@
 	}
 }
 
-#pragma mark - Helpers
+#pragma mark - Private
 
 - (BOOL)indexPathIsValid:(NSIndexPath *)indexPath
 {
@@ -236,6 +234,17 @@
 		return NO;
 	
 	return YES;
+}
+
+- (void)callObjectsUpdatedBlock
+{
+	_objectsUpdated(self.insertedSections, self.deletedSections, self.insertedObjects, self.deletedObjects, self.updatedObjects);
+	
+	_deletedSections	= nil;
+	_insertedSections	= nil;
+	_deletedObjects		= nil;
+	_insertedObjects	= nil;
+	_updatedObjects		= nil;
 }
 
 #pragma mark - Properties
@@ -262,6 +271,14 @@
 		_fetchedResultsController			= nil;
 		_vending							= NO;
 	}
+}
+
+- (void)setPaused:(BOOL)paused
+{
+	if (!paused && _paused && self.isVending && self.objectsUpdated)
+		[self callObjectsUpdatedBlock];
+	
+	_paused = paused;
 }
 
 - (NSMutableIndexSet *)deletedSections

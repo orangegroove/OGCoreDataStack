@@ -50,6 +50,10 @@ NSManagedObjects can be setup to have an id property, much like tables in relati
 	- (void)populateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options;
 	- (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary;
 
+## Vending objects
+
+OGCoreDataStackVendor is a decorator for NSFetchedResultsController and there are subclasses to use it as a data source for tableviews and collectionviews.
+
 ## Notes
 
 - If you don't disable Foundation assertions in production code, you might end up with some unnecessary exceptions.
