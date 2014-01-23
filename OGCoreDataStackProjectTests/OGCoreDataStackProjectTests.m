@@ -174,13 +174,20 @@
 {
 	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	Person* person					= [context createObjectForEntity:Person.class];
-	NSDictionary* dictionary		= @{@"name": @"bob"};
+	NSString* name					= @"bob";
+	NSNumber* age					= @55;
 	
-	XCTAssertFalse([@"bob" isEqualToString:person.name], @"");
+	XCTAssertFalse([person.name isEqualToString:name], @"");
 	
-	[person populateWithDictionary:dictionary options:0];
+	[person populateWithDictionary:@{@"name": name, @"age": age} options:OGCoreDataStackPopulationOptionBatchNotifications];
 	
-	XCTAssertTrue([@"bob" isEqualToString:person.name], @"");
+	XCTAssertTrue([person.name isEqualToString:name], @"");
+	XCTAssertTrue([person.age isEqualToNumber:age], @"");
+	
+	[person populateWithDictionary:@{@"name": NSNull.null, @"age": NSNull.null} options:0];
+	
+	XCTAssertTrue(!person.name, @"");
+	XCTAssertTrue(!person.age, @"");
 	
 	[context save];
 	[self deleteDataInContext:context];

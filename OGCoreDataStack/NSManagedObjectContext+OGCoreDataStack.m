@@ -183,35 +183,38 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	return [NSEntityDescription insertNewObjectForEntityForName:[entity entityName] inManagedObjectContext:self];
 }
 
-- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries avoidDuplicates:(BOOL)avoidDuplicates
+- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries options:(OGCoreDataStackCreationOptions)options
 {
 	if (!dictionaries.count)
 		return @[];
 	
-	NSMutableArray* objects					= [NSMutableArray array];
-	NSMutableArray* translatedDictionaries	= _ogTranslatedPopulationDictionaries(entity, dictionaries);
+	NSString* idAttributeName	= [entity uniqueIdAttributeName];
+	NSMutableArray* objects		= [NSMutableArray array];
+	NSMutableArray* translatedDictionaries;
 	
-	if (avoidDuplicates) {
+	if (options & OGCoreDataStackPopulationOptionSkipTranslation)
+		translatedDictionaries = [NSMutableArray arrayWithArray:dictionaries];
+	else
+		translatedDictionaries = _ogTranslatedPopulationDictionaries(entity, dictionaries);
+	
+	options = options|OGCoreDataStackPopulationOptionSkipTranslation;
+	
+	if (!(options & OGCoreDataStackCreationOptionIgnoreUniqueIdAttribute) && idAttributeName) {
 		
-		NSString* idAttributeName = [entity uniqueIdAttributeName];
+		NSMutableArray* ids = _ogIdsForEntity(entity, translatedDictionaries);
 		
-		if (idAttributeName) {
+		[objects addObjectsFromArray:[self fetchFromEntity:entity withRequest:^(NSFetchRequest *request) {
 			
-			NSMutableArray* ids = _ogIdsForEntity(entity, translatedDictionaries);
+			request.predicate = [NSPredicate predicateWithFormat:@"%K IN %@", idAttributeName, ids];
+		}]];
+		
+		for (id object in objects) {
 			
-			[objects addObjectsFromArray:[self fetchFromEntity:entity withRequest:^(NSFetchRequest *request) {
-				
-				request.predicate = [NSPredicate predicateWithFormat:@"%K IN %@", idAttributeName, ids];
-			}]];
+			id idAttributeValue				= [object valueForKey:idAttributeName];
+			NSMutableDictionary* dictionary	= _ogPopulationDictionaryMatchingId(entity, translatedDictionaries, idAttributeValue);
 			
-			for (id object in objects) {
-				
-				id idAttributeValue				= [object valueForKey:idAttributeName];
-				NSMutableDictionary* dictionary	= _ogPopulationDictionaryMatchingId(entity, translatedDictionaries, idAttributeValue);
-				
-				[translatedDictionaries removeObject:dictionary];
-				[object populateWithDictionary:dictionary options:OGCoreDataStackPopulationOptionSkipTranslation];
-			}
+			[translatedDictionaries removeObject:dictionary];
+			[object populateWithDictionary:dictionary options:(OGCoreDataStackPopulationOptions)options];
 		}
 	}
 	
@@ -219,7 +222,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 		
 		NSManagedObject* object = [self createObjectForEntity:entity];
 		
-		[object populateWithDictionary:dictionary options:OGCoreDataStackPopulationOptionSkipTranslation];
+		[object populateWithDictionary:dictionary options:(OGCoreDataStackPopulationOptions)options];
 		[objects addObject:object];
 	}
 	

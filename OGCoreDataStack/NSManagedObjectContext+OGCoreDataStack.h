@@ -108,10 +108,11 @@
  Inserts objects and populates them with the specified dictionaries.
  @param entity The class of the entity to insert.
  @param dictionaries An array of NSDictionaries for use with -populateWithDictionary:typeCheck:.
- @param avoidDuplicates If YES, attempts to re-populate already existing objects based on object id. Ignored if +uniqueIdAttributeName does not return a valid attribute.
- @return The newly or populated objects. The sorting of the objects does not reflect the order of the dictionaries parameter.
+ @param options Options for creating objects. You can also pass OGCoreDataStackPopulationOptions here.
+ @return The newly or populated objects.
+ @note The order of the returned values does not reflect the order of the dictionaries parameter.
  */
-- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries avoidDuplicates:(BOOL)avoidDuplicates;
+- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries options:(OGCoreDataStackCreationOptions)options;
 
 /**
  Fetches objects from the context.

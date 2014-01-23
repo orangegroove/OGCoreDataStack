@@ -44,7 +44,7 @@
 /**
  The attribute name that represents the unique id attribute for this entity.
  @return The unique id key. Defaults to nil (no id attribute).
- @note This is intended to be used for synchronizing data with relational databases (such as data from web services). To easily import such data use the NSManagedObjectContext method createObjectsForEntity:withPopulationDictionaries:avoidDuplicates:.
+ @note This is intended to be used for synchronizing data with relational databases (such as data from web services). To easily import such data use the NSManagedObjectContext method createObjectsForEntity:withPopulationDictionaries:options:.
  */
 + (NSString *)uniqueIdAttributeName;
 

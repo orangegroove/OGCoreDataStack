@@ -61,5 +61,18 @@ typedef NS_OPTIONS(uint64_t, OGCoreDataStackPopulationOptions)
 	/**
 	 Skips calling +translatedPopulationDictionary:.
 	 */
-	OGCoreDataStackPopulationOptionSkipTranslation = 1 << 3
+	OGCoreDataStackPopulationOptionSkipTranslation = 1 << 4
+};
+
+typedef NS_OPTIONS(uint64_t, OGCoreDataStackCreationOptions)
+{
+	/**
+	 Default behavior.
+	 */
+	OGCoreDataStackCreationOptionNone = 0,
+	
+	/**
+	 Even if the entity class has implemented +uniqueIdAttributeName, it is ignored.
+	 */
+	OGCoreDataStackCreationOptionIgnoreUniqueIdAttribute = 1 << 32
 };
