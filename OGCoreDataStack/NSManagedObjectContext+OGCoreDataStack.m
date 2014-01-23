@@ -183,7 +183,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	return [NSEntityDescription insertNewObjectForEntityForName:[entity entityName] inManagedObjectContext:self];
 }
 
-- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries options:(OGCoreDataStackCreationOptions)options
+- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries options:(uint64_t)options
 {
 	if (!dictionaries.count)
 		return @[];
@@ -214,7 +214,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 			NSMutableDictionary* dictionary	= _ogPopulationDictionaryMatchingId(entity, translatedDictionaries, idAttributeValue);
 			
 			[translatedDictionaries removeObject:dictionary];
-			[object populateWithDictionary:dictionary options:(OGCoreDataStackPopulationOptions)options];
+			[object populateWithDictionary:dictionary options:options];
 		}
 	}
 	
@@ -222,7 +222,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 		
 		NSManagedObject* object = [self createObjectForEntity:entity];
 		
-		[object populateWithDictionary:dictionary options:(OGCoreDataStackPopulationOptions)options];
+		[object populateWithDictionary:dictionary options:options];
 		[objects addObject:object];
 	}
 	

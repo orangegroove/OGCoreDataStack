@@ -72,7 +72,7 @@ typedef NS_OPTIONS(uint64_t, OGCoreDataStackCreationOptions)
 	OGCoreDataStackCreationOptionNone = 0,
 	
 	/**
-	 Even if the entity class has implemented +uniqueIdAttributeName, it is ignored.
+	 Even if the entity class has implemented +uniqueIdAttributeName, it should be ignored.
 	 */
 	OGCoreDataStackCreationOptionIgnoreUniqueIdAttribute = 1 << 32
 };

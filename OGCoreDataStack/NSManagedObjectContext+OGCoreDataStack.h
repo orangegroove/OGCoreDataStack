@@ -112,7 +112,7 @@
  @return The newly or populated objects.
  @note The order of the returned values does not reflect the order of the dictionaries parameter.
  */
-- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries options:(OGCoreDataStackCreationOptions)options;
+- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries options:(uint64_t)options;
 
 /**
  Fetches objects from the context.
