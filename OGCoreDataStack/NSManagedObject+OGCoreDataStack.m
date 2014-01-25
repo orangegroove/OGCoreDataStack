@@ -49,6 +49,18 @@
 
 - (void)populateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options
 {
+	if (options & OGCoreDataStackPopulationOptionCamelCaseKeys) {
+		
+		NSMutableDictionary* renamedDictionary = [NSMutableDictionary dictionary];
+		
+		[dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+			
+			renamedDictionary[_ogCamelCasedFromUnderscoredString(key)] = dictionary[key];
+		}];
+		
+		dictionary = renamedDictionary;
+	}
+	
 	if (options & OGCoreDataStackPopulationOptionSkipTranslation) {
 		
 		if ([dictionary isKindOfClass:NSMutableDictionary.class])

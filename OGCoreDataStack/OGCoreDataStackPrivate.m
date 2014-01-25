@@ -123,6 +123,29 @@ NSMutableDictionary* _ogPopulationDictionaryMatchingId(Class entity, NSArray* di
 	return nil;
 }
 
+NSString* _ogCamelCasedFromUnderscoredString(NSString* underScoredString)
+{
+	NSMutableString* string = [NSMutableString stringWithString:underScoredString];
+	NSRange range			= [string rangeOfString:@"_"];
+	
+	while (range.length > 0) {
+		
+		NSString* letter = nil;
+		
+		if (range.location && range.location < string.length-1) {
+			
+			letter			= [string substringWithRange:NSMakeRange(range.location+1, 1)];
+			range.length	= 2;
+		}
+		
+		[string replaceCharactersInRange:range withString:letter? letter.uppercaseString : @""];
+		
+		range = [string rangeOfString:@"_"];
+	}
+	
+	return [NSString stringWithString:string];
+}
+
 void _ogSortObjectsOfAfterId(Class entity, NSMutableArray* objects)
 {
 	NSString* attributeName				= [entity uniqueIdAttributeName];

@@ -61,7 +61,12 @@ typedef NS_OPTIONS(uint64_t, OGCoreDataStackPopulationOptions)
 	/**
 	 Skips calling +translatedPopulationDictionary:.
 	 */
-	OGCoreDataStackPopulationOptionSkipTranslation = 1 << 4
+	OGCoreDataStackPopulationOptionSkipTranslation = 1 << 4,
+	
+	/**
+	 Renames keys from the underscored style to the camelcased style before populating. This happens before +translatedPopulationDictionary: is called.
+	 */
+	OGCoreDataStackPopulationOptionCamelCaseKeys = 1 << 5,
 };
 
 typedef NS_OPTIONS(uint64_t, OGCoreDataStackCreationOptions)

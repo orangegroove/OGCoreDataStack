@@ -31,6 +31,7 @@ Class					_ogClassForAttributeType(NSAttributeType attributeType);
 NSMutableArray*			_ogTranslatedPopulationDictionaries(Class entity, NSArray* dictionaries);
 NSMutableArray*			_ogIdsForEntity(Class entity, NSArray* translatedDictionaries);
 NSMutableDictionary*	_ogPopulationDictionaryMatchingId(Class entity, NSArray* dictionaries, id uniqueId);
+NSString*				_ogCamelCasedFromUnderscoredString(NSString* underScoredString);
 void					_ogSortObjectsOfAfterId(Class entity, NSMutableArray* objects);
 void					_ogPopulateObject(id object, NSDictionary* dictionary, OGCoreDataStackPopulationOptions options);
 void					_ogPopulateObjectBatchKVO(id object, NSDictionary* dictionary, OGCoreDataStackPopulationOptions options);
