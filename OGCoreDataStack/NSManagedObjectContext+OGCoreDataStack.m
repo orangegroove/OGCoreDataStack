@@ -64,7 +64,7 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 		case NSPrivateQueueConcurrencyType:
 			return OGCoreDataStackContextConcurrencyBackgroundQueue;
 		default:
-			return NSUIntegerMax;
+			return UINT16_MAX;
 	}
 }
 

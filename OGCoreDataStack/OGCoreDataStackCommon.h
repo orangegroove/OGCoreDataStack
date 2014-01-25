@@ -28,7 +28,7 @@ typedef void (^OGCoreDataStackStoreSetupCallbackBlock)(BOOL success, NSError* er
 typedef void (^OGCoreDataStackFetchRequestBlock)(NSFetchRequest* request);
 typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);
 
-typedef NS_ENUM(NSUInteger, OGCoreDataStackContextConcurrency)
+typedef NS_ENUM(uint16_t, OGCoreDataStackContextConcurrency)
 {
 	/**
 	 Runs on the main thread. Use for contexts that interact with the UI.

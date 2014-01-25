@@ -4,7 +4,7 @@ A multi-threaded Core Data stack. Design goals are ease of use, compile-time che
 
 This library is intended to cover most use-cases, favor convention of configuration, and simply make your life easier. It's probably not for you if you have some special requirements, e.g., a complex setup with multiple managed object models. For something that covers all your bases, you might want to check out [MagicalRecord](https://github.com/magicalpanda/MagicalRecord).
 
-# Installation and Setup
+# Installation and setup
 
 1. Add as a [pod](https://github.com/CocoaPods/CocoaPods).
 2. Import OGCoreDataStack.h in prefix.pch.
@@ -53,7 +53,7 @@ in your NSManagedObject subclass and manipulate the keys and values as needed.
 
 ## Vending objects
 
-OGCoreDataStackVendor is a decorator for NSFetchedResultsController and there are subclasses to use it as a data source for tableviews and collectionviews. To use a vendor as dataSource for a UITableView, create an instance of the vendor:
+OGCoreDataStackVendor is a decorator for NSFetchedResultsController and there are subclasses to use it as a data source for tableviews and collectionviews. To use a vendor as dataSource for a UITableView, create an instance of the tableview-specific subclass of the vendor:
 
 	self.myVendor = [[OGCoreDataStackTableViewVendor alloc] init];
 
