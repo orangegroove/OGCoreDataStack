@@ -27,11 +27,46 @@
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
-static const void* kObserverKey = "OGCoreDataStackObserverKey";
+static const void* kObserverKey		= "OGCoreDataStackObserverKey";
+static const void* kIdentifierKey	= "OGCoreDataStackIdentifierKey";
+NSMutableDictionary* kIdentifiersDictionary;
 
 @implementation NSManagedObjectContext (OGCoreDataStack)
 
 #pragma mark - Lifecycle
+
+- (void)setIdentifer:(id<NSCopying>)identifer
+{
+	if (identifer) {
+		
+		static dispatch_once_t token = 0;
+		
+		dispatch_once(&token, ^{ kIdentifiersDictionary = [NSMutableDictionary dictionary]; });
+		objc_setAssociatedObject(self, kIdentifierKey, identifer, OBJC_ASSOCIATION_COPY_NONATOMIC);
+		
+		kIdentifiersDictionary[identifer] = self;
+	}
+	else {
+		
+		identifer = self.identifer;
+		
+		if (identifer) {
+			
+			objc_setAssociatedObject(self, kIdentifierKey, nil, OBJC_ASSOCIATION_COPY_NONATOMIC);
+			[kIdentifiersDictionary removeObjectForKey:identifer];
+		}
+	}
+}
+
+- (id<NSCopying>)identifer
+{
+	return objc_getAssociatedObject(self, kIdentifierKey);
+}
+
++ (instancetype)contextForIdentifier:(id<NSCopying>)identifier
+{
+	return kIdentifiersDictionary[identifier];
+}
 
 + (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
 {
@@ -51,7 +86,6 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	
 	NSManagedObjectContext* context		= [[NSManagedObjectContext alloc] initWithConcurrencyType:concurrencyType];
 	context.persistentStoreCoordinator	= NSPersistentStoreCoordinator.sharedPersistentStoreCoordinator;
-	context.retainsRegisteredObjects	= YES;
 	
 	return context;
 }
@@ -76,6 +110,11 @@ static const void* kObserverKey = "OGCoreDataStackObserverKey";
 	NSAssert(success, @"Save error: %@", error.localizedDescription);
 	
 	return success;
+}
+
++ (void)removeAllRetainedContexts
+{
+	[kIdentifiersDictionary removeAllObjects];
 }
 
 #pragma mark - Observing

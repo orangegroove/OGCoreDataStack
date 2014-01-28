@@ -35,6 +35,16 @@
 /** @name Lifecycle */
 
 /**
+ Setting an identifer retains the context. Setting it to nil unretains the context (and leaves the ownership to you).
+ */
+@property (copy, nonatomic) id<NSCopying> identifer;
+
+/**
+ Returns the context matching the identifier.
+ */
++ (instancetype)contextForIdentifier:(id<NSCopying>)identifier;
+
+/**
  Returns a new context.
  @param concurrency Specifies the serial queue to which the context belongs. See OGCoreDataStackCommon.h for details.
  @return The new context.
@@ -52,6 +62,11 @@
  @return Operation success.
  */
 - (BOOL)save;
+
+/**
+ Removes all contexts retained with identifiers.
+ */
++ (void)removeAllRetainedContexts;
 
 #pragma mark - Observing
 /** @name Observing */

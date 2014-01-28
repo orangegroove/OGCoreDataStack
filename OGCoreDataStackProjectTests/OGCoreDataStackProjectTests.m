@@ -109,6 +109,28 @@
 	[otherContext stopObservingSavesInContext:context];
 }
 
+- (void)testContextIdentifier
+{
+	NSString* identifer				= @"identifier";
+	NSManagedObjectContext* context = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	context.identifer				= identifer;
+	NSString* pointer				= [NSString stringWithFormat:@"%p", context];
+	
+	XCTAssertTrue([identifer isEqualToString:(NSString *)context.identifer], @"");
+	
+	context					= nil;
+	context					= [NSManagedObjectContext contextForIdentifier:identifer];
+	NSString* newPointer	= [NSString stringWithFormat:@"%p", context];
+	context.identifer		= nil;
+	
+	XCTAssertTrue([newPointer isEqualToString:pointer], @"");
+	
+	context = nil;
+	context = [NSManagedObjectContext contextForIdentifier:identifer];
+	
+	XCTAssertFalse(!!context, @"");
+}
+
 - (void)testContextRelationship
 {
 	NSManagedObjectContext* context		 = [NSManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];

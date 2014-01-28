@@ -21,6 +21,12 @@ before first use. No other setup is required. It should automatically detect you
 
 You can use contexts in multiple ways. Instead of forcing you to use one or two contexts (for instance, one context for keeping the UI updated and one context for importing data), it's your responsibility to create contexts as needed. You can have a few long-lived contexts, or you can discard them as needed, or mix and match with one context that retains its objects and other contexts for manipulating data as needed. It's up to you.
 
+There is an option to easily keep track of long-lived contexts, by setting a property on the context:
+
+	context.identifier = @"main";
+
+If the identifier is set, a strong reference to the context is created. Set the identifier to nil to remove the reference.
+
 Important to note is that all contexts are directly tied to the persistent store coordinator. If you need to keep other contexts updated, use
 
 	- (void)observeSavesInContext:(NSManagedObjectContext *)context;
