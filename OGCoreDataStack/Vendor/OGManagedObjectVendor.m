@@ -23,8 +23,8 @@
 //
 
 #import "OGManagedObjectVendor.h"
-#import "OGCoreDataStackPrivate.h"
-#import "OGCoreDataStack.h"
+#import "../Core/OGCoreDataStackCore.h"
+#import "../Core/OGCoreDataStackPrivate.h"
 
 @interface OGManagedObjectVendor ()
 

@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStack.h
+//  OGCoreDataStackCore.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //

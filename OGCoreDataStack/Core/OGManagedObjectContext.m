@@ -22,10 +22,9 @@
 //  IN THE SOFTWARE.
 //
 
-#import <objc/runtime.h>
 #import "OGManagedObjectContext.h"
+#import "OGCoreDataStackCore.h"
 #import "OGCoreDataStackPrivate.h"
-#import "OGCoreDataStack.h"
 
 @interface OGManagedObjectContext ()
 

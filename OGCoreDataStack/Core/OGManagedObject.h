@@ -24,8 +24,6 @@
 
 #import "OGCoreDataStackCommon.h"
 
-@class OGManagedObjectPopulationTranslator;
-
 @interface OGManagedObject : NSManagedObject
 
 #pragma mark - Lifecycle

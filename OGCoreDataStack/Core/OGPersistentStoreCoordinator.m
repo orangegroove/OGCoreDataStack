@@ -23,8 +23,8 @@
 //
 
 #import "OGPersistentStoreCoordinator.h"
+#import "OGCoreDataStackCore.h"
 #import "OGCoreDataStackPrivate.h"
-#import "OGCoreDataStack.h"
 
 static dispatch_once_t					_ogCoreDataStackToken						= 0;
 static OGPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
