@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStackCollectionViewVendor.m
+//  OGCollectionViewManagedObjectVendor.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,11 +22,11 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackCollectionViewVendor.h"
+#import "OGCollectionViewManagedObjectVendor.h"
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
-@implementation OGCoreDataStackCollectionViewVendor
+@implementation OGCollectionViewManagedObjectVendor
 
 #pragma mark - Lifecycle
 
@@ -45,7 +45,7 @@
 - (void)setCollectionView:(UICollectionView *)collectionView
 {
 	_collectionView										= collectionView;
-	__weak OGCoreDataStackCollectionViewVendor* wSelf	= self;
+	__weak OGCollectionViewManagedObjectVendor* wSelf	= self;
 	
 	if (collectionView)
 		self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {

@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStackVendor.h
+//  OGManagedObjectVendor.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -29,7 +29,9 @@
  NSFetchedResultsController decorator.
  */
 
-@interface OGCoreDataStackVendor : NSObject
+typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);
+
+@interface OGManagedObjectVendor : NSObject
 <NSFetchedResultsControllerDelegate>
 
 /**
@@ -139,18 +141,6 @@
  @return The object or nil.
  */
 - (id)lastObjectInSection:(NSInteger)section;
-
-/**
- Retrieves the first object in the vendor.
- @return The object or nil.
- */
-- (id)firstObject;
-
-/**
- Retrieves the last object in the vendor.
- @return The object or nil.
- */
-- (id)lastObject;
 
 /**
  Retrieves all objects in a section.

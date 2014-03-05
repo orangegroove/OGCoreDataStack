@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStackTableViewVendor.h
+//  NSFetchRequest+OGCoreDataStack.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,37 +22,25 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackVendor.h"
+#import "NSFetchRequest+OGCoreDataStack.h"
+#import "OGCoreDataStackPrivate.h"
+#import "OGCoreDataStack.h"
 
-/**
- An OGCoreDataStackVendor specifically for UITableViews.
- */
+@implementation NSFetchRequest (OGCoreDataStack)
 
-@interface OGCoreDataStackTableViewVendor : OGCoreDataStackVendor
+#pragma mark - Configuration
 
-/**
- The table view to update with the vendor.
- */
-@property (strong, nonatomic) UITableView* tableView;
+- (void)addSortDescriptor:(NSSortDescriptor *)sortDescriptor
+{
+	if (self.sortDescriptors.count)
+		self.sortDescriptors = [self.sortDescriptors arrayByAddingObject:sortDescriptor];
+	else
+		self.sortDescriptors = @[sortDescriptor];
+}
 
-/**
- The animation used for row insertions. Defaults to UITableViewRowAnimationAutomatic.
- */
-@property (assign, nonatomic) UITableViewRowAnimation insertionAnimation;
-
-/**
- The animation used for row deletions. Defaults to UITableViewRowAnimationAutomatic.
- */
-@property (assign, nonatomic) UITableViewRowAnimation deletionAnimation;
-
-/**
- The animation used for row updates. Defaults to UITableViewRowAnimationAutomatic.
- */
-@property (assign, nonatomic) UITableViewRowAnimation updateAnimation;
-
-/**
- The number of updated rows in one batch before calling reloadData instead of reloading each row individually. Defaults to 50.
- */
-@property (assign, nonatomic) NSUInteger reloadThreshold;
+- (void)addSortKey:(NSString *)key ascending:(BOOL)ascending
+{
+	[self addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:key ascending:ascending]];
+}
 
 @end

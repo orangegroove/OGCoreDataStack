@@ -23,10 +23,10 @@
 //
 
 @import Foundation;
+@import CoreData;
 
 typedef void (^OGCoreDataStackStoreSetupCallbackBlock)(BOOL success, NSError* error);
 typedef void (^OGCoreDataStackFetchRequestBlock)(NSFetchRequest* request);
-typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);
 
 typedef NS_ENUM(uint16_t, OGCoreDataStackContextConcurrency)
 {
@@ -39,45 +39,4 @@ typedef NS_ENUM(uint16_t, OGCoreDataStackContextConcurrency)
 	 Runs on a serial queue. Use for long running operations, such as large data imports.
 	 */
 	OGCoreDataStackContextConcurrencyBackgroundQueue
-};
-
-typedef NS_OPTIONS(uint64_t, OGCoreDataStackPopulationOptions)
-{
-	/**
-	 Default behaviour.
-	 */
-	OGCoreDataStackPopulationOptionNone = 0,
-	
-	/**
-	 Only attempts to populate a value if the value class matches the attribute type.
-	 */
-	OGCoreDataStackPopulationOptionTypeCheck = 1 << 1,
-	
-	/**
-	 Sends KVO notifications in batches (per object) instead of per value.
-	 */
-	OGCoreDataStackPopulationOptionBatchNotifications = 1 << 2,
-	
-	/**
-	 Skips calling +translatedPopulationDictionary:.
-	 */
-	OGCoreDataStackPopulationOptionSkipTranslation = 1 << 4,
-	
-	/**
-	 Renames keys from the underscored style to the camelcased style before populating. This happens before +translatedPopulationDictionary: is called.
-	 */
-	OGCoreDataStackPopulationOptionCamelCaseKeys = 1 << 5,
-};
-
-typedef NS_OPTIONS(uint64_t, OGCoreDataStackCreationOptions)
-{
-	/**
-	 Default behavior.
-	 */
-	OGCoreDataStackCreationOptionNone = 0,
-	
-	/**
-	 Even if the entity class has implemented +uniqueIdAttributeName, it should be ignored.
-	 */
-	OGCoreDataStackCreationOptionIgnoreUniqueIdAttribute = 1 << 32
 };

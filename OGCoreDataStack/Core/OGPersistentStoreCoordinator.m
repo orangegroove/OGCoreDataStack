@@ -1,5 +1,5 @@
 //
-//  NSPersistentStoreCoordinator+OGCoreDataStack.m
+//  OGPersistentStoreCoordinator.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,15 +22,15 @@
 //  IN THE SOFTWARE.
 //
 
-#import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
+#import "OGPersistentStoreCoordinator.h"
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
 static dispatch_once_t					_ogCoreDataStackToken						= 0;
-static NSPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
+static OGPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
 static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
-@implementation NSPersistentStoreCoordinator (OGModelStack)
+@implementation OGPersistentStoreCoordinator
 
 #pragma mark - Lifecycle
 
@@ -60,7 +60,7 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 		
 		NSError* error								= nil;
 		NSManagedObjectModel* model					= [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
-		_ogCoreDataStackPersistentStoreCoordinator	= [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+		_ogCoreDataStackPersistentStoreCoordinator	= [[self alloc] initWithManagedObjectModel:model];
 		success										= !![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogPersistentStoreURL(storeType) options:coordinatorOptions error:&error];
 		
 		NSAssert(success, @"Add Persistent Store Error: %@\nMissing migration? %@", error.localizedDescription, ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");

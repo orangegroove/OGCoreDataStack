@@ -1,6 +1,6 @@
 # What is this?
 
-A multi-threaded Core Data stack. Design goals are ease of use, compile-time checks, and wrappers for some common use cases.
+A lightweight, multi-threaded Core Data stack. Design goals are ease of use, compile-time checks, and wrappers for some common use cases.
 
 This library is intended to cover most use-cases, favor convention of configuration, and simply make your life easier. It's probably not for you if you have some special requirements, e.g., a complex setup with multiple managed object models. For something that covers all your bases, you might want to check out [MagicalRecord](https://github.com/magicalpanda/MagicalRecord).
 
@@ -21,12 +21,6 @@ before first use. No other setup is required. It should automatically detect you
 
 You can use contexts in multiple ways. Instead of forcing you to use one or two contexts (for instance, one context for keeping the UI updated and one context for importing data), it's your responsibility to create contexts as needed. You can have a few long-lived contexts, or you can discard them as needed, or mix and match with one context that retains its objects and other contexts for manipulating data as needed. It's up to you.
 
-There is an option to easily create longer-lived contexts, by setting a property on the context:
-
-	context.identifier = @"main";
-
-If the identifier is set, a strong reference to the context is created. Set the identifier to nil to remove the reference.
-
 Important to note is that all contexts are directly tied to the persistent store coordinator. If you need to keep other contexts updated, use
 
 	- (void)observeSavesInContext:(NSManagedObjectContext *)context;
@@ -35,33 +29,55 @@ and
 
 	- (void)stopObservingSavesInContext:(NSManagedObjectContext *)context;
 
-Unlike some other Core Data libraries, you do not insert objects into a context by calling a class method on the entity class, but with an instance method on the context object. Like so:
+## CRUD
 
-	- (id)createObjectForEntity:(Class)entity;
+Managing objects is done via class methods on the managed object subclasses.
 
-You fetch, count, and delete objects for an entity in a similar manner, on the context:
+### Create
 
-	- (NSArray *)fetchFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
-	- (NSUInteger)countEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
-	- (void)deleteFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
+To create an object:
 
-## Importing data
+	MyManagedObjectClass* object = [MyManagedObjectClass createObjectInContext:context];
 
-NSManagedObjects can be setup to have an id property, much like tables in relational databases. This is used for keeping data in sync with such a source (most likely you'll be importing JSON from a web service). It's done with the following method:
+### Fetch
 
-	- (void)populateWithDictionary:(NSDictionary *)dictionary options:(OGCoreDataStackPopulationOptions)options;
+To fetch objects:
 
-If you need to modify the dictionary before importing, override
+	NSArray* objects = [MyManagedObjectClass fetchWithRequest:^(NSFetchRequest *request) {
+	
+		// set filter predicate and sort descriptors here
+	
+	} context:context];
 
-	- (NSMutableDictionary *)translatedPopulationDictionary:(NSMutableDictionary *)dictionary;
+### Count
 
-in your NSManagedObject subclass and manipulate the keys and values as needed.
+To count objects:
+
+	NSUInteger count = [MyManagedObjectClass countWithRequest:^(NSFetchRequest *request) {
+	
+		// set filter predicate here
+	
+	} context:context];
+
+### Delete
+
+To delete objects, you can either do it directly:
+
+	[myObject delete];
+
+or via a fetch:
+
+	[MyManagedObjectClass deleteWithRequest:^(NSFetchRequest *request) {
+	
+		// set filter predicate here
+	
+	} context:context];
 
 ## Vending objects
 
 OGCoreDataStackVendor is a decorator for NSFetchedResultsController and there are subclasses to use it as a data source for tableviews and collectionviews. To use a vendor as dataSource for a UITableView, create an instance of the tableview-specific subclass of the vendor:
 
-	self.myVendor = [[OGCoreDataStackTableViewVendor alloc] init];
+	self.myVendor = [[OGTableViewManagedObjectVendor alloc] init];
 
 	[self.myVendor setEntity:EntityClass.class request:^(NSFetchRequest* request) {
 		

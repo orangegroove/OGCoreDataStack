@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStackTableViewVendor.m
+//  OGTableViewManagedObjectVendor.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,11 +22,11 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackVendor.h"
+#import "OGTableViewManagedObjectVendor.h"
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
-@implementation OGCoreDataStackTableViewVendor
+@implementation OGTableViewManagedObjectVendor
 
 #pragma mark - Lifecycle
 
@@ -48,7 +48,7 @@
 - (void)setTableView:(UITableView *)tableView
 {
 	_tableView										= tableView;
-	__weak OGCoreDataStackTableViewVendor* wSelf	= self;
+	__weak OGTableViewManagedObjectVendor* wSelf	= self;
 	
 	if (tableView)
 		self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {

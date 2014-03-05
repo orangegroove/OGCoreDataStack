@@ -1,5 +1,5 @@
 //
-//  NSManagedObjectContext+OGCoreDataStack.h
+//  OGManagedObjectContext.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,34 +22,19 @@
 //  IN THE SOFTWARE.
 //
 
-@import CoreData;
 #import "OGCoreDataStackCommon.h"
 
-/**
- Extensions to NSManagedObjectContext.
- */
-
-@interface NSManagedObjectContext (OGCoreDataStack)
+@interface OGManagedObjectContext : NSManagedObjectContext
 
 #pragma mark - Lifecycle
 /** @name Lifecycle */
-
-/**
- Setting an identifer retains the context. Setting it to nil unretains the context (and leaves the ownership to you).
- */
-@property (copy, nonatomic) id<NSCopying> identifer;
-
-/**
- Returns the context matching the identifier.
- */
-+ (instancetype)contextForIdentifier:(id<NSCopying>)identifier;
 
 /**
  Returns a new context.
  @param concurrency Specifies the serial queue to which the context belongs. See OGCoreDataStackCommon.h for details.
  @return The new context.
  @note The context will be tied directly to the persistent store and does not use the child/parent pattern.
-*/
+ */
 + (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency;
 
 /**
@@ -62,11 +47,6 @@
  @return Operation success.
  */
 - (BOOL)save;
-
-/**
- Removes all contexts retained with identifiers.
- */
-+ (void)removeAllRetainedContexts;
 
 #pragma mark - Observing
 /** @name Observing */
@@ -108,63 +88,5 @@
  @note May fail if the objects do not have permanent NSManagedObjectIDs.
  */
 - (void)performBlockAndWait:(void (^)(NSArray* objects))block passObjects:(NSArray *)objects;
-
-#pragma mark - Entities
-/** @name Entities */
-
-/**
- Inserts a new object into this context.
- @param entity The class of the entity to insert.
- @return The newly created object.
- */
-- (id)createObjectForEntity:(Class)entity;
-
-/**
- Inserts objects and populates them with the specified dictionaries.
- @param entity The class of the entity to insert.
- @param dictionaries An array of NSDictionaries for use with -populateWithDictionary:typeCheck:.
- @param options Options for creating objects. You can also pass OGCoreDataStackPopulationOptions here.
- @return The newly or populated objects.
- @note The order of the returned values does not reflect the order of the dictionaries parameter.
- */
-- (NSArray *)createObjectsForEntity:(Class)entity withPopulationDictionaries:(NSArray *)dictionaries options:(uint64_t)options;
-
-/**
- Fetches objects from the context.
- @param entity The class of the entity to fetch.
- @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate, or a sort descriptor).
- @return The fetched objects.
- */
-- (NSArray *)fetchFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
-
-/**
- Counts objects in the context.
- @param entity The class of the entity to count.
- @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate).
- @return The number of objects.
- @note Any sort descriptors added to the NSFetchRequest are automatically removed before execution.
- */
-- (NSUInteger)countEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
-
-/**
- Deletes objects from the context.
- @param entity The class of the entity to delete.
- @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate).
- @warning If you do not add a predicate to the NSFetchRequest, all objects in the entity will be deleted.
- */
-- (void)deleteFromEntity:(Class)entity withRequest:(OGCoreDataStackFetchRequestBlock)block;
-
-/**
- Delete objects from the context.
- @param objects An array with objects to delete.
- */
-- (void)deleteObjects:(NSArray *)objects;
-
-/**
- Obtains permanent NSManagedObjectIDs for objects. Shorthand for obtainPermanentIDsForObjects:error:, but asserts that the operation was successful.
- @param objects The NSManagedObjects to convert.
- @return Operation success.
- */
-- (BOOL)obtainPermanentIDsForObjects:(NSArray *)objects;
 
 @end

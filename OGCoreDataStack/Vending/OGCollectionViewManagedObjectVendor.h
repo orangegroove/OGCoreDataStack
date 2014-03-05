@@ -1,5 +1,5 @@
 //
-//  NSPersistentStoreCoordinator+OGCoreDataStack.h
+//  OGCollectionViewManagedObjectVendor.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,38 +22,22 @@
 //  IN THE SOFTWARE.
 //
 
-@import CoreData;
-#import "OGCoreDataStackCommon.h"
+#import "OGManagedObjectVendor.h"
 
 /**
- Extensions to NSPersistentStoreCoordinator.
+ An OGCoreDataStackVendor specifically for UICollectionViews.
  */
 
-@interface NSPersistentStoreCoordinator (OGCoreDataStack)
-
-#pragma mark - Lifecycle
-/** @name Lifecycle */
+@interface OGCollectionViewManagedObjectVendor : OGManagedObjectVendor
 
 /**
- The singleton NSPersistentStoreCoordinator for use with the stack.
- @return The PSC.
+ The collection view to update with the vendor.
  */
-+ (instancetype)sharedPersistentStoreCoordinator;
+@property (strong, nonatomic) UICollectionView*	collectionView;
 
 /**
- Customize the persistent store coordinator.
- @param storeType The type of store to create. Defaults to NSSQLiteStoreType.
- @param options The store options. Defaults to NSMigratePersistentStoresAutomaticallyOption and NSInferMappingModelAutomaticallyOption being YES for automatic light migrations.
- @return Whether the operation is successful.
- @note Call this before accessing any other part of the stack. E.g., in application:didFinishLaunchingWithOptions:.
+ The number of updated items in one batch before calling reloadData instead of reloading each item individually. Defaults to 50.
  */
-+ (BOOL)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
-
-/**
- Delete the persistent store.
- @return Whether the operation was successful.
- @note Remove all references to NSManagedObjects and NSManagedObjectContexts before calling this method.
- */
-+ (BOOL)reset;
+@property (assign, nonatomic) NSUInteger reloadThreshold;
 
 @end

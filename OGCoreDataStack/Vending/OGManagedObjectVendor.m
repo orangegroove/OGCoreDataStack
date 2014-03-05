@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStackVendor.m
+//  OGManagedObjectVendor.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,12 +22,16 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackVendor.h"
+#import "OGManagedObjectVendor.h"
 #import "OGCoreDataStackPrivate.h"
 #import "OGCoreDataStack.h"
 
-@interface OGCoreDataStackVendor ()
+@interface OGManagedObjectVendor ()
 
+@property (strong, nonatomic) NSFetchRequest*				fetchRequest;
+@property (strong, nonatomic) NSManagedObjectContext*		managedObjectContext;
+@property (copy, nonatomic)   NSString*						sectionNameKeyPath;
+@property (strong, nonatomic) NSString*						cacheName;
 @property (strong, nonatomic) NSFetchedResultsController*	fetchedResultsController;
 @property (strong, nonatomic) NSMutableIndexSet*			insertedSections;
 @property (strong, nonatomic) NSMutableIndexSet*			deletedSections;
@@ -39,33 +43,34 @@
 - (void)callObjectsUpdatedBlock;
 
 @end
-@implementation OGCoreDataStackVendor
+@implementation OGManagedObjectVendor
 
 #pragma mark - Public
 
 - (void)setEntity:(Class)entity request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName
 {
-	NSAssert(entity && context, @"Must supply entity (%@) and context (%@)", NSStringFromClass(entity), context);
+	NSParameterAssert(entity);
+	NSParameterAssert(context);
 	
 	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:[entity entityName]];
 	
 	if (block)
 		block(request);
 	
-	_fetchRequest			= request;
-	_managedObjectContext	= context;
-	_sectionNameKeyPath		= [sectionNameKeyPath copy];
-	_cacheName				= cacheName;
+	self.fetchRequest			= request;
+	self.managedObjectContext	= context;
+	self.sectionNameKeyPath		= sectionNameKeyPath;
+	self.cacheName				= cacheName;
 }
 
 - (NSInteger)numberOfSections
 {
-	return (NSInteger)_fetchedResultsController.sections.count;
+	return (NSInteger)self.fetchedResultsController.sections.count;
 }
 
 - (NSInteger)numberOfObjectsInSection:(NSInteger)section
 {
-	NSArray* sections = _fetchedResultsController.sections;
+	NSArray* sections = self.fetchedResultsController.sections;
 	
 	if (section > ((NSInteger)sections.count)-1)
 		return 0;
@@ -79,7 +84,7 @@
 {
 	NSInteger count = 0;
 	
-	for (id<NSFetchedResultsSectionInfo> sectionInfo in _fetchedResultsController.sections)
+	for (id<NSFetchedResultsSectionInfo> sectionInfo in self.fetchedResultsController.sections)
 		count += (NSInteger)sectionInfo.numberOfObjects;
 	
 	return count;
@@ -90,12 +95,12 @@
 	if (![self indexPathIsValid:indexPath])
 		return nil;
 	
-	return [_fetchedResultsController objectAtIndexPath:indexPath];
+	return [self.fetchedResultsController objectAtIndexPath:indexPath];
 }
 
 - (NSIndexPath *)indexPathForObject:(id)object
 {
-	return [_fetchedResultsController indexPathForObject:object];
+	return [self.fetchedResultsController indexPathForObject:object];
 }
 
 - (id)objectForKeyedSubscript:(id)key
@@ -103,7 +108,7 @@
 	if (![key isKindOfClass:NSIndexPath.class] || ![self indexPathIsValid:key])
 		return nil;
 	
-	return [_fetchedResultsController objectAtIndexPath:key];
+	return [self.fetchedResultsController objectAtIndexPath:key];
 }
 
 - (id)firstObjectInSection:(NSInteger)section
@@ -121,22 +126,6 @@
 	return [self objectAtIndexPath:indexPath];
 }
 
-- (id)firstObject
-{
-	NSIndexPath* indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
-	
-	return [self objectAtIndexPath:indexPath];
-}
-
-- (id)lastObject
-{
-	NSInteger section		= self.numberOfSections-1;
-	NSInteger item			= [self numberOfObjectsInSection:section]-1;
-	NSIndexPath* indexPath	= [NSIndexPath indexPathForItem:item inSection:section];
-	
-	return [self objectAtIndexPath:indexPath];
-}
-
 - (NSArray *)objectsInSection:(NSInteger)section
 {
 	return [self section:section].objects;
@@ -144,12 +133,12 @@
 
 - (NSArray *)allObjects
 {
-	return _fetchedResultsController.fetchedObjects;
+	return self.fetchedResultsController.fetchedObjects;
 }
 
 - (id<NSFetchedResultsSectionInfo>)section:(NSInteger)section
 {
-	NSArray* sections = _fetchedResultsController.sections;
+	NSArray* sections = self.fetchedResultsController.sections;
 	
 	if (section > ((NSInteger)sections.count)-1)
 		return nil;
@@ -164,7 +153,7 @@
 	if (!self.isPaused)
 		return;
 	
-	if (_objectsUpdated)
+	if (self.objectsUpdated)
 		[self callObjectsUpdatedBlock];
 }
 
@@ -225,10 +214,10 @@
 
 - (BOOL)indexPathIsValid:(NSIndexPath *)indexPath
 {
-	if (indexPath.section >= _fetchedResultsController.sections.count)
+	if (indexPath.section >= self.fetchedResultsController.sections.count)
 		return NO;
 	
-	id<NSFetchedResultsSectionInfo> info = _fetchedResultsController.sections[(NSUInteger)indexPath.section];
+	id<NSFetchedResultsSectionInfo> info = self.fetchedResultsController.sections[(NSUInteger)indexPath.section];
 	
 	if (indexPath.item >= info.numberOfObjects)
 		return NO;
@@ -238,27 +227,28 @@
 
 - (void)callObjectsUpdatedBlock
 {
-	_objectsUpdated(self.insertedSections, self.deletedSections, self.insertedObjects, self.deletedObjects, self.updatedObjects);
+	self.objectsUpdated(self.insertedSections, self.deletedSections, self.insertedObjects, self.deletedObjects, self.updatedObjects);
 	
-	_deletedSections	= nil;
-	_insertedSections	= nil;
-	_deletedObjects		= nil;
-	_insertedObjects	= nil;
-	_updatedObjects		= nil;
+	self.deletedSections	= nil;
+	self.insertedSections	= nil;
+	self.deletedObjects		= nil;
+	self.insertedObjects	= nil;
+	self.updatedObjects		= nil;
 }
 
 #pragma mark - Properties
 
 - (void)setVending:(BOOL)vending
 {
+	if (!self.fetchRequest || !self.managedObjectContext)
+		return;
+	
 	if (vending && !_vending) {
 		
-		NSAssert(_fetchRequest && _managedObjectContext, @"Cannot vend without fetchRequest (%@) and managedObjectContext (%@)", _fetchRequest, _managedObjectContext);
-		
-		_fetchedResultsController			= [[NSFetchedResultsController alloc] initWithFetchRequest:_fetchRequest managedObjectContext:_managedObjectContext sectionNameKeyPath:_sectionNameKeyPath cacheName:_cacheName];
-		_fetchedResultsController.delegate	= self;
-		NSError* error						= nil;
-		_vending							= [_fetchedResultsController performFetch:&error];
+		self.fetchedResultsController			= [[NSFetchedResultsController alloc] initWithFetchRequest:self.fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:self.sectionNameKeyPath cacheName:self.cacheName];
+		self.fetchedResultsController.delegate	= self;
+		NSError* error							= nil;
+		_vending								= [self.fetchedResultsController performFetch:&error];
 		
 		NSAssert(vending, @"Enable vending error: %@", error);
 		
@@ -267,9 +257,9 @@
 	}
 	else if (!vending) {
 		
-		_fetchedResultsController.delegate	= nil;
-		_fetchedResultsController			= nil;
-		_vending							= NO;
+		self.fetchedResultsController.delegate	= nil;
+		self.fetchedResultsController			= nil;
+		_vending								= NO;
 	}
 }
 

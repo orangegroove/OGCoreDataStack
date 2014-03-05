@@ -1,5 +1,5 @@
 //
-//  NSFetchRequest+OGCoreDataStack.h
+//  OGPersistentStoreCoordinator.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,37 +22,33 @@
 //  IN THE SOFTWARE.
 //
 
-@import CoreData;
 #import "OGCoreDataStackCommon.h"
 
-/**
- Extensions to NSFetchRequest.
- */
+@interface OGPersistentStoreCoordinator : NSPersistentStoreCoordinator
 
-@interface NSFetchRequest (OGCoreDataStack)
-
-#pragma mark - Configuration
-/** @name Configuration */
+#pragma mark - Lifecycle
+/** @name Lifecycle */
 
 /**
- A shorthand for setPredicate:[NSString stringWithFormat:format, ...]
- @param format The format string
+ The singleton NSPersistentStoreCoordinator for use with the stack.
+ @return The PSC.
  */
-- (void)setPredicateWithFormat:(NSString *)format, ...;
++ (instancetype)sharedPersistentStoreCoordinator;
 
 /**
- A shorthand for adding NSSortDescriptors. The first added sort descriptor is the primary sort.
- @param sortDescriptor The NSSortDescriptor to add.
- @note Can be combined with addSortKey:ascending: but not with setSortDescriptors:
+ Customize the persistent store coordinator.
+ @param storeType The type of store to create. Defaults to NSSQLiteStoreType.
+ @param options The store options. Defaults to NSMigratePersistentStoresAutomaticallyOption and NSInferMappingModelAutomaticallyOption being YES for automatic light migrations.
+ @return Whether the operation is successful.
+ @note Call this before accessing any other part of the stack. E.g., in application:didFinishLaunchingWithOptions:.
  */
-- (void)addSortDescriptor:(NSSortDescriptor *)sortDescriptor;
++ (BOOL)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
 
 /**
- A shorthand for adding NSSortDescriptors. The first added sort descriptor is the primary sort.
- @param key The keyPath to sort on.
- @param ascending Whether or not the sort is ascending or descending.
- @note Can be combined with addSortDescriptor: but not with setSortDescriptors:
+ Delete the persistent store.
+ @return Whether the operation was successful.
+ @note Remove all references to NSManagedObjects and NSManagedObjectContexts before calling this method.
  */
-- (void)addSortKey:(NSString *)key ascending:(BOOL)ascending;
++ (BOOL)reset;
 
 @end

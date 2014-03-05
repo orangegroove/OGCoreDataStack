@@ -22,15 +22,9 @@
 //  IN THE SOFTWARE.
 //
 
-@import CoreData;
-
 #import "OGCoreDataStackCommon.h"
+#import "OGManagedObject.h"
+#import "OGManagedObjectContext.h"
+#import "OGPersistentStoreCoordinator.h"
 #import "NSFetchRequest+OGCoreDataStack.h"
-#import "NSManagedObject+OGCoreDataStack.h"
-#import "NSManagedObjectContext+OGCoreDataStack.h"
-#import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
-
-#import "OGCoreDataStackVendor.h"
-#import "OGCoreDataStackTableViewVendor.h"
-#import "OGCoreDataStackCollectionViewVendor.h"
 

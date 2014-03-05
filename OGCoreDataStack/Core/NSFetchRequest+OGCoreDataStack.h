@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStackCollectionViewVendor.h
+//  NSFetchRequest+OGCoreDataStack.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,22 +22,30 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackVendor.h"
+#import "OGCoreDataStackCommon.h"
 
 /**
- An OGCoreDataStackVendor specifically for UICollectionViews.
+ Extensions to NSFetchRequest.
  */
 
-@interface OGCoreDataStackCollectionViewVendor : OGCoreDataStackVendor
+@interface NSFetchRequest (OGCoreDataStack)
 
-/**
- The collection view to update with the vendor.
- */
-@property (strong, nonatomic) UICollectionView*	collectionView;
+#pragma mark - Configuration
+/** @name Configuration */
 
 /**
- The number of updated items in one batch before calling reloadData instead of reloading each item individually. Defaults to 50.
+ A shorthand for adding NSSortDescriptors. The first added sort descriptor is the primary sort.
+ @param sortDescriptor The NSSortDescriptor to add.
+ @note Can be combined with addSortKey:ascending: but not with setSortDescriptors:
  */
-@property (assign, nonatomic) NSUInteger reloadThreshold;
+- (void)addSortDescriptor:(NSSortDescriptor *)sortDescriptor;
+
+/**
+ A shorthand for adding NSSortDescriptors. The first added sort descriptor is the primary sort.
+ @param key The keyPath to sort on.
+ @param ascending Whether or not the sort is ascending or descending.
+ @note Can be combined with addSortDescriptor: but not with setSortDescriptors:
+ */
+- (void)addSortKey:(NSString *)key ascending:(BOOL)ascending;
 
 @end
