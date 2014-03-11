@@ -9,7 +9,6 @@
 #import "Creditcard.h"
 #import "Wallet.h"
 
-
 @implementation Creditcard
 
 @dynamic limit;

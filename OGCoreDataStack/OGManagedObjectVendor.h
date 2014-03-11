@@ -22,7 +22,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import "../Core/OGCoreDataStackCommon.h"
+#import "OGCoreDataStackCommon.h"
 
 /**
  NSFetchedResultsController decorator.

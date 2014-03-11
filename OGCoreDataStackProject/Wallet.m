@@ -10,7 +10,6 @@
 #import "Creditcard.h"
 #import "Person.h"
 
-
 @implementation Wallet
 
 @dynamic cash;

@@ -6,12 +6,11 @@
 //  Copyright (c) 2013 Orange Groove. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import "OGManagedObject.h"
 
 @class Creditcard, Person;
 
-@interface Wallet : NSManagedObject
+@interface Wallet : OGManagedObject
 
 @property (nonatomic, retain) NSNumber * cash;
 @property (nonatomic, retain) NSSet *creditcards;

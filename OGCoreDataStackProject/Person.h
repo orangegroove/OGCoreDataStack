@@ -6,12 +6,11 @@
 //  Copyright (c) 2013 Orange Groove. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
+#import "OGManagedObject.h"
 
 @class Wallet;
 
-@interface Person : NSManagedObject
+@interface Person : OGManagedObject
 
 @property (nonatomic, retain) NSNumber * age;
 @property (nonatomic, retain) NSString * name;

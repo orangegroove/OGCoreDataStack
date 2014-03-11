@@ -23,8 +23,8 @@
 //
 
 #import "OGCollectionViewManagedObjectVendor.h"
-#import "../Core/OGCoreDataStackCore.h"
-#import "../Core/OGCoreDataStackPrivate.h"
+#import "OGCoreDataStackCore.h"
+#import "OGCoreDataStackPrivate.h"
 
 @implementation OGCollectionViewManagedObjectVendor
 

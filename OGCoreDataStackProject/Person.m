@@ -9,7 +9,6 @@
 #import "Person.h"
 #import "Wallet.h"
 
-
 @implementation Person
 
 @dynamic age;
