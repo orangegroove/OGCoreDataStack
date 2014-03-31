@@ -38,6 +38,8 @@ NSURL* _ogMomdURL(void)
 
 NSURL* _ogPersistentStoreURL(NSString* storeType)
 {
+	NSCParameterAssert(storeType);
+	
 	if ([storeType isEqualToString:NSInMemoryStoreType])
 		return nil;
 	

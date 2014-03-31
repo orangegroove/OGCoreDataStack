@@ -85,6 +85,8 @@
 
 - (void)observeSavesInContext:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	if ([self isObservingSavesInContext:context])
 		return;
 	
@@ -98,6 +100,8 @@
 
 - (void)stopObservingSavesInContext:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	NSString* key	= [self observerKeyForContext:context];
 	id observer		= key.length? self.observers[key] : nil;
 	
@@ -110,6 +114,8 @@
 
 - (BOOL)isObservingSavesInContext:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	NSString* key = [self observerKeyForContext:context];
 	
 	return key.length && self.observers[key];
@@ -119,6 +125,8 @@
 
 - (void)performBlock:(void (^)(NSArray *))block passObjects:(NSArray *)objects
 {
+	NSParameterAssert(block);
+	
 	NSMutableArray* objectIDs = [NSMutableArray arrayWithCapacity:objects.count];
 	
 	for (NSManagedObject* object in objects)
@@ -145,6 +153,8 @@
 
 - (void)performBlockAndWait:(void (^)(NSArray *))block passObjects:(NSArray *)objects
 {
+	NSParameterAssert(block);
+	
 	NSMutableArray* objectIDs = [NSMutableArray arrayWithCapacity:objects.count];
 	
 	for (NSManagedObject* object in objects)
@@ -173,6 +183,8 @@
 
 - (NSString *)observerKeyForContext:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	return [NSString stringWithFormat:@"%p", context];
 }
 

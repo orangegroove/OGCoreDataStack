@@ -35,11 +35,6 @@
 	return NSStringFromClass(self.class);
 }
 
-+ (NSString *)uniqueIdAttributeName
-{
-	return nil;
-}
-
 + (NSFetchRequest *)fetchRequest
 {
 	return [NSFetchRequest fetchRequestWithEntityName:self.entityName];
@@ -49,6 +44,8 @@
 
 + (id)createObjectInContext:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	return [NSEntityDescription insertNewObjectForEntityForName:self.entityName inManagedObjectContext:context];
 }
 
@@ -56,6 +53,8 @@
 
 + (NSArray *)fetchWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:self.entityName];
 	NSError* error			= nil;
 	
@@ -73,6 +72,8 @@
 
 + (NSUInteger)countWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	NSFetchRequest* request	= [NSFetchRequest fetchRequestWithEntityName:self.entityName];
 	NSError* error			= nil;
 	
@@ -91,6 +92,8 @@
 
 + (void)deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
 {
+	NSParameterAssert(context);
+	
 	NSArray* objects = [self fetchWithRequest:^(NSFetchRequest *request) {
 		
 		if (block)

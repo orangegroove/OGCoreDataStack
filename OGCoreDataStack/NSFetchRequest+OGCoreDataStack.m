@@ -32,6 +32,8 @@
 
 - (void)addSortDescriptor:(NSSortDescriptor *)sortDescriptor
 {
+	NSParameterAssert(sortDescriptor);
+	
 	if (self.sortDescriptors.count)
 		self.sortDescriptors = [self.sortDescriptors arrayByAddingObject:sortDescriptor];
 	else
@@ -40,6 +42,8 @@
 
 - (void)addSortKey:(NSString *)key ascending:(BOOL)ascending
 {
+	NSParameterAssert(key);
+	
 	[self addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:key ascending:ascending]];
 }
 

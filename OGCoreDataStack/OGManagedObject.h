@@ -37,13 +37,6 @@
 + (NSString *)entityName;
 
 /**
- The attribute name that represents the unique id attribute for this entity.
- @return The unique id key. Defaults to nil (no id attribute).
- @note This is intended to be used for synchronizing data with relational databases (such as data from web services). To easily import such data use the NSManagedObjectContext method createObjectsForEntity:withPopulationDictionaries:options:.
- */
-+ (NSString *)uniqueIdAttributeName;
-
-/**
  
  @return
  */
@@ -53,7 +46,7 @@
 
 /**
  Inserts a new object into this context.
- @param entity The class of the entity to insert.
+ @param context The context in which to insert the object.
  @return The newly created object.
  */
 + (id)createObjectInContext:(NSManagedObjectContext *)context;
@@ -62,8 +55,8 @@
 
 /**
  Fetches objects from the context.
- @param entity The class of the entity to fetch.
  @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate, or a sort descriptor).
+ @param context The context from which to fetch the objects.
  @return The fetched objects.
  */
 + (NSArray *)fetchWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
@@ -72,8 +65,8 @@
 
 /**
  Counts objects in the context.
- @param entity The class of the entity to count.
  @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate).
+ @param context The context in which to count the objects.
  @return The number of objects.
  @note Any sort descriptors added to the NSFetchRequest are automatically removed before execution.
  */
@@ -83,8 +76,8 @@
 
 /**
  Deletes objects from the context.
- @param entity The class of the entity to delete.
  @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate).
+ @param context The context in which to delete the objects.
  @warning If you do not add a predicate to the NSFetchRequest, all objects in the entity will be deleted.
  */
 + (void)deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;

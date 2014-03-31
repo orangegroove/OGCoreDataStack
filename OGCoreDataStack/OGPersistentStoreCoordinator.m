@@ -45,6 +45,8 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
 + (BOOL)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
 {
+	NSParameterAssert(storeType);
+	
 	__block BOOL success = YES;
 	
 	dispatch_once(&_ogCoreDataStackToken, ^{
