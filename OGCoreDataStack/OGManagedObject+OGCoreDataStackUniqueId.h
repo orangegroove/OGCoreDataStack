@@ -23,12 +23,22 @@
 #pragma mark - Inserting
 
 /**
- Inserts a new object into this context.
+ Inserts a new object into a context.
  @param uniqueId The unique id of the object to return.
  @param allowNil If false, the object is inserted into the context if it doesn't exist
  @param context The context.
  @return The newly created object.
  */
 + (id)objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
+
+/**
+ Inserts new object into a context.
+ @param uniqueIds An array of unique id's of the objects to return.
+ @param allowNil If false, the objects are inserted into the context if they don't exist
+ @param context The context.
+ @return The newly created objects.
+ @note The returned objects will have an undefined order.
+ */
++ (NSArray *)objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
 
 @end

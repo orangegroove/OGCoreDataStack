@@ -21,25 +21,38 @@
 
 + (id)objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
 {
+	return [self objectsWithUniqueIds:@[uniqueId] allowNil:allowNil context:context].firstObject;
+}
+
++ (NSArray *)objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
+{
 	NSString* uniqueIdAttributeName = self.uniqueIdAttributeName;
 	
-	NSParameterAssert(uniqueId);
+	NSParameterAssert(uniqueIds.count);
 	NSParameterAssert(uniqueIdAttributeName);
 	NSParameterAssert(context);
 	
-	id object = [self fetchWithRequest:^(NSFetchRequest *request) {
+	NSMutableArray* objects = [NSMutableArray arrayWithArray:[self fetchWithRequest:^(NSFetchRequest *request) {
 		
-		request.predicate = [NSPredicate predicateWithFormat:@"%K == %@", uniqueIdAttributeName, uniqueId];
+		request.predicate = [NSPredicate predicateWithFormat:@"%K IN %@", uniqueIdAttributeName, uniqueIds];
 		
-	} context:context].firstObject;
+	} context:context]];
 	
-	if (!object && !allowNil) {
+	if (!allowNil && objects.count != uniqueIds.count) {
 		
-		object = [self createObjectInContext:context];
-		[object setValue:uniqueId forKeyPath:uniqueIdAttributeName];
+		NSMutableArray* missingIds = [NSMutableArray arrayWithArray:uniqueIds];
+		[missingIds removeObjectsInArray:[objects valueForKey:uniqueIdAttributeName]];
+		
+		for (id uniqueId in missingIds) {
+			
+			id object = [self createObjectInContext:context];
+			
+			[object setValue:uniqueId forKeyPath:uniqueIdAttributeName];
+			[objects addObject:object];
+		}
 	}
 	
-	return object;
+	return [NSArray arrayWithArray:objects];
 }
 
 @end
