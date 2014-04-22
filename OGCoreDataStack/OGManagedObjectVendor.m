@@ -150,7 +150,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	if (!self.isPaused)
+	if (self.isPaused)
 		return;
 	
 	if (self.objectsUpdated)
