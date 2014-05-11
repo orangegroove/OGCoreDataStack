@@ -94,7 +94,7 @@
 	NSString* key		= [self observerKeyForContext:context];
 	self.observers[key]	= [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
 		
-		[weakSelf mergeChangesFromContextDidSaveNotification:note];
+		[weakSelf performBlock:^{ [weakSelf mergeChangesFromContextDidSaveNotification:note]; }];
 	}];
 }
 
