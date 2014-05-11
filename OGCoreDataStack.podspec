@@ -12,22 +12,22 @@ Pod::Spec.new do |s|
   s.requires_arc         = true
   
   s.subspec "Core" do |sc|
-    sc.source_files      = "OGCoreDataStack/OGCoreDataStack*.[hm]", "OGCoreDataStack/*+OGCoreDataStack.[hm]", "OGCoreDataStack/OGManagedObject.[hm]", "OGCoreDataStack/OGManagedObjectContext.[hm]", "OGCoreDataStack/OGPersistentStoreCoordinator.[hm]"
+    sc.source_files      = "OGCoreDataStack/OGCoreDataStack*.[hm]", "OGCoreDataStack/*+OGCoreDataStack.[hm]", "OGCoreDataStack/NSManagedObject+OGCoreDataStack.[hm]", "OGCoreDataStack/NSManagedObjectContext+OGCoreDataStack.[hm]", "OGCoreDataStack/NSPersistentStoreCoordinator+OGCoreDataStack.[hm]"
   end
   
   s.subspec "Vendor" do |sv|
     sv.dependency          "OGCoreDataStack/Core"
-    sv.source_files      = "OGCoreDataStack/*ManagedObjectVendor.[hm]"
+    sv.source_files      = "OGCoreDataStack/OG*ManagedObjectVendor.[hm]"
   end
   
   s.subspec "UniqueId" do |su|
     su.dependency          "OGCoreDataStack/Core"
-	  su.source_files      = "OGCoreDataStack/*+OGCoreDataStackUniqueId.[hm]"
+	  su.source_files      = "OGCoreDataStack/NSManagedObject+OGCoreDataStackUniqueId.[hm]"
   end
   
   s.subspec "Contexts" do |sc|
     sc.dependency          "OGCoreDataStack/Core"
-    sc.source_files      = "OGCoreDataStack/OGManagedObjectContext+OGCoreDataStackContexts.[hm]"
+    sc.source_files      = "OGCoreDataStack/NSManagedObjectContext+OGCoreDataStackContexts.[hm]"
   end
   
 end
