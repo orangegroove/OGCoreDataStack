@@ -23,8 +23,6 @@
 //
 
 #import "NSManagedObject+OGCoreDataStack.h"
-#import "OGCoreDataStackCore.h"
-#import "OGCoreDataStackPrivate.h"
 
 @implementation NSManagedObject (OGCoreDataStack)
 

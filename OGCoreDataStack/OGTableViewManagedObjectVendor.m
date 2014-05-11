@@ -23,8 +23,6 @@
 //
 
 #import "OGTableViewManagedObjectVendor.h"
-#import "OGCoreDataStackCore.h"
-#import "OGCoreDataStackPrivate.h"
 
 @implementation OGTableViewManagedObjectVendor
 

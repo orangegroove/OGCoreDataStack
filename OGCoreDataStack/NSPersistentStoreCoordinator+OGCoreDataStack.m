@@ -23,7 +23,6 @@
 //
 
 #import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
-#import "OGCoreDataStackCore.h"
 #import "OGCoreDataStackPrivate.h"
 
 static dispatch_once_t					_ogCoreDataStackToken						= 0;

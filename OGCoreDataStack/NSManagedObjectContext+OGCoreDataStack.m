@@ -23,8 +23,7 @@
 //
 
 #import "NSManagedObjectContext+OGCoreDataStack.h"
-#import "OGCoreDataStackCore.h"
-#import "OGCoreDataStackPrivate.h"
+#import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
 
 static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 

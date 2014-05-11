@@ -23,7 +23,6 @@
 //
 
 #import "OGCoreDataStackPrivate.h"
-#import "OGCoreDataStackCore.h"
 
 #pragma mark - Public
 

@@ -23,8 +23,6 @@
 //
 
 #import "NSFetchRequest+OGCoreDataStack.h"
-#import "OGCoreDataStackCore.h"
-#import "OGCoreDataStackPrivate.h"
 
 @implementation NSFetchRequest (OGCoreDataStack)
 

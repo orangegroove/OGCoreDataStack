@@ -22,7 +22,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import "NSManagedObjectContext+OGCoreDataStack.h"
+#import "OGCoreDataStackCommon.h"
 
 @interface NSManagedObjectContext (OGCoreDataStackContexts)
 

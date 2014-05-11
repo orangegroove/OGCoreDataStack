@@ -23,6 +23,7 @@
 //
 
 #import "NSManagedObjectContext+OGCoreDataStackContexts.h"
+#import "NSManagedObjectContext+OGCoreDataStack.h"
 
 @implementation NSManagedObjectContext (OGCoreDataStackContexts)
 
