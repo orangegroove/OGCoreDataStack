@@ -16,6 +16,7 @@
 		09475AD718CF403E0017AB27 /* OGManagedObjectVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 09475ACD18CF403E0017AB27 /* OGManagedObjectVendor.m */; };
 		09475AD818CF403E0017AB27 /* OGPersistentStoreCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 09475ACF18CF403E0017AB27 /* OGPersistentStoreCoordinator.m */; };
 		09475AD918CF403E0017AB27 /* OGTableViewManagedObjectVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 09475AD118CF403E0017AB27 /* OGTableViewManagedObjectVendor.m */; };
+		09C7E548191FBEB50024D558 /* OGManagedObjectContext+OGCoreDataStackContexts.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C7E547191FBEB50024D558 /* OGManagedObjectContext+OGCoreDataStackContexts.m */; };
 		09EA47C717BE39A60026664E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47C617BE39A60026664E /* Foundation.framework */; };
 		09EA47C917BE39A60026664E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47C817BE39A60026664E /* CoreGraphics.framework */; };
 		09EA47CB17BE39A60026664E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47CA17BE39A60026664E /* UIKit.framework */; };
@@ -65,6 +66,8 @@
 		09475ACF18CF403E0017AB27 /* OGPersistentStoreCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OGPersistentStoreCoordinator.m; path = OGCoreDataStack/OGPersistentStoreCoordinator.m; sourceTree = SOURCE_ROOT; };
 		09475AD018CF403E0017AB27 /* OGTableViewManagedObjectVendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGTableViewManagedObjectVendor.h; path = OGCoreDataStack/OGTableViewManagedObjectVendor.h; sourceTree = SOURCE_ROOT; };
 		09475AD118CF403E0017AB27 /* OGTableViewManagedObjectVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OGTableViewManagedObjectVendor.m; path = OGCoreDataStack/OGTableViewManagedObjectVendor.m; sourceTree = SOURCE_ROOT; };
+		09C7E546191FBEB50024D558 /* OGManagedObjectContext+OGCoreDataStackContexts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OGManagedObjectContext+OGCoreDataStackContexts.h"; sourceTree = "<group>"; };
+		09C7E547191FBEB50024D558 /* OGManagedObjectContext+OGCoreDataStackContexts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OGManagedObjectContext+OGCoreDataStackContexts.m"; sourceTree = "<group>"; };
 		09EA47C317BE39A60026664E /* OGCoreDataStackProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OGCoreDataStackProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09EA47C617BE39A60026664E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		09EA47C817BE39A60026664E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -130,6 +133,15 @@
 			name = Vendor;
 			path = OGCoreDataStack/Vendor;
 			sourceTree = SOURCE_ROOT;
+		};
+		09C7E545191FBE9A0024D558 /* Contexts */ = {
+			isa = PBXGroup;
+			children = (
+				09C7E546191FBEB50024D558 /* OGManagedObjectContext+OGCoreDataStackContexts.h */,
+				09C7E547191FBEB50024D558 /* OGManagedObjectContext+OGCoreDataStackContexts.m */,
+			);
+			name = Contexts;
+			sourceTree = "<group>";
 		};
 		09EA47BA17BE39A60026664E = {
 			isa = PBXGroup;
@@ -211,6 +223,7 @@
 			children = (
 				09F502AD18C3357B00D2E64F /* Core */,
 				092CC8F918C740CA00552869 /* Vendor */,
+				09C7E545191FBE9A0024D558 /* Contexts */,
 			);
 			path = OGCoreDataStack;
 			sourceTree = "<group>";
@@ -358,6 +371,7 @@
 				09EA47D317BE39A60026664E /* main.m in Sources */,
 				09EA482717BE430C0026664E /* Creditcard.m in Sources */,
 				09EA481E17BE42A60026664E /* Model.xcdatamodeld in Sources */,
+				09C7E548191FBEB50024D558 /* OGManagedObjectContext+OGCoreDataStackContexts.m in Sources */,
 				09475AD818CF403E0017AB27 /* OGPersistentStoreCoordinator.m in Sources */,
 				09475AD518CF403E0017AB27 /* OGManagedObject.m in Sources */,
 				09475AD318CF403E0017AB27 /* OGCollectionViewManagedObjectVendor.m in Sources */,
