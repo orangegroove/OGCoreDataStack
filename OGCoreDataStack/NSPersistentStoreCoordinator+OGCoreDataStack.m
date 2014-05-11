@@ -1,5 +1,5 @@
 //
-//  OGPersistentStoreCoordinator.m
+//  NSPersistentStoreCoordinator+OGCoreDataStack.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,15 +22,15 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGPersistentStoreCoordinator.h"
+#import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
 #import "OGCoreDataStackCore.h"
 #import "OGCoreDataStackPrivate.h"
 
 static dispatch_once_t					_ogCoreDataStackToken						= 0;
-static OGPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
+static NSPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
 static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
-@implementation OGPersistentStoreCoordinator
+@implementation NSPersistentStoreCoordinator (OGCoreDataStack)
 
 #pragma mark - Lifecycle
 

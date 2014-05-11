@@ -1,5 +1,5 @@
 //
-//  OGManagedObject.h
+//  NSManagedObject+OGCoreDataStack.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -24,7 +24,7 @@
 
 #import "OGCoreDataStackCommon.h"
 
-@interface OGManagedObject : NSManagedObject
+@interface NSManagedObject (OGCoreDataStack)
 
 #pragma mark - Lifecycle
 /** @name Lifecycle */
@@ -49,7 +49,7 @@
  @param context The context in which to insert the object.
  @return The newly created object.
  */
-+ (id)createObjectInContext:(NSManagedObjectContext *)context;
++ (instancetype)createObjectInContext:(NSManagedObjectContext *)context;
 
 #pragma mark - Fetching
 

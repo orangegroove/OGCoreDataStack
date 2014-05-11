@@ -1,5 +1,5 @@
 //
-//  OGManagedObjectContext+OGCoreDataStackContexts.h
+//  NSManagedObjectContext+OGCoreDataStackContexts.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,9 +22,9 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGManagedObjectContext.h"
+#import "NSManagedObjectContext+OGCoreDataStack.h"
 
-@interface OGManagedObjectContext (OGCoreDataStackContexts)
+@interface NSManagedObjectContext (OGCoreDataStackContexts)
 
 /**
  

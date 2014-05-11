@@ -1,5 +1,5 @@
 //
-//  OGManagedObjectContext.h
+//  NSManagedObjectContext+OGCoreDataStack.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -24,7 +24,7 @@
 
 #import "OGCoreDataStackCommon.h"
 
-@interface OGManagedObjectContext : NSManagedObjectContext
+@interface NSManagedObjectContext (OGCoreDataStack)
 
 #pragma mark - Lifecycle
 /** @name Lifecycle */

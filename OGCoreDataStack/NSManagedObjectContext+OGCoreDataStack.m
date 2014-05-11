@@ -1,5 +1,5 @@
 //
-//  OGManagedObjectContext.m
+//  NSManagedObjectContext+OGCoreDataStack.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,20 +22,25 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGManagedObjectContext.h"
+#import "NSManagedObjectContext+OGCoreDataStack.h"
 #import "OGCoreDataStackCore.h"
 #import "OGCoreDataStackPrivate.h"
 
-@interface OGManagedObjectContext ()
+static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 
-@property (strong, nonatomic) NSMutableDictionary* observers;
-
-- (NSString *)observerKeyForContext:(NSManagedObjectContext *)context;
-
-@end
-@implementation OGManagedObjectContext
+@implementation NSManagedObjectContext (OGCoreDataStack)
 
 #pragma mark - Lifecycle
+
++ (void)initialize
+{
+	static dispatch_once_t token = 0;
+	
+	dispatch_once(&token, ^{
+		
+		_ogCoreDataStackManagedObjectContextObservers = [NSMutableDictionary dictionary];
+	});
+}
 
 + (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
 {
@@ -53,8 +58,8 @@
 			break;
 	}
 	
-	OGManagedObjectContext* context		= [[self alloc] initWithConcurrencyType:concurrencyType];
-	context.persistentStoreCoordinator	= OGPersistentStoreCoordinator.sharedPersistentStoreCoordinator;
+	NSManagedObjectContext* context		= [[self alloc] initWithConcurrencyType:concurrencyType];
+	context.persistentStoreCoordinator	= NSPersistentStoreCoordinator.sharedPersistentStoreCoordinator;
 	
 	return context;
 }
@@ -90,9 +95,9 @@
 	if ([self isObservingSavesInContext:context])
 		return;
 	
-	__block id weakSelf	= self;
-	NSString* key		= [self observerKeyForContext:context];
-	self.observers[key]	= [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
+	__block id weakSelf									= self;
+	NSString* key										= [self observerKeyForContext:context];
+	_ogCoreDataStackManagedObjectContextObservers[key]	= [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
 		
 		[weakSelf performBlock:^{ [weakSelf mergeChangesFromContextDidSaveNotification:note]; }];
 	}];
@@ -103,12 +108,12 @@
 	NSParameterAssert(context);
 	
 	NSString* key	= [self observerKeyForContext:context];
-	id observer		= key.length? self.observers[key] : nil;
+	id observer		= key.length? _ogCoreDataStackManagedObjectContextObservers[key] : nil;
 	
 	if (observer) {
 		
 		[NSNotificationCenter.defaultCenter removeObserver:observer];
-		[self.observers removeObjectForKey:key];
+		[_ogCoreDataStackManagedObjectContextObservers removeObjectForKey:key];
 	}
 }
 
@@ -118,7 +123,7 @@
 	
 	NSString* key = [self observerKeyForContext:context];
 	
-	return key.length && self.observers[key];
+	return key.length && _ogCoreDataStackManagedObjectContextObservers[key];
 }
 
 #pragma mark - Operations
@@ -186,18 +191,6 @@
 	NSParameterAssert(context);
 	
 	return [NSString stringWithFormat:@"%p", context];
-}
-
-#pragma mark - Properties
-
-- (NSMutableDictionary *)observers
-{
-	if (_observers)
-		return _observers;
-	
-	_observers = [NSMutableDictionary dictionary];
-	
-	return _observers;
 }
 
 @end

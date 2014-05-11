@@ -1,5 +1,5 @@
 //
-//  OGManagedObjectContext+OGCoreDataStackContexts.m
+//  NSManagedObjectContext+OGCoreDataStackContexts.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,15 +22,15 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGManagedObjectContext+OGCoreDataStackContexts.h"
+#import "NSManagedObjectContext+OGCoreDataStackContexts.h"
 
-@implementation OGManagedObjectContext (OGCoreDataStackContexts)
+@implementation NSManagedObjectContext (OGCoreDataStackContexts)
 
 #pragma mark - Public
 
 + (instancetype)mainThreadContext
 {
-	static OGManagedObjectContext* context	= nil;
+	static NSManagedObjectContext* context	= nil;
 	static dispatch_once_t token			= 0;
 	
 	dispatch_once(&token, ^{
@@ -44,7 +44,7 @@
 
 + (instancetype)backgroundThreadContext
 {
-	static OGManagedObjectContext* context	= nil;
+	static NSManagedObjectContext* context	= nil;
 	static dispatch_once_t token			= 0;
 	
 	dispatch_once(&token, ^{

@@ -23,8 +23,8 @@
 //
 
 #import "OGCoreDataStackCommon.h"
-#import "OGManagedObject.h"
-#import "OGManagedObjectContext.h"
-#import "OGPersistentStoreCoordinator.h"
+#import "NSManagedObject+OGCoreDataStack.h"
+#import "NSManagedObjectContext+OGCoreDataStack.h"
+#import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
 #import "NSFetchRequest+OGCoreDataStack.h"
 

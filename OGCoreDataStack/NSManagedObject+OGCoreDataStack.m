@@ -1,5 +1,5 @@
 //
-//  OGManagedObject.m
+//  NSManagedObject+OGCoreDataStack.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,11 +22,11 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGManagedObject.h"
+#import "NSManagedObject+OGCoreDataStack.h"
 #import "OGCoreDataStackCore.h"
 #import "OGCoreDataStackPrivate.h"
 
-@implementation OGManagedObject
+@implementation NSManagedObject (OGCoreDataStack)
 
 #pragma mark - Lifecycle
 
@@ -42,7 +42,7 @@
 
 #pragma mark - Inserting
 
-+ (id)createObjectInContext:(NSManagedObjectContext *)context
++ (instancetype)createObjectInContext:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
@@ -106,7 +106,7 @@
 		
 	} context:context];
 	
-	for (OGManagedObject* object in objects)
+	for (NSManagedObject* object in objects)
 		[object delete];
 }
 

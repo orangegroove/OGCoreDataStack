@@ -1,5 +1,5 @@
 //
-//  OGPersistentStoreCoordinator.h
+//  NSPersistentStoreCoordinator+OGCoreDataStack.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -24,7 +24,7 @@
 
 #import "OGCoreDataStackCommon.h"
 
-@interface OGPersistentStoreCoordinator : NSPersistentStoreCoordinator
+@interface NSPersistentStoreCoordinator (OGCoreDataStack)
 
 #pragma mark - Lifecycle
 /** @name Lifecycle */
