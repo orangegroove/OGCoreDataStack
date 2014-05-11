@@ -31,7 +31,7 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 
 #pragma mark - Lifecycle
 
-+ (void)initialize
++ (void)load
 {
 	static dispatch_once_t token = 0;
 	
