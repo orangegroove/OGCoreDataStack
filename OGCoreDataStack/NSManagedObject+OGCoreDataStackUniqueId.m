@@ -49,7 +49,7 @@
 	NSParameterAssert(uniqueIdAttributeName);
 	NSParameterAssert(context);
 	
-	NSMutableArray* objects = [NSMutableArray arrayWithArray:[self fetchWithRequest:^(NSFetchRequest *request) {
+	NSMutableArray* objects = [NSMutableArray arrayWithArray:[self og_fetchWithRequest:^(NSFetchRequest *request) {
 		
 		request.predicate = [NSPredicate predicateWithFormat:@"%K IN %@", uniqueIdAttributeName, uniqueIds];
 		
@@ -62,7 +62,7 @@
 		
 		for (id uniqueId in missingIds) {
 			
-			id object = [self createObjectInContext:context];
+			id object = [self og_createObjectInContext:context];
 			
 			[object setValue:uniqueId forKeyPath:uniqueIdAttributeName];
 			[objects addObject:object];

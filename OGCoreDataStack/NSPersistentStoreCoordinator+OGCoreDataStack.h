@@ -33,7 +33,7 @@
  The singleton NSPersistentStoreCoordinator for use with the stack.
  @return The PSC.
  */
-+ (instancetype)sharedPersistentStoreCoordinator;
++ (instancetype)og_sharedPersistentStoreCoordinator;
 
 /**
  Customize the persistent store coordinator.
@@ -42,13 +42,13 @@
  @return Whether the operation is successful.
  @note Call this before accessing any other part of the stack. E.g., in application:didFinishLaunchingWithOptions:.
  */
-+ (BOOL)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
++ (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
 
 /**
  Delete the persistent store.
  @return Whether the operation was successful.
  @note Remove all references to NSManagedObjects and NSManagedObjectContexts before calling this method.
  */
-+ (BOOL)reset;
++ (BOOL)og_reset;
 
 @end

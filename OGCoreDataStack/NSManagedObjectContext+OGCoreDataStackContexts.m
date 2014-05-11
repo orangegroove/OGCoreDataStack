@@ -35,8 +35,8 @@
 	
 	dispatch_once(&token, ^{
 		
-		context = [self newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
-		[context observeSavesInContext:self.backgroundThreadContext];
+		context = [self og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+		[context og_observeSavesInContext:self.backgroundThreadContext];
 	});
 	
 	return context;
@@ -49,7 +49,7 @@
 	
 	dispatch_once(&token, ^{
 		
-		context = [self newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
+		context = [self og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
 	});
 	
 	return context;

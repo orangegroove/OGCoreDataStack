@@ -34,16 +34,16 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
 #pragma mark - Lifecycle
 
-+ (instancetype)sharedPersistentStoreCoordinator
++ (instancetype)og_sharedPersistentStoreCoordinator
 {
-	BOOL success __attribute__((unused)) = [self setupWithStoreType:nil options:nil];
+	BOOL success __attribute__((unused)) = [self og_setupWithStoreType:nil options:nil];
 	
 	NSAssert(success, @"Persistent Store setup failed");
 	
 	return _ogCoreDataStackPersistentStoreCoordinator;
 }
 
-+ (BOOL)setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
++ (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
 {
 	__block BOOL success = YES;
 	
@@ -69,7 +69,7 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 	return success;
 }
 
-+ (BOOL)reset
++ (BOOL)og_reset
 {
 	if (!_ogCoreDataStackPersistentStoreCoordinator.persistentStores.count)
 		return YES;

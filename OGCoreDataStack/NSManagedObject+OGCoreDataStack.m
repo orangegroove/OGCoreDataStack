@@ -30,32 +30,32 @@
 
 #pragma mark - Lifecycle
 
-+ (NSString *)entityName
++ (NSString *)og_entityName
 {
 	return NSStringFromClass(self.class);
 }
 
-+ (NSFetchRequest *)fetchRequest
++ (NSFetchRequest *)og_fetchRequest
 {
-	return [NSFetchRequest fetchRequestWithEntityName:self.entityName];
+	return [NSFetchRequest fetchRequestWithEntityName:self.og_entityName];
 }
 
 #pragma mark - Inserting
 
-+ (instancetype)createObjectInContext:(NSManagedObjectContext *)context
++ (instancetype)og_createObjectInContext:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
-	return [NSEntityDescription insertNewObjectForEntityForName:self.entityName inManagedObjectContext:context];
+	return [NSEntityDescription insertNewObjectForEntityForName:self.og_entityName inManagedObjectContext:context];
 }
 
 #pragma mark - Fetching
 
-+ (NSArray *)fetchWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (NSArray *)og_fetchWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
-	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:self.entityName];
+	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:self.og_entityName];
 	NSError* error			= nil;
 	
 	if (block)
@@ -70,11 +70,11 @@
 
 #pragma mark - Counting
 
-+ (NSUInteger)countWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (NSUInteger)og_countWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
-	NSFetchRequest* request	= [NSFetchRequest fetchRequestWithEntityName:self.entityName];
+	NSFetchRequest* request	= [NSFetchRequest fetchRequestWithEntityName:self.og_entityName];
 	NSError* error			= nil;
 	
 	if (block)
@@ -90,11 +90,11 @@
 
 #pragma mark - Deleting
 
-+ (void)deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (void)og_deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
-	NSArray* objects = [self fetchWithRequest:^(NSFetchRequest *request) {
+	NSArray* objects = [self og_fetchWithRequest:^(NSFetchRequest *request) {
 		
 		if (block)
 			block(request);
@@ -107,17 +107,17 @@
 	} context:context];
 	
 	for (NSManagedObject* object in objects)
-		[object delete];
+		[object og_delete];
 }
 
-- (void)delete
+- (void)og_delete
 {
 	[self.managedObjectContext deleteObject:self];
 }
 
 #pragma mark - Miscellaneous
 
-- (BOOL)obtainPermanentID
+- (BOOL)og_obtainPermanentID
 {
 	NSError* error	= nil;
 	BOOL success	= [self.managedObjectContext obtainPermanentIDsForObjects:@[self] error:&error];

@@ -38,7 +38,7 @@
  @param sortDescriptor The NSSortDescriptor to add.
  @note Can be combined with addSortKey:ascending: but not with setSortDescriptors:
  */
-- (void)addSortDescriptor:(NSSortDescriptor *)sortDescriptor;
+- (void)og_addSortDescriptor:(NSSortDescriptor *)sortDescriptor;
 
 /**
  A shorthand for adding NSSortDescriptors. The first added sort descriptor is the primary sort.
@@ -46,6 +46,6 @@
  @param ascending Whether or not the sort is ascending or descending.
  @note Can be combined with addSortDescriptor: but not with setSortDescriptors:
  */
-- (void)addSortKey:(NSString *)key ascending:(BOOL)ascending;
+- (void)og_addSortKey:(NSString *)key ascending:(BOOL)ascending;
 
 @end

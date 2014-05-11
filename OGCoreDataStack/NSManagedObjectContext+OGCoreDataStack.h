@@ -35,18 +35,18 @@
  @return The new context.
  @note The context will be tied directly to the persistent store and does not use the child/parent pattern.
  */
-+ (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency;
++ (instancetype)og_newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency;
 
 /**
  Returns the concurrency type of the context.
  */
-- (OGCoreDataStackContextConcurrency)contextConcurrency;
+- (OGCoreDataStackContextConcurrency)og_contextConcurrency;
 
 /**
  Saves the context. Shorthand for save:, but asserts that the operation was successful.
  @return Operation success.
  */
-- (BOOL)save;
+- (BOOL)og_save;
 
 #pragma mark - Observing
 /** @name Observing */
@@ -55,20 +55,20 @@
  Starts observing for saves made in the specified context. Automatically merges those changes.
  @param context The context to observe.
  */
-- (void)observeSavesInContext:(NSManagedObjectContext *)context;
+- (void)og_observeSavesInContext:(NSManagedObjectContext *)context;
 
 /**
  Stops observing a context for saves.
  @param context The context to stop observing.
  */
-- (void)stopObservingSavesInContext:(NSManagedObjectContext *)context;
+- (void)og_stopObservingSavesInContext:(NSManagedObjectContext *)context;
 
 /**
  Checks whether a context is observed for saves.
  @param context The context to check.
  @return
  */
-- (BOOL)isObservingSavesInContext:(NSManagedObjectContext *)context;
+- (BOOL)og_isObservingSavesInContext:(NSManagedObjectContext *)context;
 
 #pragma mark - Operations
 /** @name Operations */
@@ -79,7 +79,7 @@
  @param objects The objects to pass.
  @note May fail if the objects do not have permanent NSManagedObjectIDs.
  */
-- (void)performBlock:(void (^)(NSArray* objects))block passObjects:(NSArray *)objects;
+- (void)og_performBlock:(void (^)(NSArray* objects))block passObjects:(NSArray *)objects;
 
 /**
  Performs operations in a context, waits for the result and passes objects from from context to another.
@@ -87,6 +87,6 @@
  @param objects The objects to pass.
  @note May fail if the objects do not have permanent NSManagedObjectIDs.
  */
-- (void)performBlockAndWait:(void (^)(NSArray* objects))block passObjects:(NSArray *)objects;
+- (void)og_performBlockAndWait:(void (^)(NSArray* objects))block passObjects:(NSArray *)objects;
 
 @end

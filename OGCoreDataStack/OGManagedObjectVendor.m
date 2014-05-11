@@ -52,7 +52,7 @@
 	NSParameterAssert(entity);
 	NSParameterAssert(context);
 	
-	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:[entity entityName]];
+	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:[entity og_entityName]];
 	
 	if (block)
 		block(request);

@@ -30,7 +30,7 @@
 
 #pragma mark - Configuration
 
-- (void)addSortDescriptor:(NSSortDescriptor *)sortDescriptor
+- (void)og_addSortDescriptor:(NSSortDescriptor *)sortDescriptor
 {
 	NSParameterAssert(sortDescriptor);
 	
@@ -40,11 +40,11 @@
 		self.sortDescriptors = @[sortDescriptor];
 }
 
-- (void)addSortKey:(NSString *)key ascending:(BOOL)ascending
+- (void)og_addSortKey:(NSString *)key ascending:(BOOL)ascending
 {
 	NSParameterAssert(key);
 	
-	[self addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:key ascending:ascending]];
+	[self og_addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:key ascending:ascending]];
 }
 
 @end

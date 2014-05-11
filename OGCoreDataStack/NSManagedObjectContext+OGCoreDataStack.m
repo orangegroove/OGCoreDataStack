@@ -42,7 +42,7 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	});
 }
 
-+ (instancetype)newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
++ (instancetype)og_newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
 {
 	NSUInteger concurrencyType;
 	
@@ -59,12 +59,12 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	}
 	
 	NSManagedObjectContext* context		= [[self alloc] initWithConcurrencyType:concurrencyType];
-	context.persistentStoreCoordinator	= NSPersistentStoreCoordinator.sharedPersistentStoreCoordinator;
+	context.persistentStoreCoordinator	= NSPersistentStoreCoordinator.og_sharedPersistentStoreCoordinator;
 	
 	return context;
 }
 
-- (OGCoreDataStackContextConcurrency)contextConcurrency
+- (OGCoreDataStackContextConcurrency)og_contextConcurrency
 {
 	switch (self.concurrencyType) {
 		case NSMainQueueConcurrencyType:
@@ -76,7 +76,7 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	}
 }
 
-- (BOOL)save
+- (BOOL)og_save
 {
 	NSError* error	= nil;
 	BOOL success	= [self save:&error];
@@ -88,26 +88,26 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 
 #pragma mark - Observing
 
-- (void)observeSavesInContext:(NSManagedObjectContext *)context
+- (void)og_observeSavesInContext:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
-	if ([self isObservingSavesInContext:context])
+	if ([self og_isObservingSavesInContext:context])
 		return;
 	
 	__block id weakSelf									= self;
-	NSString* key										= [self observerKeyForContext:context];
+	NSString* key										= [self og_observerKeyForContext:context];
 	_ogCoreDataStackManagedObjectContextObservers[key]	= [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
 		
 		[weakSelf performBlock:^{ [weakSelf mergeChangesFromContextDidSaveNotification:note]; }];
 	}];
 }
 
-- (void)stopObservingSavesInContext:(NSManagedObjectContext *)context
+- (void)og_stopObservingSavesInContext:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
-	NSString* key	= [self observerKeyForContext:context];
+	NSString* key	= [self og_observerKeyForContext:context];
 	id observer		= key.length? _ogCoreDataStackManagedObjectContextObservers[key] : nil;
 	
 	if (observer) {
@@ -117,18 +117,18 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	}
 }
 
-- (BOOL)isObservingSavesInContext:(NSManagedObjectContext *)context
+- (BOOL)og_isObservingSavesInContext:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
-	NSString* key = [self observerKeyForContext:context];
+	NSString* key = [self og_observerKeyForContext:context];
 	
 	return key.length && _ogCoreDataStackManagedObjectContextObservers[key];
 }
 
 #pragma mark - Operations
 
-- (void)performBlock:(void (^)(NSArray *))block passObjects:(NSArray *)objects
+- (void)og_performBlock:(void (^)(NSArray *))block passObjects:(NSArray *)objects
 {
 	NSParameterAssert(block);
 	
@@ -156,7 +156,7 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	}];
 }
 
-- (void)performBlockAndWait:(void (^)(NSArray *))block passObjects:(NSArray *)objects
+- (void)og_performBlockAndWait:(void (^)(NSArray *))block passObjects:(NSArray *)objects
 {
 	NSParameterAssert(block);
 	
@@ -186,7 +186,7 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 
 #pragma mark - Private
 
-- (NSString *)observerKeyForContext:(NSManagedObjectContext *)context
+- (NSString *)og_observerKeyForContext:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
