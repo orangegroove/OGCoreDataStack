@@ -28,7 +28,7 @@
 
 #pragma mark - Public
 
-+ (instancetype)mainThreadContext
++ (instancetype)og_mainThreadContext
 {
 	static NSManagedObjectContext* context	= nil;
 	static dispatch_once_t token			= 0;
@@ -36,13 +36,13 @@
 	dispatch_once(&token, ^{
 		
 		context = [self og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
-		[context og_observeSavesInContext:self.backgroundThreadContext];
+		[context og_observeSavesInContext:self.og_backgroundThreadContext];
 	});
 	
 	return context;
 }
 
-+ (instancetype)backgroundThreadContext
++ (instancetype)og_backgroundThreadContext
 {
 	static NSManagedObjectContext* context	= nil;
 	static dispatch_once_t token			= 0;

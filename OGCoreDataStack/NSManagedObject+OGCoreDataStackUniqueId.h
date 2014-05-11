@@ -34,7 +34,7 @@
  @return The unique id key. Defaults to nil (no id attribute).
  @note This is intended to be used for synchronizing data with relational databases (such as data from web services). To easily import such data use the NSManagedObjectContext method createObjectsForEntity:withPopulationDictionaries:options:.
  */
-+ (NSString *)uniqueIdAttributeName;
++ (NSString *)og_uniqueIdAttributeName;
 
 #pragma mark - Inserting
 
@@ -45,7 +45,7 @@
  @param context The context.
  @return The newly created object.
  */
-+ (instancetype)objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
++ (instancetype)og_objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
 
 /**
  Inserts new object into a context.
@@ -55,6 +55,6 @@
  @return The newly created objects.
  @note The returned objects will have an undefined order.
  */
-+ (NSArray *)objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
++ (NSArray *)og_objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
 
 @end

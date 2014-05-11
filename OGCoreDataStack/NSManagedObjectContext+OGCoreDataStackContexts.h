@@ -30,11 +30,11 @@
  
  @note Observes changes in backgroundThreadContext.
  */
-+ (instancetype)mainThreadContext;
++ (instancetype)og_mainThreadContext;
 
 /**
  
  */
-+ (instancetype)backgroundThreadContext;
++ (instancetype)og_backgroundThreadContext;
 
 @end

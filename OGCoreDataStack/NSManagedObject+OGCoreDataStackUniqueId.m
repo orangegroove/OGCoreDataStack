@@ -29,21 +29,21 @@
 
 #pragma mark - Lifecycle
 
-+ (NSString *)uniqueIdAttributeName
++ (NSString *)og_uniqueIdAttributeName
 {
 	return nil;
 }
 
 #pragma mark - Inserting
 
-+ (instancetype)objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
++ (instancetype)og_objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
 {
-	return [self objectsWithUniqueIds:@[uniqueId] allowNil:allowNil context:context].firstObject;
+	return [self og_objectsWithUniqueIds:@[uniqueId] allowNil:allowNil context:context].firstObject;
 }
 
-+ (NSArray *)objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
++ (NSArray *)og_objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
 {
-	NSString* uniqueIdAttributeName = self.uniqueIdAttributeName;
+	NSString* uniqueIdAttributeName = self.og_uniqueIdAttributeName;
 	
 	NSParameterAssert(uniqueIds.count);
 	NSParameterAssert(uniqueIdAttributeName);
