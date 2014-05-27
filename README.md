@@ -30,6 +30,8 @@ and
 
 	- (void)og_stopObservingSavesInContext:(NSManagedObjectContext *)context;
 
+Optionally, you may use the *contexts* subspec, which provides two contexts for you: one context for the main thread, and one context for heavy operations running in the background. The main thread context observes changes in the background context.
+
 ## CRUD
 
 Managing objects is done via class methods on the managed object subclasses.
@@ -74,41 +76,25 @@ or via a fetch:
 	
 	} context:context];
 
-# Subspecs
-
-Parts of the library are optional, and may be excluded if redundant.
-
-## Core
-
-This is the core functionality.
-
-## Contexts
-
-Provides two convience contexts:
-
-	NSManagedObjectContext* context = [NSManagedObjectContext og_mainThreadContext];
-
-and:
-
-	NSManagedObjectContext* context = [NSManagedObjectContext og_backgroundThreadContext];
-
-The main thread context automatically observes the background thread context.
-
 ## Unique ID's
 
-While Core Data is not a relational database, it's often used to cache relational data. If this is something you want to do, it's useful to give each object an id property. To do this, in your NSManagedObject subclass, override:
+While Core Data is not a relational database, it's often used to cache data from a database such as this. If this is something you want to do, it's useful to give each object an id property. To do this, in your NSManagedObject subclass, override:
 
 	+ (NSString *)og_uniqueIdAttributeName;
 
 Return the name of the attribute to be used as an id property. This allows you to use a few convenience methods for creating and fetching objects:
 
+	MyObject* object = [MyObject og_objectWithUniqueId:@873 allowNil:YES context:context];
+
+And for multiple objects:
+
 	NSArray* objects = [MyObject og_objectsWithUniqueIds:idArray allowNil:YES context:context];
 
-If allowNil is YES, new objects aren't created if they don't have an existing id in idArray. Otherwise, a new object is inserted into the context and given the id value.
+If allowNil is NO, objects are created for any id's that don't have corresponding objects.
 
 ## Vending objects
 
-OGCoreDataStackVendor is a decorator for NSFetchedResultsController and there are subclasses to use it as a data source for tableviews and collectionviews. To use a vendor as dataSource for a UITableView, create an instance of the tableview-specific subclass of the vendor:
+OGCoreDataStackVendor is a decorator for NSFetchedResultsController, with subclasses for using it as a data source for UITableViews and UICollectionViews. To use a vendor as data source for a UITableView, create an instance of the tableview-specific subclass of the vendor:
 
 	self.myVendor = [[OGTableViewManagedObjectVendor alloc] init];
 
@@ -121,7 +107,7 @@ OGCoreDataStackVendor is a decorator for NSFetchedResultsController and there ar
 	self.myVendor.tableView = myTableView;
 	self.myVendor.vending = YES;
 
-You still need to implement the UITableViewDataSource protocol, but use the vendor to keep track of number of sections, number of objects per section and fetching objects for an indexpath. The vendor will then keep your tableview updated as the underlying objects are updated.
+You still need to implement the UITableViewDataSource protocol, but use the vendor to keep track of number of sections, number of objects per section and fetching objects for an indexPath. The vendor will then keep your tableview updated as the underlying objects change.
 
 ## Notes
 
