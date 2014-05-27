@@ -78,9 +78,10 @@
  Deletes objects from the context.
  @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate).
  @param context The context in which to delete the objects.
+ @return The number of objects that were deleted.
  @warning If you do not add a predicate to the NSFetchRequest, all objects in the entity will be deleted.
  */
-+ (void)og_deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
++ (NSUInteger)og_deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
 
 /**
  Delete objects from the context.

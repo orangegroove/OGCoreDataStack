@@ -88,7 +88,7 @@
 
 #pragma mark - Deleting
 
-+ (void)og_deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (NSUInteger)og_deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
@@ -104,8 +104,12 @@
 		
 	} context:context];
 	
+	NSUInteger count = objects.count;
+	
 	for (NSManagedObject* object in objects)
 		[object og_delete];
+	
+	return count;
 }
 
 - (void)og_delete
