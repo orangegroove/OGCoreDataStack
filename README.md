@@ -30,7 +30,7 @@ and
 
 	- (void)og_stopObservingSavesInContext:(NSManagedObjectContext *)context;
 
-Optionally, you may use the *contexts* subspec, which provides two contexts for you: one context for the main thread, and one context for heavy operations running in the background. The main thread context observes changes in the background context.
+Optionally, you may use the *Contexts* subspec, which provides two contexts for you: one context for the main thread, and one context for heavy operations running in the background. The main thread context observes changes in the background context.
 
 ## CRUD
 
@@ -78,7 +78,7 @@ or via a fetch:
 
 ## Unique ID's
 
-While Core Data is not a relational database, it's often used to cache data from a database such as this. If this is something you want to do, it's useful to give each object an id property. To do this, in your NSManagedObject subclass, override:
+While Core Data is not a relational database, it's often used to cache data from a database such as this. If this is something you want to do, it's useful to give each object an id property. To do this, use the *UniqueId* subspec, and in your NSManagedObject subclass, override:
 
 	+ (NSString *)og_uniqueIdAttributeName;
 
@@ -94,7 +94,7 @@ If allowNil is NO, objects are created for any id's that don't have correspondin
 
 ## Vending objects
 
-OGCoreDataStackVendor is a decorator for NSFetchedResultsController, with subclasses for using it as a data source for UITableViews and UICollectionViews. To use a vendor as data source for a UITableView, create an instance of the tableview-specific subclass of the vendor:
+OGCoreDataStackVendor is a decorator for NSFetchedResultsController, with subclasses for using it as a data source for UITableViews and UICollectionViews. To use a vendor as data source for a UITableView, use the *Vendor* subspec, and create an instance of the tableview-specific subclass of the vendor:
 
 	self.myVendor = [[OGTableViewManagedObjectVendor alloc] init];
 
