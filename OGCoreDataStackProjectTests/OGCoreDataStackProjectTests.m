@@ -23,15 +23,11 @@
 - (void)setUp
 {
 	[super setUp];
-	
-#ifndef DEBUG
-#define DEBUG 1
-#endif
 }
 
 - (void)tearDown
 {
-	[self deleteDataInContext:[OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue]];
+	[self deleteDataInContext:[NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue]];
 	
 	[super tearDown];
 }
@@ -40,59 +36,59 @@
 
 - (void)testInsert
 {
-	OGManagedObjectContext* context = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
 	[self seedPeople:1 inContext:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:context] == 1, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 1, @"");
 	
 	[self deleteDataInContext:context];
 }
 
 - (void)testDelete
 {
-	OGManagedObjectContext* context = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
 	[self seedPeople:1 inContext:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:context] == 1, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 1, @"");
 	
-	[Person deleteWithRequest:nil context:context];
+	[Person og_deleteWithRequest:nil context:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:context] == 0, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 0, @"");
 }
 
 - (void)testFetch
 {
-	OGManagedObjectContext* context = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
 	[self seedPeople:1 inContext:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:context] == 1, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 1, @"");
 	
 	[self seedPeople:5 inContext:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:context] == 6, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 6, @"");
 	
 	[self deleteDataInContext:context];
 }
 
 - (void)testPassObjects
 {
-	OGManagedObjectContext* context = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
-	OGManagedObjectContext* otherContext = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
+	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* otherContext = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
 	
-	[otherContext observeSavesInContext:context];
+	[otherContext og_observeSavesInContext:context];
 	[self seedPeople:1 inContext:context];
 	
 	[otherContext performBlock:^{
 		
-		Person* person				= [Person fetchWithRequest:nil context:otherContext].firstObject;
+		Person* person				= [Person og_fetchWithRequest:nil context:otherContext].firstObject;
 		NSManagedObjectID* objectID	= person.objectID;
 		
 		XCTAssertEqualObjects(person.managedObjectContext, otherContext, @"");
 		
-		[context performBlock:^(NSArray *objects) {
+		[context og_performBlock:^(NSArray *objects) {
 			
 			XCTAssertTrue(objects.count == 1, @"");
 			
@@ -105,50 +101,50 @@
 	}];
 	
 	[self deleteDataInContext:context];
-	[otherContext stopObservingSavesInContext:context];
+	[otherContext og_stopObservingSavesInContext:context];
 }
 
 - (void)testContextRelationship
 {
-	OGManagedObjectContext* context = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
-	OGManagedObjectContext* otherContext = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
+	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* otherContext = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
 	
-	[otherContext observeSavesInContext:context];
+	[otherContext og_observeSavesInContext:context];
 	[self deleteDataInContext:context];
 	[self seedPeople:3 inContext:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:context] == 3, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 3, @"");
 	
 	[otherContext performBlockAndWait:^{
 		
-		XCTAssertTrue([Person countWithRequest:nil context:otherContext] == 3, @"");
+		XCTAssertTrue([Person og_countWithRequest:nil context:otherContext] == 3, @"");
 	}];
 	[context performBlockAndWait:^{
 		
-		XCTAssertTrue([Person countWithRequest:nil context:context] == 3, @"");
+		XCTAssertTrue([Person og_countWithRequest:nil context:context] == 3, @"");
 		
-		[Person createObjectInContext:context];
-		[context save];
+		[Person og_createObjectInContext:context];
+		[context og_save];
 	}];
 	[otherContext performBlockAndWait:^{
 		
-		XCTAssertTrue([Person countWithRequest:nil context:otherContext] == 4, @"");
+		XCTAssertTrue([Person og_countWithRequest:nil context:otherContext] == 4, @"");
 	}];
 	
 	[self deleteDataInContext:context];
-	[otherContext stopObservingSavesInContext:context];
+	[otherContext og_stopObservingSavesInContext:context];
 }
 
 - (void)testFetchRequest
 {
-	OGManagedObjectContext* context = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
 	[self seedPeople:5 inContext:context];
 	
-	NSArray* objects = [Person fetchWithRequest:^(NSFetchRequest *request) {
+	NSArray* objects = [Person og_fetchWithRequest:^(NSFetchRequest *request) {
 		
-		[request addSortKey:@"name" ascending:YES];
-		[request addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"wallet.cash" ascending:NO]];
+		[request og_addSortKey:@"name" ascending:YES];
+		[request og_addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"wallet.cash" ascending:NO]];
 		
 		request.predicate = [NSPredicate predicateWithFormat:@"%@ != nil", @"name"];
 		
@@ -161,43 +157,43 @@
 
 - (void)testResetPersistentStore
 {
-	OGManagedObjectContext* context = [OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	
 	[self seedPeople:8 inContext:context];
 	
-	XCTAssertTrue([Person countWithRequest:nil context:context] == 8, @"");
-	XCTAssertTrue([OGPersistentStoreCoordinator reset], @"");
-	XCTAssertTrue([Person countWithRequest:nil context:[OGManagedObjectContext newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue]] == 0, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 8, @"");
+	XCTAssertTrue([NSPersistentStoreCoordinator og_reset], @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:[NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue]] == 0, @"");
 }
 
 #pragma mark - Helpers
 
-- (void)seedPeople:(NSInteger)count inContext:(OGManagedObjectContext *)context
+- (void)seedPeople:(NSInteger)count inContext:(NSManagedObjectContext *)context
 {
 	[context performBlockAndWait:^{
 		
 		for (NSInteger i = 0; i < count; i++) {
 			
 			NSString* name	= [NSString stringWithFormat:@"person %li", (long)i];
-			Person* person	= [Person createObjectInContext:context];
+			Person* person	= [Person og_createObjectInContext:context];
 			
 			[person setName:name];
 		}
 		
-		[context save];
+		[context og_save];
 	}];
 }
 
-- (void)deleteDataInContext:(OGManagedObjectContext *)context
+- (void)deleteDataInContext:(NSManagedObjectContext *)context
 {
 	[context performBlockAndWait:^{
 		
-		[Person deleteWithRequest:nil context:context];
-		[Wallet deleteWithRequest:nil context:context];
-		[Creditcard deleteWithRequest:nil context:context];
+		[Person og_deleteWithRequest:nil context:context];
+		[Wallet og_deleteWithRequest:nil context:context];
+		[Creditcard og_deleteWithRequest:nil context:context];
 		
 		if (context.persistentStoreCoordinator.persistentStores.count)
-			[context save];
+			[context og_save];
 	}];
 }
 
