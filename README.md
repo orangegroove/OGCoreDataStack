@@ -32,7 +32,7 @@ and
 
 Optionally, you may use the *Contexts* subspec, which provides two contexts for you: one context for the main thread, and one context for heavy operations running in the background. The main thread context observes changes in the background context.
 
-## CRUD
+## Operations
 
 Managing objects is done via class methods on the managed object subclasses.
 
