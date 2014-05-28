@@ -13,6 +13,7 @@
 @interface Person : NSManagedObject
 
 @property (nonatomic, retain) NSNumber * age;
+@property (nonatomic, retain) NSNumber * id;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) Wallet *wallet;
 

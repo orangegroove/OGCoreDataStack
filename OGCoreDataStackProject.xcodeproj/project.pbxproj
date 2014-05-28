@@ -15,6 +15,9 @@
 		09475AD718CF403E0017AB27 /* OGManagedObjectVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 09475ACD18CF403E0017AB27 /* OGManagedObjectVendor.m */; };
 		09475AD818CF403E0017AB27 /* NSPersistentStoreCoordinator+OGCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 09475ACF18CF403E0017AB27 /* NSPersistentStoreCoordinator+OGCoreDataStack.m */; };
 		09475AD918CF403E0017AB27 /* OGTableViewManagedObjectVendor.m in Sources */ = {isa = PBXBuildFile; fileRef = 09475AD118CF403E0017AB27 /* OGTableViewManagedObjectVendor.m */; };
+		095FE7551935D1F0002BC685 /* OGCoreDataStackContextTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 095FE7541935D1F0002BC685 /* OGCoreDataStackContextTests.m */; };
+		095FE75A1935D293002BC685 /* OGCoreDataStackTestHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 095FE7591935D293002BC685 /* OGCoreDataStackTestHelper.m */; };
+		096D435419368EED00588191 /* OGCoreDataStackUniqueIdTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 096D435319368EED00588191 /* OGCoreDataStackUniqueIdTests.m */; };
 		09C7E548191FBEB50024D558 /* NSManagedObjectContext+OGCoreDataStackContexts.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C7E547191FBEB50024D558 /* NSManagedObjectContext+OGCoreDataStackContexts.m */; };
 		09C7E54E191FD2A70024D558 /* NSManagedObjectContext+OGCoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 09C7E54D191FD2A70024D558 /* NSManagedObjectContext+OGCoreDataStack.m */; };
 		09EA47C717BE39A60026664E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47C617BE39A60026664E /* Foundation.framework */; };
@@ -28,7 +31,7 @@
 		09EA47E117BE39A60026664E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47C617BE39A60026664E /* Foundation.framework */; };
 		09EA47E217BE39A60026664E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09EA47CA17BE39A60026664E /* UIKit.framework */; };
 		09EA47EA17BE39A60026664E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09EA47E817BE39A60026664E /* InfoPlist.strings */; };
-		09EA47EC17BE39A60026664E /* OGCoreDataStackProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47EB17BE39A60026664E /* OGCoreDataStackProjectTests.m */; };
+		09EA47EC17BE39A60026664E /* OGCoreDataStackCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA47EB17BE39A60026664E /* OGCoreDataStackCoreTests.m */; };
 		09EA481E17BE42A60026664E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09EA481C17BE42A60026664E /* Model.xcdatamodeld */; };
 		09EA482117BE430B0026664E /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482017BE430B0026664E /* Person.m */; };
 		09EA482417BE430C0026664E /* Wallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482317BE430C0026664E /* Wallet.m */; };
@@ -64,6 +67,10 @@
 		09475ACF18CF403E0017AB27 /* NSPersistentStoreCoordinator+OGCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSPersistentStoreCoordinator+OGCoreDataStack.m"; path = "OGCoreDataStack/NSPersistentStoreCoordinator+OGCoreDataStack.m"; sourceTree = SOURCE_ROOT; };
 		09475AD018CF403E0017AB27 /* OGTableViewManagedObjectVendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGTableViewManagedObjectVendor.h; path = OGCoreDataStack/OGTableViewManagedObjectVendor.h; sourceTree = SOURCE_ROOT; };
 		09475AD118CF403E0017AB27 /* OGTableViewManagedObjectVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OGTableViewManagedObjectVendor.m; path = OGCoreDataStack/OGTableViewManagedObjectVendor.m; sourceTree = SOURCE_ROOT; };
+		095FE7541935D1F0002BC685 /* OGCoreDataStackContextTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackContextTests.m; sourceTree = "<group>"; };
+		095FE7581935D293002BC685 /* OGCoreDataStackTestHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackTestHelper.h; sourceTree = "<group>"; };
+		095FE7591935D293002BC685 /* OGCoreDataStackTestHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackTestHelper.m; sourceTree = "<group>"; };
+		096D435319368EED00588191 /* OGCoreDataStackUniqueIdTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackUniqueIdTests.m; sourceTree = "<group>"; };
 		09C7E546191FBEB50024D558 /* NSManagedObjectContext+OGCoreDataStackContexts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+OGCoreDataStackContexts.h"; sourceTree = "<group>"; };
 		09C7E547191FBEB50024D558 /* NSManagedObjectContext+OGCoreDataStackContexts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+OGCoreDataStackContexts.m"; sourceTree = "<group>"; };
 		09C7E54C191FD2A70024D558 /* NSManagedObjectContext+OGCoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+OGCoreDataStack.h"; sourceTree = "<group>"; };
@@ -83,7 +90,7 @@
 		09EA47DF17BE39A60026664E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		09EA47E717BE39A60026664E /* OGCoreDataStackProjectTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OGCoreDataStackProjectTests-Info.plist"; sourceTree = "<group>"; };
 		09EA47E917BE39A60026664E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		09EA47EB17BE39A60026664E /* OGCoreDataStackProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackProjectTests.m; sourceTree = "<group>"; };
+		09EA47EB17BE39A60026664E /* OGCoreDataStackCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackCoreTests.m; sourceTree = "<group>"; };
 		09EA47F517BE39FA0026664E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		09EA480D17BE39FA0026664E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		09EA481D17BE42A60026664E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -232,7 +239,11 @@
 		09EA47E517BE39A60026664E /* OGCoreDataStackProjectTests */ = {
 			isa = PBXGroup;
 			children = (
-				09EA47EB17BE39A60026664E /* OGCoreDataStackProjectTests.m */,
+				095FE7581935D293002BC685 /* OGCoreDataStackTestHelper.h */,
+				095FE7591935D293002BC685 /* OGCoreDataStackTestHelper.m */,
+				09EA47EB17BE39A60026664E /* OGCoreDataStackCoreTests.m */,
+				095FE7541935D1F0002BC685 /* OGCoreDataStackContextTests.m */,
+				096D435319368EED00588191 /* OGCoreDataStackUniqueIdTests.m */,
 				09EA47E617BE39A60026664E /* Supporting Files */,
 			);
 			path = OGCoreDataStackProjectTests;
@@ -391,7 +402,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09EA47EC17BE39A60026664E /* OGCoreDataStackProjectTests.m in Sources */,
+				095FE75A1935D293002BC685 /* OGCoreDataStackTestHelper.m in Sources */,
+				09EA47EC17BE39A60026664E /* OGCoreDataStackCoreTests.m in Sources */,
+				095FE7551935D1F0002BC685 /* OGCoreDataStackContextTests.m in Sources */,
+				096D435419368EED00588191 /* OGCoreDataStackUniqueIdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

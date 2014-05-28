@@ -8,11 +8,18 @@
 
 #import "Person.h"
 #import "Wallet.h"
+#import "NSManagedObject+OGCoreDataStackUniqueId.h"
 
 @implementation Person
 
 @dynamic age;
+@dynamic id;
 @dynamic name;
 @dynamic wallet;
+
++ (NSString *)og_uniqueIdAttributeName
+{
+	return @"id";
+}
 
 @end

@@ -44,10 +44,5 @@ NSURL* _ogPersistentStoreURL(NSString* storeType)
 	NSString* modelname	= [filename substringWithRange:NSMakeRange(0, filename.length-5)];
 	NSArray* urls		= [NSFileManager.defaultManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
 	
-	if ([storeType isEqualToString:NSSQLiteStoreType])
-		modelname = [modelname stringByAppendingString:@".sqlite"];
-	else if ([storeType isEqualToString:NSBinaryStoreType])
-		modelname = [modelname stringByAppendingString:@".bin"];
-	
 	return [urls.lastObject URLByAppendingPathComponent:modelname];
 }

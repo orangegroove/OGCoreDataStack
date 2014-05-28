@@ -25,7 +25,7 @@
 #import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
 #import "OGCoreDataStackPrivate.h"
 
-static dispatch_once_t					_ogCoreDataStackToken						= 0;
+static dispatch_once_t*					_ogCoreDataStackTokenRef					= 0;
 static NSPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
 static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
@@ -44,9 +44,13 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
 + (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
 {
-	__block BOOL success = YES;
+	__block BOOL success			= YES;
+	static dispatch_once_t token	= 0;
+	_ogCoreDataStackTokenRef		= &token;
 	
-	dispatch_once(&_ogCoreDataStackToken, ^{
+	dispatch_once(&token, ^{
+		
+		NSLog(@"SETUP STORE NOW");
 		
 		NSString* coordinatorStoreType		= storeType;
 		NSDictionary* coordinatorOptions	= options;
@@ -83,17 +87,20 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 	if (!success)
 		return NO;
 	
-	if (![NSFileManager.defaultManager fileExistsAtPath:path])
-		return YES;
+	NSArray* paths = @[path, [path stringByAppendingString:@"-wal"], [path stringByAppendingString:@"-shm"]];
 	
-	success = [NSFileManager.defaultManager removeItemAtPath:path error:&error];
+	NSLog(@"file exists? %d %@", [NSFileManager.defaultManager fileExistsAtPath:path], path);
 	
-	NSAssert(success, @"Remove Persistent Store File Error: %@", error.localizedDescription);
+	for (NSString* file in paths) {
+		if ([NSFileManager.defaultManager fileExistsAtPath:file])
+			if (![NSFileManager.defaultManager removeItemAtPath:file error:&error]) {
+				
+				NSAssert(success, @"Remove Persistent Store File Error: %@", error.localizedDescription);
+				return NO;
+			}
+	}
 	
-	if (!success)
-		return NO;
-	
-	_ogCoreDataStackToken						= 0;
+	*_ogCoreDataStackTokenRef					= 0;
 	_ogCoreDataStackPersistentStoreCoordinator	= nil;
 	_ogCoreDataStackManagedObjectModel			= nil;
 	
