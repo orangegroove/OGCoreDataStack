@@ -50,8 +50,6 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 	
 	dispatch_once(&token, ^{
 		
-		NSLog(@"SETUP STORE NOW");
-		
 		NSString* coordinatorStoreType		= storeType;
 		NSDictionary* coordinatorOptions	= options;
 		
@@ -88,8 +86,6 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 		return NO;
 	
 	NSArray* paths = @[path, [path stringByAppendingString:@"-wal"], [path stringByAppendingString:@"-shm"]];
-	
-	NSLog(@"file exists? %d %@", [NSFileManager.defaultManager fileExistsAtPath:path], path);
 	
 	for (NSString* file in paths) {
 		if ([NSFileManager.defaultManager fileExistsAtPath:file])

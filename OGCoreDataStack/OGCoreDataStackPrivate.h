@@ -26,3 +26,5 @@
 
 NSURL*		_ogMomdURL(void);
 NSURL*		_ogPersistentStoreURL(NSString* storeType);
+NSString*	_ogCamelCaseFromUnderscore(NSString* underscore);
+NSString*	_ogFirstLetterCapitalizedString(NSString* string);

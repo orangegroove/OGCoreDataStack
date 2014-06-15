@@ -49,12 +49,12 @@
 
 /**
  Inserts new object into a context.
- @param uniqueIds An array of unique id's of the objects to return.
+ @param uniqueIds A set of unique id's of the objects to return.
  @param allowNil If false, the objects are inserted into the context if they don't exist
  @param context The context.
  @return The newly created objects.
  @note The returned objects will have an undefined order.
  */
-+ (NSArray *)og_objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
++ (NSArray *)og_objectsWithUniqueIds:(NSSet *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context;
 
 @end

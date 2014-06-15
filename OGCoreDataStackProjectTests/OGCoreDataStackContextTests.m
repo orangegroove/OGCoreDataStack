@@ -38,8 +38,6 @@
 	NSManagedObjectContext* mainThreadContext		= NSManagedObjectContext.og_mainThreadContext;
 	NSManagedObjectContext* backgroundThreadContext	= NSManagedObjectContext.og_backgroundThreadContext;
 	
-	NSLog(@"c1 %lu", [Person og_countWithRequest:nil context:mainThreadContext]);
-	
 	XCTAssertTrue([Person og_countWithRequest:nil context:mainThreadContext] == 0, @"");
 	
 	[OGCoreDataStackTestHelper seedPeople:3 inContext:backgroundThreadContext];

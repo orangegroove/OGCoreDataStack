@@ -38,10 +38,10 @@
 
 + (instancetype)og_objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
 {
-	return [self og_objectsWithUniqueIds:@[uniqueId] allowNil:allowNil context:context].firstObject;
+	return [self og_objectsWithUniqueIds:[NSSet setWithObject:uniqueId] allowNil:allowNil context:context].firstObject;
 }
 
-+ (NSArray *)og_objectsWithUniqueIds:(NSArray *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
++ (NSArray *)og_objectsWithUniqueIds:(NSSet *)uniqueIds allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context
 {
 	NSString* uniqueIdAttributeName = self.og_uniqueIdAttributeName;
 	
@@ -57,7 +57,7 @@
 	
 	if (!allowNil && objects.count != uniqueIds.count) {
 		
-		NSMutableArray* missingIds = [NSMutableArray arrayWithArray:uniqueIds];
+		NSMutableArray* missingIds = [NSMutableArray arrayWithArray:[uniqueIds allObjects]];
 		[missingIds removeObjectsInArray:[objects valueForKey:uniqueIdAttributeName]];
 		
 		for (id uniqueId in missingIds) {

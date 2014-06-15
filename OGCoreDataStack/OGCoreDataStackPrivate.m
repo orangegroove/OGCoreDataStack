@@ -46,3 +46,32 @@ NSURL* _ogPersistentStoreURL(NSString* storeType)
 	
 	return [urls.lastObject URLByAppendingPathComponent:modelname];
 }
+
+NSString* _ogCamelCaseFromUnderscore(NSString* underscore)
+{
+	NSMutableString* string = [NSMutableString stringWithString:underscore];
+	NSRange underscoreRange	= [string rangeOfString:@"_"];
+	
+	while (underscoreRange.location != NSNotFound) {
+		
+		[string replaceCharactersInRange:underscoreRange withString:@""];
+		
+		if (string.length >= underscoreRange.location + underscoreRange.length)
+			[string replaceCharactersInRange:underscoreRange withString:[[string substringWithRange:underscoreRange] uppercaseString]];
+		
+		underscoreRange = [string rangeOfString:@"_"];
+	}
+	
+	return [NSString stringWithString:string];
+}
+
+NSString* _ogFirstLetterCapitalizedString(NSString* string)
+{
+	if (string.length < 2)
+		return string.uppercaseString;
+	
+	NSString* first = [string substringToIndex:1];
+	NSString* rest	= [string substringFromIndex:1];
+	
+	return [NSString stringWithFormat:@"%@%@", first.uppercaseString, rest];
+}
