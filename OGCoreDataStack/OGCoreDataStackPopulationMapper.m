@@ -26,6 +26,7 @@
 #import "NSManagedObject+OGCoreDataStack.h"
 #import "NSManagedObject+OGCoreDataStackUniqueId.h"
 #import "OGCoreDataStackPrivate.h"
+#import "NSString+OGCoreDataStackPopulation.h"
 
 @implementation OGCoreDataStackPopulationMapper
 
@@ -52,10 +53,17 @@
 		
 		NSParameterAssert([key isKindOfClass:NSString.class]);
 		
+		BOOL relationship		= NO;
 		NSString* attributeName = [self attributeNameForPopulationKey:key object:object];
 		
-		if (!attributeName)
-			continue;
+		if (!attributeName) {
+			
+			relationship	= YES;
+			attributeName	= [self relationshipNameForPopulationKey:key object:object];
+			
+			if (!attributeName)
+				continue;
+		}
 		
 		id value				= dictionary[key];
 		SEL populateSelector	= NSSelectorFromString([NSString stringWithFormat:@"populateObject:%@WithValue:", attributeName]);
@@ -66,9 +74,9 @@
 		if ([self respondsToSelector:populateSelector])
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-			[self performSelector:populateSelector withObject:value];
+			[self performSelector:populateSelector withObject:object withObject:value];
 #pragma clang diagnostic pop
-		else
+		else if (!relationship)
 			[object setValue:value forKey:attributeName];
 	}
 }
@@ -119,7 +127,6 @@
 			}];
 			
 			NSAssert(index != NSNotFound, @"");
-			
 			[self populateObject:object withDictionary:dictionaries[index]];
 		}
 		
@@ -146,8 +153,13 @@
 - (NSString *)attributeNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
 {
 	if ([object.entity.attributesByName.allKeys containsObject:key])
-		return _ogCamelCaseFromUnderscore(key);
+		return [key og_camelCasedString];
 	
+	return nil;
+}
+
+- (NSString *)relationshipNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
+{
 	return nil;
 }
 

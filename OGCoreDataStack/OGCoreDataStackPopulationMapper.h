@@ -84,9 +84,18 @@
  @param object The object to populate.
  @return The attribute name that should be populated by the corresponding value in the dictionary. Return nil to not do anything with the value for this key.
  @note There's no need to override this method to simply translate a key from underscored to camelcase.
- @note The super implementation returns the key parameter in camelcased form, if and only if the key is one of the objects attributes. To handle relationships, return something here, and also implement the corresponding -populateObject:<ATTRIBUTE>WithValue: for a custom action for relationship values.
+ @note The super implementation returns the key parameter in camelcased form, if and only if the key is one of the objects attributes.
  */
 - (NSString *)attributeNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object;
+
+/**
+ This method is used for translating keys in a population dictionary to matching relationships. It should only return a value if the corrresponding -populateObject:<RELATIONSHIP>WithValue: method is implemented.
+ @param key The dictionary key.
+ @param object The object to populate.
+ @return The relationship name that should be populated by the corresponding value in the dictionary. Return nil to not do anything with the value for this key.
+ @note The super implementation returns nil. To handle relationships, return something here, and also implement the corresponding -populateObject:<ATTRIBUTE>WithValue: for a custom action for relationship values.
+ */
+- (NSString *)relationshipNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object;
 
 /**
  If a value needs to be transformed before populating an attribute, or a custom action should be performed, this method should be implemented.
@@ -94,5 +103,13 @@
  @note Implement this method for each attribute that needs a custom action or transformation in lieu of a normal assignment. Replace <ATTRIBUTE> with the attribute name.
  */
 //- (void)populateObject:(id)object <ATTRIBUTE>WithValue:(id)value;
+
+/**
+ Relationships aren't populated automatically, but if this method is called if implemented.
+ @param object
+ @param value
+ @note Implement this method for each relationships that needs a custom action. Replace <RELATIONSHIP> with the attribute name.
+ */
+//- (void)populateObject:(NSManagedObject *)object <RELATIONSHIP>WithValue:(id)value
 
 @end

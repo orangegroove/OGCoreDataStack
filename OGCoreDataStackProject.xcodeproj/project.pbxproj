@@ -38,6 +38,7 @@
 		09EA482717BE430C0026664E /* Creditcard.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482617BE430C0026664E /* Creditcard.m */; };
 		24AE430A194DF62A0097106B /* OGCoreDataStackPopulationMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE4309194DF62A0097106B /* OGCoreDataStackPopulationMapper.m */; };
 		24AE430F194E1C070097106B /* OGCoreDataStackPopulationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */; };
+		24AE4319194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,8 @@
 		24AE4308194DF62A0097106B /* OGCoreDataStackPopulationMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackPopulationMapper.h; sourceTree = "<group>"; };
 		24AE4309194DF62A0097106B /* OGCoreDataStackPopulationMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackPopulationMapper.m; sourceTree = "<group>"; };
 		24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackPopulationTests.m; sourceTree = "<group>"; };
+		24AE4317194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OGCoreDataStackPopulation.h"; sourceTree = "<group>"; };
+		24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OGCoreDataStackPopulation.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,6 +298,8 @@
 			children = (
 				24AE4308194DF62A0097106B /* OGCoreDataStackPopulationMapper.h */,
 				24AE4309194DF62A0097106B /* OGCoreDataStackPopulationMapper.m */,
+				24AE4317194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.h */,
+				24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */,
 			);
 			name = Population;
 			sourceTree = "<group>";
@@ -397,6 +402,7 @@
 			files = (
 				09EA482117BE430B0026664E /* Person.m in Sources */,
 				09C7E54E191FD2A70024D558 /* NSManagedObjectContext+OGCoreDataStack.m in Sources */,
+				24AE4319194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m in Sources */,
 				091C9BE618EA0BFA00757CC1 /* NSManagedObject+OGCoreDataStackUniqueId.m in Sources */,
 				09EA47D717BE39A60026664E /* OGAppDelegate.m in Sources */,
 				09475AD218CF403E0017AB27 /* NSFetchRequest+OGCoreDataStack.m in Sources */,
