@@ -81,19 +81,12 @@
 /**
  This method is used for translating keys in a population dictionary to matching attributes. It shouldn't be overridden if the keys match the attribute names.
  @param key The dictionary key.
- @return The attribute name that should be populated by the corresponding value in the dictionary.
+ @param object The object to populate.
+ @return The attribute name that should be populated by the corresponding value in the dictionary. Return nil to not do anything with the value for this key.
  @note There's no need to override this method to simply translate a key from underscored to camelcase.
- @note The super implementation returns the key parameter.
+ @note The super implementation returns the key parameter in camelcased form, if and only if the key is one of the objects attributes. To handle relationships, return something here, and also implement the corresponding -populateObject:<ATTRIBUTE>WithValue: for a custom action for relationship values.
  */
-- (NSString *)attributeNameForPopulationKey:(NSString *)key;
-
-/**
- If there is a corresponding key in the dictionary that should NOT populate an attribute, this method should return YES.
- @param dictionary The population dictionary.
- @return Whether the attribute should be populated.
- @note Implement this method for each attribute that should be skipped. Replace <ATTRIBUTE> with the attribute name. The first letter should be capitalized, even if the attribute name isn't.
- */
-//- (BOOL)skipPopulating<ATTRIBUTE>AttributeForDictionary:(NSDictionary *)dictionary;
+- (NSString *)attributeNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object;
 
 /**
  If a value needs to be transformed before populating an attribute, or a custom action should be performed, this method should be implemented.

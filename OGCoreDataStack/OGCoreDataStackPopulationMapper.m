@@ -27,25 +27,6 @@
 #import "NSManagedObject+OGCoreDataStackUniqueId.h"
 #import "OGCoreDataStackPrivate.h"
 
-static BOOL _ogShouldSkipPopulatingForAttribute(id mapper, NSString* attribute)
-{
-	BOOL skip			= NO;
-	SEL skipSelector	= NSSelectorFromString([NSString stringWithFormat:@"skipPopulating%@AttributeForDictionary:", _ogFirstLetterCapitalizedString(attribute)]);
-	
-	if ([mapper respondsToSelector:skipSelector]) {
-		
-		NSMethodSignature* signature	= [[mapper class] instanceMethodSignatureForSelector:skipSelector];
-		NSInvocation* invocation		= [NSInvocation invocationWithMethodSignature:signature];
-		invocation.selector				= skipSelector;
-		invocation.target				= mapper;
-		
-		[invocation invoke];
-		[invocation getReturnValue:&skip];
-	}
-	
-	return skip;
-}
-
 @implementation OGCoreDataStackPopulationMapper
 
 #pragma mark - Lifecycle
@@ -71,13 +52,9 @@ static BOOL _ogShouldSkipPopulatingForAttribute(id mapper, NSString* attribute)
 		
 		NSParameterAssert([key isKindOfClass:NSString.class]);
 		
-		NSString* translatedKey	= self.translateUnderscoreToCamelCase? _ogCamelCaseFromUnderscore(key) : key;
-		NSString* attributeName = [self attributeNameForPopulationKey:key];
+		NSString* attributeName = [self attributeNameForPopulationKey:key object:object];
 		
-		NSParameterAssert(translatedKey);
-		NSParameterAssert(attributeName);
-		
-		if (_ogShouldSkipPopulatingForAttribute(self, attributeName))
+		if (!attributeName)
 			continue;
 		
 		id value				= dictionary[key];
@@ -133,8 +110,6 @@ static BOOL _ogShouldSkipPopulatingForAttribute(id mapper, NSString* attribute)
 		NSArray* uniqueIds	= [dictionaries valueForKey:uniqueIdAttributeName];
 		NSArray* objects	= [class og_objectsWithUniqueIds:[NSSet setWithArray:uniqueIds] allowNil:NO context:context];
 		
-		NSLog(@"%@: __obj %@", uniqueIds, objects);
-		
 		for (id object in objects) {
 			
 			id uniqueId			= [object valueForKey:uniqueIdAttributeName];
@@ -168,9 +143,12 @@ static BOOL _ogShouldSkipPopulatingForAttribute(id mapper, NSString* attribute)
 
 #pragma mark - Configuration
 
-- (NSString *)attributeNameForPopulationKey:(NSString *)key
+- (NSString *)attributeNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
 {
-	return key;
+	if ([object.entity.attributesByName.allKeys containsObject:key])
+		return _ogCamelCaseFromUnderscore(key);
+	
+	return nil;
 }
 
 @end
