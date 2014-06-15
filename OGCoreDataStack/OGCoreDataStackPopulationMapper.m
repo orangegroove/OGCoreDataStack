@@ -46,25 +46,6 @@ static BOOL _ogShouldSkipPopulatingForAttribute(id mapper, NSString* attribute)
 	return skip;
 }
 
-static id _ogTransformedValueForAttribute(id mapper, id value, NSString* attribute)
-{
-	id transformed			= value;
-	SEL transformSelector	= NSSelectorFromString([NSString stringWithFormat:@"transformed%@Value:", _ogFirstLetterCapitalizedString(attribute)]);
-	
-	if ([mapper respondsToSelector:transformSelector]) {
-		
-		NSMethodSignature* signature	= [[mapper class] instanceMethodSignatureForSelector:transformSelector];
-		NSInvocation* invocation		= [NSInvocation invocationWithMethodSignature:signature];
-		invocation.selector				= transformSelector;
-		invocation.target				= mapper;
-		
-		[invocation invoke];
-		[invocation getReturnValue:&transformed];
-	}
-	
-	return transformed;
-}
-
 @implementation OGCoreDataStackPopulationMapper
 
 #pragma mark - Lifecycle
@@ -99,12 +80,19 @@ static id _ogTransformedValueForAttribute(id mapper, id value, NSString* attribu
 		if (_ogShouldSkipPopulatingForAttribute(self, attributeName))
 			continue;
 		
-		id value = _ogTransformedValueForAttribute(self, dictionary[key], attributeName);
+		id value				= dictionary[key];
+		SEL populateSelector	= NSSelectorFromString([NSString stringWithFormat:@"populateObject:%@WithValue:", attributeName]);
 		
 		if ([value isKindOfClass:NSNull.class])
 			value = nil;
 		
-		[object setValue:value forKey:attributeName];
+		if ([self respondsToSelector:populateSelector])
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+			[self performSelector:populateSelector withObject:value];
+#pragma clang diagnostic pop
+		else
+			[object setValue:value forKey:attributeName];
 	}
 }
 

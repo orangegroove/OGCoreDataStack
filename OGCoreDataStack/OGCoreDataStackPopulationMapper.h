@@ -96,11 +96,10 @@
 //- (BOOL)skipPopulating<ATTRIBUTE>AttributeForDictionary:(NSDictionary *)dictionary;
 
 /**
- If a value should be transformed before populating an attribute, this method should be implemented.
- @param value The value in the dictionary.
- @return The transformed value.
- @note Implement this method for each attribute whose value should be transformed before populating it. Replace <ATTRIBUTE> with the attribute name. The first letter should be capitalized, even if the attribute name isn't.
+ If a value needs to be transformed before populating an attribute, or a custom action should be performed, this method should be implemented.
+ @param value The value with which to populate the attribute.
+ @note Implement this method for each attribute that needs a custom action or transformation in lieu of a normal assignment. Replace <ATTRIBUTE> with the attribute name.
  */
-//- (id)transformed<ATTRIBUTE>Value:(id)value;
+//- (void)populateObject:(id)object <ATTRIBUTE>WithValue:(id)value;
 
 @end
