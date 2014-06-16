@@ -29,7 +29,7 @@
 #pragma mark - Configuration
 
 /**
- 
+ The mapping configuration class. Override this to customize the populating of objects. The class must be a subclass of OGCoreDataStackMappingConfiguration.
  */
 + (Class)og_mappingConfigurationClass;
 

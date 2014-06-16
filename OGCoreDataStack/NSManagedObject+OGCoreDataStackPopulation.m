@@ -27,7 +27,7 @@
 #import "NSManagedObject+OGCoreDataStackUniqueId.h"
 #import "OGCoreDataStackMappingConfiguration.h"
 
-static NSMutableDictionary*	_ogOGCoreDataStackMappingConfigurationCache = nil;
+static NSMutableDictionary*	_ogCoreDataStackMappingConfigurationCache = nil;
 
 @implementation NSManagedObject (OGCoreDataStackPopulation)
 
@@ -36,7 +36,7 @@ static NSMutableDictionary*	_ogOGCoreDataStackMappingConfigurationCache = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		
-		_ogOGCoreDataStackMappingConfigurationCache = [NSMutableDictionary dictionary];
+		_ogCoreDataStackMappingConfigurationCache = [NSMutableDictionary dictionary];
 	});
 }
 
@@ -44,13 +44,13 @@ static NSMutableDictionary*	_ogOGCoreDataStackMappingConfigurationCache = nil;
 {
 	Class class									= self.og_mappingConfigurationClass;
 	NSString* key								= NSStringFromClass(class);
-	OGCoreDataStackMappingConfiguration* config	= _ogOGCoreDataStackMappingConfigurationCache[key];
+	OGCoreDataStackMappingConfiguration* config	= _ogCoreDataStackMappingConfigurationCache[key];
 	
 	if (!config)
 		@synchronized(config)
 		{
-			config												= [[class alloc] init];
-			_ogOGCoreDataStackMappingConfigurationCache[key]	= config;
+			config											= [[class alloc] init];
+			_ogCoreDataStackMappingConfigurationCache[key]	= config;
 		}
 	
 	return config;
@@ -130,31 +130,28 @@ static NSMutableDictionary*	_ogOGCoreDataStackMappingConfigurationCache = nil;
 		
 		NSParameterAssert([key isKindOfClass:NSString.class]);
 		
-		BOOL relationship		= NO;
-		NSString* attributeName = [config attributeNameForPopulationKey:key object:self];
+		NSString* property = [config propertyNameForPopulationKey:key object:self];
 		
-		if (!attributeName) {
-			
-			relationship	= YES;
-			attributeName	= [config relationshipNameForPopulationKey:key object:self];
-			
-			if (!attributeName)
-				continue;
-		}
+		if (!property)
+			continue;
 		
 		id value				= dictionary[key];
-		SEL populateSelector	= NSSelectorFromString([NSString stringWithFormat:@"populateObject:%@WithValue:", attributeName]);
+		SEL populateSelector	= NSSelectorFromString([NSString stringWithFormat:@"populateObject:%@WithValue:", property]);
 		
 		if ([value isKindOfClass:NSNull.class])
 			value = nil;
 		
-		if ([self respondsToSelector:populateSelector])
+		if ([config respondsToSelector:populateSelector]) {
+			
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 			[config performSelector:populateSelector withObject:self withObject:value];
 #pragma clang diagnostic pop
-		else if (!relationship)
-			[self setValue:value forKey:attributeName];
+		}
+		else if ([self.entity.attributesByName.allKeys containsObject:property]) {
+			
+			[self setValue:value forKey:property];
+		}
 	}
 }
 

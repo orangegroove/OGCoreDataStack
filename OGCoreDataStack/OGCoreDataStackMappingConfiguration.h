@@ -33,27 +33,27 @@
 @property (assign, nonatomic) BOOL translateUnderscoreToCamelCase;
 
 /**
- 
+ If a dictionary key doesn't match the attribute name, override this method and return the proper name. The default implementation translates keys from underscore to camelcase and returns the key only if it's an attribute or a relationship.
+ @param key The dictionary key.
+ @param object The object to populate.
+ @return The object's property name. If nil is returned, this value is not used to populate the object.
  */
-- (NSString *)attributeNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object;
-
-/**
- 
- */
-- (NSString *)relationshipNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object;
+- (NSString *)propertyNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object;
 
 /**
  If a value needs to be transformed before populating an attribute, or a custom action should be performed, this method should be implemented.
+ @param object The object to which the attribute belongs.
  @param value The value with which to populate the attribute.
  @note Implement this method for each attribute that needs a custom action or transformation in lieu of a normal assignment. Replace <ATTRIBUTE> with the attribute name.
  */
-//- (void)populateObject:(id)object <ATTRIBUTE>WithValue:(id)value;
+//- (void)populateObject:(NSManagedObject *)object <ATTRIBUTE>WithValue:(id)value;
 
 /**
  Relationships aren't populated automatically, but if this method is called if implemented.
- @param object
- @param value
+ @param object The object to which the relationship belongs.
+ @param value The value with which to populate the relationship.
  @note Implement this method for each relationships that needs a custom action. Replace <RELATIONSHIP> with the attribute name.
+ @note Relationships do not support automatic population. So if this method is not implemented, no action is taken for a relationship, even if there is a corresponding key in the population dictionary.
  */
 //- (void)populateObject:(NSManagedObject *)object <RELATIONSHIP>WithValue:(id)value
 

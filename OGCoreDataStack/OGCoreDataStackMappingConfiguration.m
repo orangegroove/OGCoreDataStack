@@ -25,6 +25,9 @@
 #import "OGCoreDataStackMappingConfiguration.h"
 #import "NSString+OGCoreDataStackPopulation.h"
 
+@interface OGCoreDataStackMappingConfiguration ()
+
+@end
 @implementation OGCoreDataStackMappingConfiguration
 
 #pragma mark - Lifecycle
@@ -41,16 +44,17 @@
 
 #pragma mark - Configuration
 
-- (NSString *)attributeNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
+- (NSString *)propertyNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
 {
-	if ([object.entity.attributesByName.allKeys containsObject:key])
-		return [key og_camelCasedString];
+	NSParameterAssert(key);
+	NSParameterAssert(object);
 	
-	return nil;
-}
-
-- (NSString *)relationshipNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
-{
+	if (self.translateUnderscoreToCamelCase)
+		key = [key og_camelCasedString];
+	
+	if ([object.entity.attributesByName.allKeys containsObject:key] || [object.entity.relationshipsByName.allKeys containsObject:key])
+		return key;
+	
 	return nil;
 }
 
