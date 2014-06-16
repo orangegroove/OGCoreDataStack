@@ -39,7 +39,7 @@
 		24AE430F194E1C070097106B /* OGCoreDataStackPopulationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */; };
 		24AE4319194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */; };
 		24AE431C194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE431B194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.m */; };
-		24AE431F194EC2B30097106B /* OGCoreDataStackPopulationMappingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE431E194EC2B30097106B /* OGCoreDataStackPopulationMappingConfiguration.m */; };
+		24AE431F194EC2B30097106B /* OGCoreDataStackMappingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE431E194EC2B30097106B /* OGCoreDataStackMappingConfiguration.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,8 +110,8 @@
 		24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OGCoreDataStackPopulation.m"; sourceTree = "<group>"; };
 		24AE431A194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+OGCoreDataStackPopulation.h"; sourceTree = "<group>"; };
 		24AE431B194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+OGCoreDataStackPopulation.m"; sourceTree = "<group>"; };
-		24AE431D194EC2B30097106B /* OGCoreDataStackPopulationMappingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackPopulationMappingConfiguration.h; sourceTree = "<group>"; };
-		24AE431E194EC2B30097106B /* OGCoreDataStackPopulationMappingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackPopulationMappingConfiguration.m; sourceTree = "<group>"; };
+		24AE431D194EC2B30097106B /* OGCoreDataStackMappingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackMappingConfiguration.h; sourceTree = "<group>"; };
+		24AE431E194EC2B30097106B /* OGCoreDataStackMappingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackMappingConfiguration.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,8 +303,8 @@
 				24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */,
 				24AE431A194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.h */,
 				24AE431B194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.m */,
-				24AE431D194EC2B30097106B /* OGCoreDataStackPopulationMappingConfiguration.h */,
-				24AE431E194EC2B30097106B /* OGCoreDataStackPopulationMappingConfiguration.m */,
+				24AE431D194EC2B30097106B /* OGCoreDataStackMappingConfiguration.h */,
+				24AE431E194EC2B30097106B /* OGCoreDataStackMappingConfiguration.m */,
 			);
 			name = Population;
 			sourceTree = "<group>";
@@ -423,7 +423,7 @@
 				09475AD818CF403E0017AB27 /* NSPersistentStoreCoordinator+OGCoreDataStack.m in Sources */,
 				09475AD518CF403E0017AB27 /* NSManagedObject+OGCoreDataStack.m in Sources */,
 				09475AD318CF403E0017AB27 /* OGCollectionViewManagedObjectVendor.m in Sources */,
-				24AE431F194EC2B30097106B /* OGCoreDataStackPopulationMappingConfiguration.m in Sources */,
+				24AE431F194EC2B30097106B /* OGCoreDataStackMappingConfiguration.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

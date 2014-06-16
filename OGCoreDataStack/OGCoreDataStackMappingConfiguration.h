@@ -1,5 +1,5 @@
 //
-//  OGCoreDataStackPopulationMappingConfiguration.h
+//  OGCoreDataStackMappingConfiguration.h
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -24,7 +24,7 @@
 
 #import "OGCoreDataStackCommon.h"
 
-@interface OGCoreDataStackPopulationMappingConfiguration : NSObject
+@interface OGCoreDataStackMappingConfiguration : NSObject
 
 /**
  If YES, dictionary keys named with the underscore pattern (key_name) are automatically mapped to keys with the camelcase pattern (keyName).

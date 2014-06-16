@@ -25,9 +25,9 @@
 #import "NSManagedObject+OGCoreDataStackPopulation.h"
 #import "NSManagedObject+OGCoreDataStack.h"
 #import "NSManagedObject+OGCoreDataStackUniqueId.h"
-#import "OGCoreDataStackPopulationMappingConfiguration.h"
+#import "OGCoreDataStackMappingConfiguration.h"
 
-static NSMutableDictionary*	_ogOGCoreDataStackPopulationMappingConfigurationCache = nil;
+static NSMutableDictionary*	_ogOGCoreDataStackMappingConfigurationCache = nil;
 
 @implementation NSManagedObject (OGCoreDataStackPopulation)
 
@@ -36,21 +36,21 @@ static NSMutableDictionary*	_ogOGCoreDataStackPopulationMappingConfigurationCach
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		
-		_ogOGCoreDataStackPopulationMappingConfigurationCache = [NSMutableDictionary dictionary];
+		_ogOGCoreDataStackMappingConfigurationCache = [NSMutableDictionary dictionary];
 	});
 }
 
-+ (OGCoreDataStackPopulationMappingConfiguration *)_ogMappingConfiguration
++ (OGCoreDataStackMappingConfiguration *)_ogMappingConfiguration
 {
-	Class class												= self.og_populationMappingConfigurationClass;
-	NSString* key											= NSStringFromClass(class);
-	OGCoreDataStackPopulationMappingConfiguration* config	= _ogOGCoreDataStackPopulationMappingConfigurationCache[key];
+	Class class									= self.og_mappingConfigurationClass;
+	NSString* key								= NSStringFromClass(class);
+	OGCoreDataStackMappingConfiguration* config	= _ogOGCoreDataStackMappingConfigurationCache[key];
 	
 	if (!config)
 		@synchronized(config)
 		{
-			config														= [[class alloc] init];
-			_ogOGCoreDataStackPopulationMappingConfigurationCache[key]	= config;
+			config												= [[class alloc] init];
+			_ogOGCoreDataStackMappingConfigurationCache[key]	= config;
 		}
 	
 	return config;
@@ -58,9 +58,9 @@ static NSMutableDictionary*	_ogOGCoreDataStackPopulationMappingConfigurationCach
 
 #pragma mark - Configuration
 
-+ (Class)og_populationMappingConfigurationClass
++ (Class)og_mappingConfigurationClass
 {
-	return OGCoreDataStackPopulationMappingConfiguration.class;
+	return OGCoreDataStackMappingConfiguration.class;
 }
 
 #pragma mark - Creating
@@ -124,7 +124,7 @@ static NSMutableDictionary*	_ogOGCoreDataStackPopulationMappingConfigurationCach
 {
 	NSParameterAssert(dictionary);
 	
-	OGCoreDataStackPopulationMappingConfiguration* config = self.class._ogMappingConfiguration;
+	OGCoreDataStackMappingConfiguration* config = self.class._ogMappingConfiguration;
 	
 	for (NSString* key in dictionary) {
 		

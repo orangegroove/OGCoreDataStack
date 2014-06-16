@@ -31,7 +31,7 @@
 /**
  
  */
-+ (Class)og_populationMappingConfigurationClass;
++ (Class)og_mappingConfigurationClass;
 
 #pragma mark - Creating
 

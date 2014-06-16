@@ -22,10 +22,10 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackPopulationMappingConfiguration.h"
+#import "OGCoreDataStackMappingConfiguration.h"
 #import "NSString+OGCoreDataStackPopulation.h"
 
-@implementation OGCoreDataStackPopulationMappingConfiguration
+@implementation OGCoreDataStackMappingConfiguration
 
 #pragma mark - Lifecycle
 
