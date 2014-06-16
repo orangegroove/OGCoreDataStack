@@ -9,9 +9,9 @@
 #import <XCTest/XCTest.h>
 #import "OGCoreDataStackTestHelper.h"
 #import "OGCoreDataStackCore.h"
+#import "NSManagedObject+OGCoreDataStackPopulation.h"
 #import "Person.h"
 #import "Wallet.h"
-#import "OGCoreDataStackPopulationMapper.h"
 
 @interface OGCoreDataStackPopulationTests : XCTestCase
 
@@ -37,10 +37,8 @@
 	NSDictionary* dictionary		= @{@"name": @"Dictionary Name"};
 	Person* person					= [Person og_createObjectInContext:context];
 	
-	OGCoreDataStackPopulationMapper* mapper = [[OGCoreDataStackPopulationMapper alloc] init];
-	
 	XCTAssert(![person.name isEqualToString:dictionary[@"name"]], @"");
-	[mapper populateObject:person withDictionary:dictionary];
+	[person og_populateWithDictionary:dictionary];
 	XCTAssert([person.name isEqualToString:dictionary[@"name"]], @"");
 }
 
@@ -49,9 +47,7 @@
 	NSManagedObjectContext* context	= [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	NSDictionary* dictionary		= @{@"id": @4, @"name": @"Dictionary Name"};
 	
-	OGCoreDataStackPopulationMapper* mapper = [[OGCoreDataStackPopulationMapper alloc] init];
-	
-	Person* person = [mapper createObjectOfClass:Person.class withDictionary:dictionary context:context];
+	Person* person = [Person og_createObjectInContext:context populateWithDictionary:dictionary];
 	XCTAssert([person.name isEqualToString:dictionary[@"name"]], @"");
 	XCTAssert([person.id isEqualToNumber:dictionary[@"id"]], @"");
 }
@@ -61,12 +57,7 @@
 	NSManagedObjectContext* context	= [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	NSArray* dictionaries			= @[@{@"id": @6, @"name": @"Dictionary Name 1"}, @{@"id": @6, @"name": @"Dictionary Name 2"}];
 	
-	OGCoreDataStackPopulationMapper* mapper = [[OGCoreDataStackPopulationMapper alloc] init];
-	
-	NSArray* persons = [mapper createObjectsOfClass:Person.class withDictionaries:dictionaries context:context];
-	
-	NSLog(@"%@", persons);
-	
+	NSArray* persons = [Person og_createObjectsInContext:context populateWithDictionaries:dictionaries];
 	XCTAssert(persons.count == 1, @"");
 }
 
@@ -75,9 +66,7 @@
 	NSManagedObjectContext* context	= [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
 	NSArray* dictionaries			= @[@{@"cash": @60}, @{@"cash": @60}];
 	
-	OGCoreDataStackPopulationMapper* mapper = [[OGCoreDataStackPopulationMapper alloc] init];
-	
-	NSArray* wallets = [mapper createObjectsOfClass:Wallet.class withDictionaries:dictionaries context:context];
+	NSArray* wallets = [Wallet og_createObjectsInContext:context populateWithDictionaries:dictionaries];
 	XCTAssert(wallets.count == 2, @"");
 }
 

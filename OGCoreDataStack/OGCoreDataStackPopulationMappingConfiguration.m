@@ -1,5 +1,5 @@
 //
-//  NSString+OGCoreDataStackPopulation.h
+//  OGCoreDataStackPopulationMappingConfiguration.m
 //
 //  Created by Jesper <jesper@orangegroove.net>
 //
@@ -22,18 +22,36 @@
 //  IN THE SOFTWARE.
 //
 
-@interface NSString (OGCoreDataStackPopulation)
+#import "OGCoreDataStackPopulationMappingConfiguration.h"
+#import "NSString+OGCoreDataStackPopulation.h"
 
-/**
- Returns a string with underscores (some_test_string) replaced by camelcasing (someTestString).
- @return The camelcased string.
- */
-- (NSString *)og_camelCasedString;
+@implementation OGCoreDataStackPopulationMappingConfiguration
 
-/**
- Returns a string with the intial character capitalized.
- @return The capitalized string.
- */
-- (NSString *)og_firstLetterCapitalizedString;
+#pragma mark - Lifecycle
+
+- (instancetype)init
+{
+	if ((self = [super init])) {
+		
+		_translateUnderscoreToCamelCase = YES;
+	}
+	
+	return self;
+}
+
+#pragma mark - Configuration
+
+- (NSString *)attributeNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
+{
+	if ([object.entity.attributesByName.allKeys containsObject:key])
+		return [key og_camelCasedString];
+	
+	return nil;
+}
+
+- (NSString *)relationshipNameForPopulationKey:(NSString *)key object:(NSManagedObject *)object
+{
+	return nil;
+}
 
 @end
