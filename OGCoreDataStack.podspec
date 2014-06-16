@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
   s.subspec "Population" do |sp|
     sp.dependency          "OGCoreDataStack/Core"
     sp.dependency          "OGCoreDataStack/UniqueId"
-	sp.source_files      = "OGCoreDataStack/OGCoreDataStackMappingConfiguration.[hm]", "OGCoreDataStack/NSManagedObject+OGCoreDataStackPopulation.[hm]", "NSString+OGCoreDataStackPopulation.[hm]"
+    sp.source_files      = "OGCoreDataStack/OGCoreDataStackMappingConfiguration.[hm]", "OGCoreDataStack/NSManagedObject+OGCoreDataStackPopulation.[hm]", "OGCoreDataStack/NSString+OGCoreDataStackPopulation.[hm]"
   end
   
 end
