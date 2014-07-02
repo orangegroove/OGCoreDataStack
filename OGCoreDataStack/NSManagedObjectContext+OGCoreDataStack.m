@@ -142,13 +142,18 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 		
 		for (NSManagedObjectID* objectID in objectIDs) {
 			
-			NSError* error			= nil;
-			NSManagedObject* object = [self existingObjectWithID:objectID error:&error];
+			id object;
 			
-			NSAssert(!error, @"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
+			if (!objectID.isTemporaryID) {
+				
+				NSError* error	= nil;
+				object			= [self existingObjectWithID:objectID error:&error];
+			}
 			
-			if (object)
-				[passedObjects addObject:object];
+			if (!object)
+				object = NSNull.null;
+			
+			[passedObjects addObject:object];
 		}
 		
 		block([NSArray arrayWithArray:passedObjects]);
@@ -170,13 +175,18 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 		
 		for (NSManagedObjectID* objectID in objectIDs) {
 			
-			NSError* error			= nil;
-			NSManagedObject* object = [self existingObjectWithID:objectID error:&error];
+			id object;
 			
-			NSAssert(!error, @"Error passing object with ID: %@", objectID.URIRepresentation.absoluteString);
+			if (!objectID.isTemporaryID) {
+				
+				NSError* error	= nil;
+				object			= [self existingObjectWithID:objectID error:&error];
+			}
 			
-			if (object)
-				[passedObjects addObject:object];
+			if (!object)
+				object = NSNull.null;
+			
+			[passedObjects addObject:object];
 		}
 		
 		block([NSArray arrayWithArray:passedObjects]);
