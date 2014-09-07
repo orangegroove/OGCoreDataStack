@@ -36,6 +36,9 @@
 		09EA482117BE430B0026664E /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482017BE430B0026664E /* Person.m */; };
 		09EA482417BE430C0026664E /* Wallet.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482317BE430C0026664E /* Wallet.m */; };
 		09EA482717BE430C0026664E /* Creditcard.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482617BE430C0026664E /* Creditcard.m */; };
+		2400B8E019BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 2400B8DF19BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.m */; };
+		249BAA5619BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 249BAA5519BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m */; };
+		24AD2A1A19BB2DA1007D7464 /* OGCoreDataStackValueMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AD2A1919BB2DA1007D7464 /* OGCoreDataStackValueMapper.m */; };
 		24AE430F194E1C070097106B /* OGCoreDataStackPopulationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */; };
 		24AE4319194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */; };
 		24AE431C194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE431B194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.m */; };
@@ -105,6 +108,13 @@
 		09EA482517BE430C0026664E /* Creditcard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creditcard.h; sourceTree = "<group>"; };
 		09EA482617BE430C0026664E /* Creditcard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creditcard.m; sourceTree = "<group>"; };
 		09EA482917BE47C30026664E /* OGCoreDataStack.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = OGCoreDataStack.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		2400B8DE19BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObject+OGCoreDataStackValueMapping.h"; sourceTree = "<group>"; };
+		2400B8DF19BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+OGCoreDataStackValueMapping.m"; sourceTree = "<group>"; };
+		2400B8E119BB004500A81BBB /* OGCoreDataStackValueMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackValueMapping.h; sourceTree = "<group>"; };
+		249BAA5419BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OGCoreDataStackValueMapping.h"; sourceTree = "<group>"; };
+		249BAA5519BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OGCoreDataStackValueMapping.m"; sourceTree = "<group>"; };
+		24AD2A1819BB2DA1007D7464 /* OGCoreDataStackValueMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackValueMapper.h; sourceTree = "<group>"; };
+		24AD2A1919BB2DA1007D7464 /* OGCoreDataStackValueMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackValueMapper.m; sourceTree = "<group>"; };
 		24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackPopulationTests.m; sourceTree = "<group>"; };
 		24AE4317194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OGCoreDataStackPopulation.h"; sourceTree = "<group>"; };
 		24AE4318194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OGCoreDataStackPopulation.m"; sourceTree = "<group>"; };
@@ -276,6 +286,7 @@
 				09C7E54B191FD2990024D558 /* Core */,
 				092CC8F918C740CA00552869 /* Vendor */,
 				09C7E54A191FD28B0024D558 /* UniqueId */,
+				2400B8DD19BAF41900A81BBB /* ValueMapping */,
 				24AE4304194DF5A60097106B /* Population */,
 				09C7E545191FBE9A0024D558 /* Contexts */,
 			);
@@ -294,6 +305,20 @@
 				09EA482017BE430B0026664E /* Person.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		2400B8DD19BAF41900A81BBB /* ValueMapping */ = {
+			isa = PBXGroup;
+			children = (
+				249BAA5419BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.h */,
+				249BAA5519BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m */,
+				2400B8DE19BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.h */,
+				2400B8DF19BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.m */,
+				24AD2A1819BB2DA1007D7464 /* OGCoreDataStackValueMapper.h */,
+				24AD2A1919BB2DA1007D7464 /* OGCoreDataStackValueMapper.m */,
+				2400B8E119BB004500A81BBB /* OGCoreDataStackValueMapping.h */,
+			);
+			name = ValueMapping;
 			sourceTree = "<group>";
 		};
 		24AE4304194DF5A60097106B /* Population */ = {
@@ -405,8 +430,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2400B8E019BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.m in Sources */,
 				09EA482117BE430B0026664E /* Person.m in Sources */,
 				09C7E54E191FD2A70024D558 /* NSManagedObjectContext+OGCoreDataStack.m in Sources */,
+				249BAA5619BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m in Sources */,
+				24AD2A1A19BB2DA1007D7464 /* OGCoreDataStackValueMapper.m in Sources */,
 				24AE431C194EA3F90097106B /* NSManagedObject+OGCoreDataStackPopulation.m in Sources */,
 				24AE4319194E4E9F0097106B /* NSString+OGCoreDataStackPopulation.m in Sources */,
 				091C9BE618EA0BFA00757CC1 /* NSManagedObject+OGCoreDataStackUniqueId.m in Sources */,

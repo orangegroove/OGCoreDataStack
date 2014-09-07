@@ -33,9 +33,13 @@
 	NSParameterAssert(sortDescriptor);
 	
 	if (self.sortDescriptors.count)
-		self.sortDescriptors = [self.sortDescriptors arrayByAddingObject:sortDescriptor];
+    {
+        self.sortDescriptors = [self.sortDescriptors arrayByAddingObject:sortDescriptor];
+    }
 	else
-		self.sortDescriptors = @[sortDescriptor];
+    {
+        self.sortDescriptors = @[sortDescriptor];
+    }
 }
 
 - (void)og_addSortKey:(NSString *)key ascending:(BOOL)ascending

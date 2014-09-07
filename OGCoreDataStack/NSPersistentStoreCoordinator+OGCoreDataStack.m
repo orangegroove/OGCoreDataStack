@@ -54,10 +54,14 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 		NSDictionary* coordinatorOptions	= options;
 		
 		if (!coordinatorStoreType)
-			coordinatorStoreType = NSSQLiteStoreType;
+        {
+            coordinatorStoreType = NSSQLiteStoreType;
+        }
 		
 		if (!coordinatorOptions)
-			coordinatorOptions = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
+        {
+            coordinatorOptions = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
+        }
 		
 		NSError* error								= nil;
 		NSManagedObjectModel* model					= [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
@@ -73,7 +77,9 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 + (BOOL)og_reset
 {
 	if (!_ogCoreDataStackPersistentStoreCoordinator.persistentStores.count)
-		return YES;
+    {
+        return YES;
+    }
 	
 	NSError* error				= nil;
 	NSPersistentStore* store	= _ogCoreDataStackPersistentStoreCoordinator.persistentStores.firstObject;
@@ -83,17 +89,22 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 	NSAssert(success, @"Remove Persistent Store Error: %@", error.localizedDescription);
 	
 	if (!success)
-		return NO;
+    {
+        return NO;
+    }
 	
 	NSArray* paths = @[path, [path stringByAppendingString:@"-wal"], [path stringByAppendingString:@"-shm"]];
 	
-	for (NSString* file in paths) {
+	for (NSString* file in paths)
+    {
 		if ([NSFileManager.defaultManager fileExistsAtPath:file])
-			if (![NSFileManager.defaultManager removeItemAtPath:file error:&error]) {
-				
-				NSAssert(success, @"Remove Persistent Store File Error: %@", error.localizedDescription);
-				return NO;
-			}
+        {
+            if (![NSFileManager.defaultManager removeItemAtPath:file error:&error])
+            {
+                NSAssert(success, @"Remove Persistent Store File Error: %@", error.localizedDescription);
+                return NO;
+            }
+        }
 	}
 	
 	*_ogCoreDataStackTokenRef					= 0;

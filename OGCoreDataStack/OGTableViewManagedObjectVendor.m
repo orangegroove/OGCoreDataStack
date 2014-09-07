@@ -30,8 +30,8 @@
 
 - (id)init
 {
-	if (self = [super init]) {
-		
+	if (self = [super init])
+    {
 		_insertionAnimation	= UITableViewRowAnimationAutomatic;
 		_deletionAnimation	= UITableViewRowAnimationAutomatic;
 		_updateAnimation	= UITableViewRowAnimationAutomatic;
@@ -46,28 +46,32 @@
 - (void)setTableView:(UITableView *)tableView
 {
 	_tableView										= tableView;
-	__weak OGTableViewManagedObjectVendor* wSelf	= self;
+	__weak OGTableViewManagedObjectVendor* wSelf    = self;
 	
 	if (tableView)
-		self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {
-			
-			NSUInteger count = insertedSections.count + deletedSections.count + insertedItems.count + deletedItems.count + updatedItems.count;
-			
-			if (count > wSelf.reloadThreshold)
-				[tableView reloadData];
-			else {
-				
-				[tableView beginUpdates];
-				[tableView deleteSections:deletedSections withRowAnimation:wSelf.deletionAnimation];
-				[tableView insertSections:insertedSections withRowAnimation:wSelf.insertionAnimation];
-				[tableView deleteRowsAtIndexPaths:deletedItems withRowAnimation:wSelf.deletionAnimation];
-				[tableView insertRowsAtIndexPaths:insertedItems withRowAnimation:wSelf.insertionAnimation];
-				[tableView reloadRowsAtIndexPaths:updatedItems withRowAnimation:wSelf.updateAnimation];
-				[tableView endUpdates];
-			}
-		};
+    {
+        self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {
+            
+            NSUInteger count = insertedSections.count + deletedSections.count + insertedItems.count + deletedItems.count + updatedItems.count;
+            
+            if (count > wSelf.reloadThreshold)
+                [tableView reloadData];
+            else {
+                
+                [tableView beginUpdates];
+                [tableView deleteSections:deletedSections withRowAnimation:wSelf.deletionAnimation];
+                [tableView insertSections:insertedSections withRowAnimation:wSelf.insertionAnimation];
+                [tableView deleteRowsAtIndexPaths:deletedItems withRowAnimation:wSelf.deletionAnimation];
+                [tableView insertRowsAtIndexPaths:insertedItems withRowAnimation:wSelf.insertionAnimation];
+                [tableView reloadRowsAtIndexPaths:updatedItems withRowAnimation:wSelf.updateAnimation];
+                [tableView endUpdates];
+            }
+        };
+    }
 	else
-		self.objectsUpdated = nil;
+    {
+        self.objectsUpdated = nil;
+    }
 }
 
 @end

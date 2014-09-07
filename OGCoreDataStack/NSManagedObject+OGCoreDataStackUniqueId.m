@@ -55,13 +55,13 @@
 		
 	} context:context]];
 	
-	if (!allowNil && objects.count != uniqueIds.count) {
-		
+	if (!allowNil && objects.count != uniqueIds.count)
+    {
 		NSMutableArray* missingIds = [NSMutableArray arrayWithArray:[uniqueIds allObjects]];
 		[missingIds removeObjectsInArray:[objects valueForKey:uniqueIdAttributeName]];
 		
-		for (id uniqueId in missingIds) {
-			
+		for (id uniqueId in missingIds)
+        {
 			id object = [self og_createObjectInContext:context];
 			
 			[object setValue:uniqueId forKeyPath:uniqueIdAttributeName];

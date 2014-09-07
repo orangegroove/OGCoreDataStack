@@ -45,7 +45,8 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 {
 	NSUInteger concurrencyType;
 	
-	switch (concurrency) {
+	switch (concurrency)
+    {
 		case OGCoreDataStackContextConcurrencyMainQueue:
 			
 			concurrencyType = NSMainQueueConcurrencyType;
@@ -65,7 +66,8 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 
 - (OGCoreDataStackContextConcurrency)og_contextConcurrency
 {
-	switch (self.concurrencyType) {
+	switch (self.concurrencyType)
+    {
 		case NSMainQueueConcurrencyType:
 			return OGCoreDataStackContextConcurrencyMainQueue;
 		case NSPrivateQueueConcurrencyType:
@@ -92,7 +94,9 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	NSParameterAssert(context);
 	
 	if ([self og_isObservingSavesInContext:context])
-		return;
+    {
+        return;
+    }
 	
 	__block id weakSelf									= self;
 	NSString* key										= [self og_observerKeyForContext:context];
@@ -109,8 +113,8 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	NSString* key	= [self og_observerKeyForContext:context];
 	id observer		= key.length? _ogCoreDataStackManagedObjectContextObservers[key] : nil;
 	
-	if (observer) {
-		
+	if (observer)
+    {
 		[NSNotificationCenter.defaultCenter removeObserver:observer];
 		[_ogCoreDataStackManagedObjectContextObservers removeObjectForKey:key];
 	}
@@ -134,24 +138,28 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	NSMutableArray* objectIDs = [NSMutableArray arrayWithCapacity:objects.count];
 	
 	for (NSManagedObject* object in objects)
-		[objectIDs addObject:object.objectID];
+    {
+        [objectIDs addObject:object.objectID];
+    }
 	
 	[self performBlock:^{
 		
 		NSMutableArray* passedObjects = [NSMutableArray array];
 		
-		for (NSManagedObjectID* objectID in objectIDs) {
-			
+		for (NSManagedObjectID* objectID in objectIDs)
+        {
 			id object;
 			
-			if (!objectID.isTemporaryID) {
-				
+			if (!objectID.isTemporaryID)
+            {
 				NSError* error	= nil;
 				object			= [self existingObjectWithID:objectID error:&error];
 			}
 			
 			if (!object)
-				object = NSNull.null;
+            {
+                object = NSNull.null;
+            }
 			
 			[passedObjects addObject:object];
 		}
@@ -167,24 +175,28 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	NSMutableArray* objectIDs = [NSMutableArray arrayWithCapacity:objects.count];
 	
 	for (NSManagedObject* object in objects)
-		[objectIDs addObject:object.objectID];
+    {
+        [objectIDs addObject:object.objectID];
+    }
 	
 	[self performBlockAndWait:^{
 		
 		NSMutableArray* passedObjects = [NSMutableArray array];
 		
-		for (NSManagedObjectID* objectID in objectIDs) {
-			
+		for (NSManagedObjectID* objectID in objectIDs)
+        {
 			id object;
 			
-			if (!objectID.isTemporaryID) {
-				
+			if (!objectID.isTemporaryID)
+            {
 				NSError* error	= nil;
 				object			= [self existingObjectWithID:objectID error:&error];
 			}
 			
 			if (!object)
-				object = NSNull.null;
+            {
+                object = NSNull.null;
+            }
 			
 			[passedObjects addObject:object];
 		}

@@ -30,8 +30,8 @@
 
 - (id)init
 {
-	if (self = [super init]) {
-		
+	if (self = [super init])
+    {
 		_reloadThreshold = 50;
 	}
 	
@@ -46,29 +46,35 @@
 	__weak OGCollectionViewManagedObjectVendor* wSelf	= self;
 	
 	if (collectionView)
-		self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {
-			
-			NSUInteger count = insertedSections.count + deletedSections.count + insertedItems.count + deletedItems.count + updatedItems.count;
-			
-			if (count > wSelf.reloadThreshold)
-				[collectionView reloadData];
-			else {
-				
-				[collectionView performBatchUpdates:^{
-					
-					[collectionView deleteSections:deletedSections];
-					[collectionView insertSections:insertedSections];
-					[collectionView deleteItemsAtIndexPaths:deletedItems];
-					[collectionView insertItemsAtIndexPaths:insertedItems];
-					[collectionView reloadItemsAtIndexPaths:updatedItems];
-					
-				} completion:^(BOOL finished) {
-					
-				}];
-			}
-		};
+    {
+        self.objectsUpdated = ^(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems) {
+            
+            NSUInteger count = insertedSections.count + deletedSections.count + insertedItems.count + deletedItems.count + updatedItems.count;
+            
+            if (count > wSelf.reloadThreshold)
+            {
+                [collectionView reloadData];
+            }
+            else
+            {
+                [collectionView performBatchUpdates:^{
+                    
+                    [collectionView deleteSections:deletedSections];
+                    [collectionView insertSections:insertedSections];
+                    [collectionView deleteItemsAtIndexPaths:deletedItems];
+                    [collectionView insertItemsAtIndexPaths:insertedItems];
+                    [collectionView reloadItemsAtIndexPaths:updatedItems];
+                    
+                } completion:^(BOOL finished) {
+                    
+                }];
+            }
+        };
+    }
 	else
-		self.objectsUpdated = nil;
+    {
+        self.objectsUpdated = nil;
+    }
 }
 
 @end

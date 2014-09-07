@@ -57,7 +57,9 @@
 	NSError* error			= nil;
 	
 	if (block)
-		block(request);
+    {
+        block(request);
+    }
 	
 	NSArray* objects = [context executeFetchRequest:request error:&error];
 	
@@ -76,7 +78,9 @@
 	NSError* error			= nil;
 	
 	if (block)
-		block(request);
+    {
+        block(request);
+    }
 	
 	request.sortDescriptors	= nil;
 	NSUInteger count		= [context countForFetchRequest:request error:&error];
@@ -95,7 +99,9 @@
 	NSArray* objects = [self og_fetchWithRequest:^(NSFetchRequest *request) {
 		
 		if (block)
-			block(request);
+        {
+            block(request);
+        }
 		
 		request.returnsObjectsAsFaults				= YES;
 		request.includesPropertyValues				= NO;
@@ -107,7 +113,9 @@
 	NSUInteger count = objects.count;
 	
 	for (NSManagedObject* object in objects)
-		[object og_delete];
+    {
+        [object og_delete];
+    }
 	
 	return count;
 }
