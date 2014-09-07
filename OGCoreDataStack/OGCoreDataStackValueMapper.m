@@ -260,7 +260,7 @@ static id _ogTryCast(NSAttributeType type, id value)
         NSAttributeType type                = description.attributeType;
         id castValue                        = _ogTryCast(type, value);
         
-        if (self.castingBehaviour == OGCoreDataStackValueMapperCastingBehaviourLoose || castValue)
+        if (self.castingBehaviour == OGCoreDataStackValueMapperCastingBehaviourStrict || castValue)
         {
             value = castValue;
         }

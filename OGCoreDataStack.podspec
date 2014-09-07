@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                 = "OGCoreDataStack"
-  s.version              = "0.4.12"
+  s.version              = "0.5.0"
   s.summary              = "A multi-threaded Core Data stack. Design goals are ease of use, compile-time checks, and wrappers for some common use cases."
   s.homepage             = "https://github.com/OrangeGroove/OGCoreDataStack"
   s.license              = { :type => "MIT" }
@@ -31,10 +31,9 @@ Pod::Spec.new do |s|
     sc.source_files      = "OGCoreDataStack/NSManagedObjectContext+OGCoreDataStackContexts.[hm]"
   end
   
-  s.subspec "Population" do |sp|
+  s.subspec "ValueMapping" do |sp|
     sp.dependency          "OGCoreDataStack/Core"
-    sp.dependency          "OGCoreDataStack/UniqueId"
-    sp.source_files      = "OGCoreDataStack/OGCoreDataStackMappingConfiguration.[hm]", "OGCoreDataStack/NSManagedObject+OGCoreDataStackPopulation.[hm]", "OGCoreDataStack/NSString+OGCoreDataStackPopulation.[hm]"
+    sp.source_files      = "OGCoreDataStack/OGCoreDataStackValueMapper.[hm]", "OGCoreDataStack/OGCoreDataStackValueMapping.h", "OGCoreDataStack/*+OGCoreDataStackValueMapping.[hm]"
   end
   
 end
