@@ -33,11 +33,6 @@
 	return NSStringFromClass(self.class);
 }
 
-+ (NSFetchRequest *)og_fetchRequest
-{
-	return [NSFetchRequest fetchRequestWithEntityName:self.og_entityName];
-}
-
 #pragma mark - Inserting
 
 + (instancetype)og_createObjectInContext:(NSManagedObjectContext *)context

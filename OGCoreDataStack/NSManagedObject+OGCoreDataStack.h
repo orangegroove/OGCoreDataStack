@@ -36,12 +36,6 @@
  */
 + (NSString *)og_entityName;
 
-/**
- 
- @return
- */
-+ (NSFetchRequest *)og_fetchRequest;
-
 #pragma mark - Inserting
 /** @name Inserting */
 
