@@ -125,6 +125,25 @@
 	[self.managedObjectContext deleteObject:self];
 }
 
+#pragma mark - Batching
+
++ (BOOL)og_updateWithRequest:(OGCoreDataStackBatchUpdateRequestBlock)block context:(NSManagedObjectContext *)context result:(__autoreleasing id *)result
+{
+    NSParameterAssert(block);
+    
+    NSBatchUpdateRequest* request   = [NSBatchUpdateRequest batchUpdateRequestWithEntityName:self.og_entityName];
+    NSError* error                  = nil;
+    
+    block(request);
+    
+    NSBatchUpdateResult* batchResult    = (NSBatchUpdateResult *)[context executeRequest:request error:&error];
+    *result                             = batchResult.result;
+    
+    NSAssert(batchResult, @"Batch Update Error: %@", error.localizedDescription);
+    
+    return !!batchResult;
+}
+
 #pragma mark - Miscellaneous
 
 - (BOOL)og_obtainPermanentID

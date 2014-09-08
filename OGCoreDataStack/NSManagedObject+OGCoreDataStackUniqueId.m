@@ -34,6 +34,28 @@
 	return nil;
 }
 
+- (void)setOg_uniqueIdAttribute:(id)og_uniqueIdAttribute
+{
+    NSString* name = self.class.og_uniqueIdAttributeName;
+    
+    if (name)
+    {
+        [self setValue:og_uniqueIdAttribute forKey:name];
+    }
+}
+
+- (id)og_uniqueIdAttribute
+{
+    NSString* name = self.class.og_uniqueIdAttributeName;
+    
+    if (name)
+    {
+        return [self valueForKey:name];
+    }
+    
+    return nil;
+}
+
 #pragma mark - Inserting
 
 + (instancetype)og_objectWithUniqueId:(id)uniqueId allowNil:(BOOL)allowNil context:(NSManagedObjectContext *)context

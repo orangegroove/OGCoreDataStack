@@ -43,6 +43,7 @@
 + (NSFetchRequest *)og_fetchRequest;
 
 #pragma mark - Inserting
+/** @name Inserting */
 
 /**
  Inserts a new object into this context.
@@ -52,6 +53,7 @@
 + (instancetype)og_createObjectInContext:(NSManagedObjectContext *)context;
 
 #pragma mark - Fetching
+/** @name Fetching */
 
 /**
  Fetches objects from the context.
@@ -62,6 +64,7 @@
 + (NSArray *)og_fetchWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
 
 #pragma mark - Counting
+/** @name Counting */
 
 /**
  Counts objects in the context.
@@ -73,6 +76,7 @@
 + (NSUInteger)og_countWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
 
 #pragma mark - Deleting
+/** @name Deleting */
 
 /**
  Deletes objects from the context.
@@ -89,7 +93,20 @@
  */
 - (void)og_delete;
 
+#pragma mark - Batching
+/** @name Batching */
+
+/**
+ Performs a batch update.
+ @param block Modify the NSBatchUpdateRequest to be used in this block (e.g., to add a predicate and an operation).
+ @param context The context in which to update the objects.
+ @param result Filled with a value depending on the NSBatchUpdateRequest resultType.
+ @return The success of the operation.
+ */
++ (BOOL)og_updateWithRequest:(OGCoreDataStackBatchUpdateRequestBlock)block context:(NSManagedObjectContext *)context result:(id *)result NS_AVAILABLE_IOS(8_0);
+
 #pragma mark - Miscellaneous
+/** @name Miscellaneous */
 
 /**
  Obtains permanent NSManagedObjectIDs for objects. Shorthand for obtainPermanentIDsForObjects:error:, but asserts that the operation was successful.

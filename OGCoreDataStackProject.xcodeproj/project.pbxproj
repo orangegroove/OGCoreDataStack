@@ -38,8 +38,8 @@
 		09EA482717BE430C0026664E /* Creditcard.m in Sources */ = {isa = PBXBuildFile; fileRef = 09EA482617BE430C0026664E /* Creditcard.m */; };
 		2400B8E019BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 2400B8DF19BAFFDA00A81BBB /* NSManagedObject+OGCoreDataStackValueMapping.m */; };
 		249BAA5619BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 249BAA5519BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m */; };
+		24A9688F19BE335F00D7607F /* OGCoreDataStackValueMappingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24A9688E19BE335F00D7607F /* OGCoreDataStackValueMappingTests.m */; };
 		24AD2A1A19BB2DA1007D7464 /* OGCoreDataStackValueMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AD2A1919BB2DA1007D7464 /* OGCoreDataStackValueMapper.m */; };
-		24AE430F194E1C070097106B /* OGCoreDataStackPopulationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,9 +110,9 @@
 		2400B8E119BB004500A81BBB /* OGCoreDataStackValueMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackValueMapping.h; sourceTree = "<group>"; };
 		249BAA5419BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OGCoreDataStackValueMapping.h"; sourceTree = "<group>"; };
 		249BAA5519BB236900B1A9D3 /* NSString+OGCoreDataStackValueMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OGCoreDataStackValueMapping.m"; sourceTree = "<group>"; };
+		24A9688E19BE335F00D7607F /* OGCoreDataStackValueMappingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackValueMappingTests.m; sourceTree = "<group>"; };
 		24AD2A1819BB2DA1007D7464 /* OGCoreDataStackValueMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OGCoreDataStackValueMapper.h; sourceTree = "<group>"; };
 		24AD2A1919BB2DA1007D7464 /* OGCoreDataStackValueMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackValueMapper.m; sourceTree = "<group>"; };
-		24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OGCoreDataStackPopulationTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,7 +256,7 @@
 				09EA47EB17BE39A60026664E /* OGCoreDataStackCoreTests.m */,
 				095FE7541935D1F0002BC685 /* OGCoreDataStackContextTests.m */,
 				096D435319368EED00588191 /* OGCoreDataStackUniqueIdTests.m */,
-				24AE430E194E1C070097106B /* OGCoreDataStackPopulationTests.m */,
+				24A9688E19BE335F00D7607F /* OGCoreDataStackValueMappingTests.m */,
 				09EA47E617BE39A60026664E /* Supporting Files */,
 			);
 			path = OGCoreDataStackProjectTests;
@@ -433,10 +433,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24A9688F19BE335F00D7607F /* OGCoreDataStackValueMappingTests.m in Sources */,
 				095FE75A1935D293002BC685 /* OGCoreDataStackTestHelper.m in Sources */,
 				09EA47EC17BE39A60026664E /* OGCoreDataStackCoreTests.m in Sources */,
 				095FE7551935D1F0002BC685 /* OGCoreDataStackContextTests.m in Sources */,
-				24AE430F194E1C070097106B /* OGCoreDataStackPopulationTests.m in Sources */,
 				096D435419368EED00588191 /* OGCoreDataStackUniqueIdTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

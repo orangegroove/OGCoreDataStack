@@ -36,6 +36,11 @@
  */
 + (NSString *)og_uniqueIdAttributeName;
 
+/**
+ A shortcut providing accessors for the attribute in +og_uniqueIdAttributeName. Is noop if there is no uniqueId attribute.
+ */
+@property (strong, nonatomic) id og_uniqueIdAttribute;
+
 #pragma mark - Inserting
 
 /**

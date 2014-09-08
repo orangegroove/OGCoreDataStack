@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   
   s.subspec "UniqueId" do |su|
     su.dependency          "OGCoreDataStack/Core"
-	  su.source_files      = "OGCoreDataStack/NSManagedObject+OGCoreDataStackUniqueId.[hm]"
+    su.source_files      = "OGCoreDataStack/NSManagedObject+OGCoreDataStackUniqueId.[hm]"
   end
   
   s.subspec "Contexts" do |sc|
@@ -31,9 +31,10 @@ Pod::Spec.new do |s|
     sc.source_files      = "OGCoreDataStack/NSManagedObjectContext+OGCoreDataStackContexts.[hm]"
   end
   
-  s.subspec "ValueMapping" do |sp|
-    sp.dependency          "OGCoreDataStack/Core"
-    sp.source_files      = "OGCoreDataStack/OGCoreDataStackValueMapper.[hm]", "OGCoreDataStack/OGCoreDataStackValueMapping.h", "OGCoreDataStack/*+OGCoreDataStackValueMapping.[hm]"
+  s.subspec "ValueMapping" do |sm|
+    sm.dependency          "OGCoreDataStack/Core"
+    sm.dependency          "OGCoreDataStack/UniqueId"
+    sm.source_files      = "OGCoreDataStack/OGCoreDataStackValueMapper.[hm]", "OGCoreDataStack/OGCoreDataStackValueMapping.h", "OGCoreDataStack/*+OGCoreDataStackValueMapping.[hm]"
   end
   
 end

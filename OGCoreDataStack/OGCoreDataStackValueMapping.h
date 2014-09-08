@@ -13,12 +13,13 @@
 
 /**
  Maps key between destination object and source object.
- @param destination The object should be populated with values.
+ @param destination The class or object that should be populated with values.
  @param source The dictionary that contains values before mapping.
  @param sourceKey The key in the source.
  @return The source object keypath that matches the destinationKeyPath.
+ @note destination is a class if the actual destination is not yet fetched or instantiated.
  */
-- (NSString *)og_mappedKeyForDestination:(NSManagedObject *)destination source:(NSDictionary *)source sourceKey:(NSString *)sourceKey;
+- (NSString *)og_mappedKeyForDestination:(id)destination source:(NSDictionary *)source sourceKey:(NSString *)sourceKey;
 
 /**
  Maps values between destination object and source object.

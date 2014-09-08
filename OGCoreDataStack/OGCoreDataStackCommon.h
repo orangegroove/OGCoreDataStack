@@ -27,6 +27,7 @@
 
 typedef void (^OGCoreDataStackStoreSetupCallbackBlock)(BOOL success, NSError* error);
 typedef void (^OGCoreDataStackFetchRequestBlock)(NSFetchRequest* request);
+typedef void (^OGCoreDataStackBatchUpdateRequestBlock)(NSBatchUpdateRequest* request) NS_AVAILABLE_IOS(8_0);
 
 typedef NS_ENUM(uint16_t, OGCoreDataStackContextConcurrency)
 {
