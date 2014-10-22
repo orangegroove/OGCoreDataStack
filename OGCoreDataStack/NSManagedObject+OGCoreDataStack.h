@@ -22,7 +22,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackCommon.h"
+@import CoreData;
 
 @interface NSManagedObject (OGCoreDataStack)
 
@@ -55,7 +55,17 @@
  @param context The context from which to fetch the objects.
  @return The fetched objects.
  */
-+ (NSArray *)og_fetchWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
++ (NSArray *)og_fetchWithRequest:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context;
+
+/**
+ Fetches objects asynchronously from the context.
+ @param block Modify the NSFetchRequest to be used in this block (e.g., to add a predicate, or a sort descriptor).
+ @param progressTotal The total number of expected units for use with NSProgress, if known. Otherwise, pass 1.
+ @param context The context from which to fetch the objects.
+ @param completion The block run on completion.
+ @return The result future.
+ */
++ (NSPersistentStoreAsynchronousResult *)og_fetchAsynchronouslyWithRequest:(void (^)(NSFetchRequest* request))block progressTotal:(int64_t)progressTotal context:(NSManagedObjectContext *)context completion:(void (^)(BOOL success, NSArray* result, NSError* error))completion;
 
 #pragma mark - Counting
 /** @name Counting */
@@ -67,7 +77,7 @@
  @return The number of objects.
  @note Any sort descriptors added to the NSFetchRequest are automatically removed before execution.
  */
-+ (NSUInteger)og_countWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
++ (NSUInteger)og_countWithRequest:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context;
 
 #pragma mark - Deleting
 /** @name Deleting */
@@ -79,7 +89,7 @@
  @return The number of objects that were deleted.
  @warning If you do not add a predicate to the NSFetchRequest, all objects in the entity will be deleted.
  */
-+ (NSUInteger)og_deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context;
++ (NSUInteger)og_deleteWithRequest:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context;
 
 /**
  Delete objects from the context.
@@ -97,7 +107,7 @@
  @param result Filled with a value depending on the NSBatchUpdateRequest resultType.
  @return The success of the operation.
  */
-+ (BOOL)og_updateWithRequest:(OGCoreDataStackBatchUpdateRequestBlock)block context:(NSManagedObjectContext *)context result:(id *)result NS_AVAILABLE_IOS(8_0);
++ (BOOL)og_updateWithRequest:(void (^)(NSBatchUpdateRequest* request))block context:(NSManagedObjectContext *)context result:(id *)result NS_AVAILABLE_IOS(8_0);
 
 #pragma mark - Miscellaneous
 /** @name Miscellaneous */

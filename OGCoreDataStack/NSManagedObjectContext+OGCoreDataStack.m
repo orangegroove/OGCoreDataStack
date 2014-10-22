@@ -41,42 +41,6 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 	});
 }
 
-+ (instancetype)og_newContextWithConcurrency:(OGCoreDataStackContextConcurrency)concurrency
-{
-	NSUInteger concurrencyType;
-	
-	switch (concurrency)
-    {
-		case OGCoreDataStackContextConcurrencyMainQueue:
-			
-			concurrencyType = NSMainQueueConcurrencyType;
-			break;
-			
-		case OGCoreDataStackContextConcurrencyBackgroundQueue:
-			
-			concurrencyType = NSPrivateQueueConcurrencyType;
-			break;
-	}
-	
-	NSManagedObjectContext* context		= [[self alloc] initWithConcurrencyType:concurrencyType];
-	context.persistentStoreCoordinator	= NSPersistentStoreCoordinator.og_sharedPersistentStoreCoordinator;
-	
-	return context;
-}
-
-- (OGCoreDataStackContextConcurrency)og_contextConcurrency
-{
-	switch (self.concurrencyType)
-    {
-		case NSMainQueueConcurrencyType:
-			return OGCoreDataStackContextConcurrencyMainQueue;
-		case NSPrivateQueueConcurrencyType:
-			return OGCoreDataStackContextConcurrencyBackgroundQueue;
-		default:
-			return UINT16_MAX;
-	}
-}
-
 - (BOOL)og_save
 {
 	NSError* error	= nil;

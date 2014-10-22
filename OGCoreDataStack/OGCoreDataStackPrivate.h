@@ -22,7 +22,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackCommon.h"
+@import CoreData;
 
-NSURL*		_ogMomdURL(void);
-NSURL*		_ogPersistentStoreURL(NSString* storeType);
+NSURL* _ogMomdURL(void);
+NSURL* _ogPersistentStoreURL(NSString* storeType);

@@ -37,7 +37,7 @@
 
 - (void)testInsert
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	
 	[OGCoreDataStackTestHelper seedPeople:1 inContext:context];
 	
@@ -46,7 +46,7 @@
 
 - (void)testDelete
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	
 	[OGCoreDataStackTestHelper seedPeople:1 inContext:context];
 	
@@ -59,7 +59,7 @@
 
 - (void)testFetch
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	
 	[OGCoreDataStackTestHelper seedPeople:1 inContext:context];
 	
@@ -72,8 +72,8 @@
 
 - (void)testPassObjects
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
-	NSManagedObjectContext* otherContext = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
+    NSManagedObjectContext* context      = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    NSManagedObjectContext* otherContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
 	
 	[otherContext og_observeSavesInContext:context];
 	[OGCoreDataStackTestHelper seedPeople:1 inContext:context];
@@ -102,7 +102,7 @@
 
 - (void)testFetchRequest
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	
 	[OGCoreDataStackTestHelper seedPeople:5 inContext:context];
 	
@@ -120,14 +120,14 @@
 
 - (void)testResetPersistentStore
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	
 	[OGCoreDataStackTestHelper seedPeople:8 inContext:context];
 	
 	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 8, @"");
 	XCTAssertTrue([NSPersistentStoreCoordinator og_reset], @"");
 	
-	context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	
 	XCTAssertTrue([Person og_countWithRequest:nil context:context] == 0, @"");
 }

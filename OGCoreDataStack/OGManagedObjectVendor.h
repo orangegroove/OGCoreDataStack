@@ -22,7 +22,7 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackCommon.h"
+@import CoreData;
 
 /**
  NSFetchedResultsController decorator.
@@ -79,7 +79,7 @@ typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections
  @param sectionNameKeyPath The keypath on the objects used to divide them into sections. Can be nil.
  @param cacheName The name of the file in which to store the cached fetch. Can be nil.
  */
-- (void)setEntity:(Class)entity request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName;
+- (void)setEntity:(Class)entity request:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName;
 
 #pragma mark - Counting
 /** @name Counting */

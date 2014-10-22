@@ -44,7 +44,7 @@
 
 #pragma mark - Fetching
 
-+ (NSArray *)og_fetchWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (NSArray *)og_fetchWithRequest:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
@@ -63,9 +63,34 @@
 	return objects;
 }
 
++ (NSPersistentStoreAsynchronousResult *)og_fetchAsynchronouslyWithRequest:(void (^)(NSFetchRequest *))block progressTotal:(int64_t)progressTotal context:(NSManagedObjectContext *)context completion:(void (^)(BOOL, NSArray *, NSError *))completion
+{
+    NSParameterAssert(context);
+    NSParameterAssert(completion);
+    
+    NSProgress* progress                = [NSProgress progressWithTotalUnitCount:progressTotal];
+    NSFetchRequest* fetchRequest        = [NSFetchRequest fetchRequestWithEntityName:self.og_entityName];
+    NSAsynchronousFetchRequest* request = [[NSAsynchronousFetchRequest alloc] initWithFetchRequest:fetchRequest completionBlock:^(NSAsynchronousFetchResult *result) {
+        
+        completion(!!result.finalResult, result.finalResult, nil);
+    }];
+    
+    [progress becomeCurrentWithPendingUnitCount:1];
+    
+    NSError* error                              = nil;
+    NSPersistentStoreAsynchronousResult* result = (NSPersistentStoreAsynchronousResult *)[context executeRequest:request error:&error];
+    
+    if (!result)
+    {
+        completion(NO, nil, error);
+    }
+    
+    return result;
+}
+
 #pragma mark - Counting
 
-+ (NSUInteger)og_countWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (NSUInteger)og_countWithRequest:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
@@ -87,7 +112,7 @@
 
 #pragma mark - Deleting
 
-+ (NSUInteger)og_deleteWithRequest:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context
++ (NSUInteger)og_deleteWithRequest:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
 	
@@ -98,10 +123,10 @@
             block(request);
         }
 		
-		request.returnsObjectsAsFaults				= YES;
-		request.includesPropertyValues				= NO;
-		request.sortDescriptors						= nil;
-		request.relationshipKeyPathsForPrefetching	= nil;
+        request.returnsObjectsAsFaults             = YES;
+        request.includesPropertyValues             = NO;
+        request.sortDescriptors                    = nil;
+        request.relationshipKeyPathsForPrefetching = nil;
 		
 	} context:context];
 	
@@ -122,17 +147,17 @@
 
 #pragma mark - Batching
 
-+ (BOOL)og_updateWithRequest:(OGCoreDataStackBatchUpdateRequestBlock)block context:(NSManagedObjectContext *)context result:(__autoreleasing id *)result
++ (BOOL)og_updateWithRequest:(void (^)(NSBatchUpdateRequest* request))block context:(NSManagedObjectContext *)context result:(__autoreleasing id *)result
 {
     NSParameterAssert(block);
     
-    NSBatchUpdateRequest* request   = [NSBatchUpdateRequest batchUpdateRequestWithEntityName:self.og_entityName];
-    NSError* error                  = nil;
+    NSBatchUpdateRequest* request    = [NSBatchUpdateRequest batchUpdateRequestWithEntityName:self.og_entityName];
+    NSError* error                   = nil;
     
     block(request);
     
-    NSBatchUpdateResult* batchResult    = (NSBatchUpdateResult *)[context executeRequest:request error:&error];
-    *result                             = batchResult.result;
+    NSBatchUpdateResult* batchResult = (NSBatchUpdateResult *)[context executeRequest:request error:&error];
+    *result                          = batchResult.result;
     
     NSAssert(batchResult, @"Batch Update Error: %@", error.localizedDescription);
     
@@ -143,8 +168,8 @@
 
 - (BOOL)og_obtainPermanentID
 {
-	NSError* error	= nil;
-	BOOL success	= [self.managedObjectContext obtainPermanentIDsForObjects:@[self] error:&error];
+    NSError* error = nil;
+    BOOL success   = [self.managedObjectContext obtainPermanentIDsForObjects:@[self] error:&error];
 	
 	NSAssert(success, @"ObtainPermanentID Error: %@", error.localizedDescription);
 	

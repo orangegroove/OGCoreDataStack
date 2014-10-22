@@ -22,7 +22,8 @@
 //  IN THE SOFTWARE.
 //
 
-#import "OGCoreDataStackCommon.h"
+@import CoreData;
+
 #import "NSManagedObject+OGCoreDataStack.h"
 #import "NSManagedObjectContext+OGCoreDataStack.h"
 #import "NSPersistentStoreCoordinator+OGCoreDataStack.h"

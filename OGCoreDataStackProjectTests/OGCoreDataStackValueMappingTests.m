@@ -33,7 +33,7 @@
 
 - (void)testMapValues
 {
-    NSManagedObjectContext* context	= [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     NSDictionary* dictionary		= @{@"name": @"Dictionary Name"};
     Person* person					= [Person og_createObjectInContext:context];
     
@@ -44,7 +44,7 @@
 
 - (void)testCreateAndMapObject
 {
-    NSManagedObjectContext* context	= [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     NSDictionary* dictionary		= @{@"id": @4, @"name": @"Dictionary Name"};
     
     Person* person = [Person og_objectFromSource:dictionary mapper:nil context:context respectUniqueId:NO];
@@ -54,7 +54,7 @@
 
 - (void)testCreateAndMapObjectsWithUniqueId
 {
-    NSManagedObjectContext* context	= [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     NSArray* dictionaries			= @[@{@"id": @6, @"name": @"Dictionary Name 1"}, @{@"id": @6, @"name": @"Dictionary Name 2"}];
     
     NSArray* persons = [Person og_objectsFromSources:dictionaries mapper:nil context:context respectUniqueId:YES];
@@ -63,7 +63,7 @@
 
 - (void)testCreateAndMapObjectsWithoutUniqueId
 {
-    NSManagedObjectContext* context	= [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     NSArray* dictionaries			= @[@{@"cash": @60}, @{@"cash": @60}];
     
     NSArray* wallets = [Wallet og_objectsFromSources:dictionaries mapper:nil context:context respectUniqueId:NO];

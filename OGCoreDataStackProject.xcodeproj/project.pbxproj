@@ -59,7 +59,6 @@
 		09475AC118CF403E0017AB27 /* NSFetchRequest+OGCoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSFetchRequest+OGCoreDataStack.m"; path = "OGCoreDataStack/NSFetchRequest+OGCoreDataStack.m"; sourceTree = SOURCE_ROOT; };
 		09475AC218CF403E0017AB27 /* OGCollectionViewManagedObjectVendor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGCollectionViewManagedObjectVendor.h; path = OGCoreDataStack/OGCollectionViewManagedObjectVendor.h; sourceTree = SOURCE_ROOT; };
 		09475AC318CF403E0017AB27 /* OGCollectionViewManagedObjectVendor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OGCollectionViewManagedObjectVendor.m; path = OGCoreDataStack/OGCollectionViewManagedObjectVendor.m; sourceTree = SOURCE_ROOT; };
-		09475AC418CF403E0017AB27 /* OGCoreDataStackCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGCoreDataStackCommon.h; path = OGCoreDataStack/OGCoreDataStackCommon.h; sourceTree = SOURCE_ROOT; };
 		09475AC518CF403E0017AB27 /* OGCoreDataStackCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGCoreDataStackCore.h; path = OGCoreDataStack/OGCoreDataStackCore.h; sourceTree = SOURCE_ROOT; };
 		09475AC618CF403E0017AB27 /* OGCoreDataStackPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OGCoreDataStackPrivate.h; path = OGCoreDataStack/OGCoreDataStackPrivate.h; sourceTree = SOURCE_ROOT; };
 		09475AC718CF403E0017AB27 /* OGCoreDataStackPrivate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OGCoreDataStackPrivate.m; path = OGCoreDataStack/OGCoreDataStackPrivate.m; sourceTree = SOURCE_ROOT; };
@@ -176,7 +175,6 @@
 			isa = PBXGroup;
 			children = (
 				09475AC518CF403E0017AB27 /* OGCoreDataStackCore.h */,
-				09475AC418CF403E0017AB27 /* OGCoreDataStackCommon.h */,
 				09475AC618CF403E0017AB27 /* OGCoreDataStackPrivate.h */,
 				09475AC718CF403E0017AB27 /* OGCoreDataStackPrivate.m */,
 				09475AC018CF403E0017AB27 /* NSFetchRequest+OGCoreDataStack.h */,

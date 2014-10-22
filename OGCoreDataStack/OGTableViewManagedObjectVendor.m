@@ -55,9 +55,11 @@
             NSUInteger count = insertedSections.count + deletedSections.count + insertedItems.count + deletedItems.count + updatedItems.count;
             
             if (count > wSelf.reloadThreshold)
+            {
                 [tableView reloadData];
-            else {
-                
+            }
+            else
+            {
                 [tableView beginUpdates];
                 [tableView deleteSections:deletedSections withRowAnimation:wSelf.deletionAnimation];
                 [tableView insertSections:insertedSections withRowAnimation:wSelf.insertionAnimation];

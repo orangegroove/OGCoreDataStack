@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Orange Groove. All rights reserved.
 //
 
-#import "OGCoreDataStackCommon.h"
 #import "NSManagedObject+OGCoreDataStackUniqueId.h"
 
 @protocol OGCoreDataStackValueMapping;

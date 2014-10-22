@@ -33,7 +33,7 @@
 
 #pragma mark - Logic Tests
 
-- (void)atestContextRelationship
+- (void)testContextRelationship
 {
 	NSManagedObjectContext* mainThreadContext		= NSManagedObjectContext.og_mainThreadContext;
 	NSManagedObjectContext* backgroundThreadContext	= NSManagedObjectContext.og_backgroundThreadContext;

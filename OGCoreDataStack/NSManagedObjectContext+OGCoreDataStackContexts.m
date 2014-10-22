@@ -36,7 +36,7 @@
 	
 	dispatch_once(&token, ^{
 		
-		context = [self og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+        context = [[self alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 		[context og_observeSavesInContext:self.og_backgroundThreadContext];
 	});
 	
@@ -50,7 +50,7 @@
 	
 	dispatch_once(&token, ^{
 		
-		context = [self og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyBackgroundQueue];
+        context = [[self alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
 	});
 	
 	return context;

@@ -32,7 +32,7 @@
 
 - (void)testUniqueId
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	
 	XCTAssert(![Person og_objectWithUniqueId:@0 allowNil:YES context:context], @"");
 	
@@ -49,7 +49,7 @@
 
 - (void)testUniqueIdUniqueness
 {
-	NSManagedObjectContext* context = [NSManagedObjectContext og_newContextWithConcurrency:OGCoreDataStackContextConcurrencyMainQueue];
+    NSManagedObjectContext* context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 	NSNumber* thisId				= @77;
 	
 	[Person og_objectWithUniqueId:thisId allowNil:NO context:context];

@@ -32,8 +32,8 @@
 @property (copy, nonatomic)   NSString*						sectionNameKeyPath;
 @property (strong, nonatomic) NSString*						cacheName;
 @property (strong, nonatomic) NSFetchedResultsController*	fetchedResultsController;
-@property (strong, nonatomic) NSMutableIndexSet*			insertedSections;
-@property (strong, nonatomic) NSMutableIndexSet*			deletedSections;
+@property (strong, nonatomic) NSMutableIndexSet*            insertedSections;
+@property (strong, nonatomic) NSMutableIndexSet*            deletedSections;
 @property (strong, nonatomic) NSMutableArray*				insertedObjects;
 @property (strong, nonatomic) NSMutableArray*				deletedObjects;
 @property (strong, nonatomic) NSMutableArray*				updatedObjects;
@@ -46,7 +46,7 @@
 
 #pragma mark - Public
 
-- (void)setEntity:(Class)entity request:(OGCoreDataStackFetchRequestBlock)block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName
+- (void)setEntity:(Class)entity request:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context sectionNameKeyPath:(NSString *)sectionNameKeyPath cacheName:(NSString *)cacheName
 {
 	NSParameterAssert(entity);
 	NSParameterAssert(context);

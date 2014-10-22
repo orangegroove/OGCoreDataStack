@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Orange Groove. All rights reserved.
 //
 
-#import "OGCoreDataStackCommon.h"
+@import CoreData;
 #import "OGCoreDataStackValueMapping.h"
 
 typedef NS_ENUM(uint8_t, OGCoreDataStackValueMapperCastingBehaviour)
