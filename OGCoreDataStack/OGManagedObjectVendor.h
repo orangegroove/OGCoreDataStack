@@ -28,8 +28,6 @@
  NSFetchedResultsController decorator.
  */
 
-typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);
-
 @interface OGManagedObjectVendor : NSObject <NSFetchedResultsControllerDelegate>
 
 /**
@@ -65,7 +63,7 @@ typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections
 /**
  This block is called after every batch of updates to the objects.
  */
-@property (copy, nonatomic) OGCoreDataStackVendorObjectsUpdated	objectsUpdated;
+@property (copy, nonatomic) void (^objectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);
 
 #pragma mark - Lifecycle
 /** @name Lifecycle */
