@@ -25,9 +25,9 @@
 #import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
 #import "OGCoreDataStackPrivate.h"
 
-static dispatch_once_t*					_ogCoreDataStackTokenRef					= 0;
-static NSPersistentStoreCoordinator*	_ogCoreDataStackPersistentStoreCoordinator	= nil;
-static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
+static dispatch_once_t* _ogCoreDataStackTokenRef                                = 0;
+static NSPersistentStoreCoordinator* _ogCoreDataStackPersistentStoreCoordinator = nil;
+static NSManagedObjectModel* _ogCoreDataStackManagedObjectModel                 = nil;
 
 @implementation NSPersistentStoreCoordinator (OGCoreDataStack)
 
