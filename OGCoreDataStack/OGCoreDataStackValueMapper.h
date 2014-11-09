@@ -27,6 +27,10 @@ typedef NS_ENUM(uint8_t, OGCoreDataStackValueMapperCastingBehaviour)
     OGCoreDataStackValueMapperCastingBehaviourStrict
 };
 
+/*
+ Standard implementation of OGCoreDataStackValueMapping.
+ */
+
 @interface OGCoreDataStackValueMapper : NSObject <OGCoreDataStackValueMapping>
 
 /**

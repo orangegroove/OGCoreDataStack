@@ -8,6 +8,10 @@
 
 @import CoreData;
 
+/*
+ Data mapping configuration.
+ */
+
 @protocol OGCoreDataStackValueMapping <NSObject>
 @optional
 

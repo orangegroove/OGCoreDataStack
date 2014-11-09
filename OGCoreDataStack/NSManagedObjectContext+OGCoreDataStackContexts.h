@@ -24,17 +24,24 @@
 
 @import CoreData;
 
+/*
+ Extensions to NSManagedObjectContext to support convenience persistence.
+ */
+
 @interface NSManagedObjectContext (OGCoreDataStackContexts)
 
 /**
- 
- @note Observes changes in backgroundThreadContext.
+ A persistent context for the main queue.
+ @return The context.
+ @note Observes saves in og_backgroundQueueContext.
  */
-+ (instancetype)og_mainThreadContext;
++ (instancetype)og_mainQueueContext;
 
 /**
- 
+ A persistent context for a background queue.
+ @return The context.
+ @note Saves are observed by og_mainQueueContext.
  */
-+ (instancetype)og_backgroundThreadContext;
++ (instancetype)og_backgroundQueueContext;
 
 @end

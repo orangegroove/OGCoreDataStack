@@ -10,6 +10,10 @@
 
 @protocol OGCoreDataStackValueMapping;
 
+/*
+ Extensions to NSManagedObject to support data mapping.
+ */
+
 @interface NSManagedObject (OGCoreDataStackValueMapping)
 
 /**

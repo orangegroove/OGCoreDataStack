@@ -35,19 +35,19 @@
 
 - (void)testContextRelationship
 {
-	NSManagedObjectContext* mainThreadContext		= NSManagedObjectContext.og_mainThreadContext;
-	NSManagedObjectContext* backgroundThreadContext	= NSManagedObjectContext.og_backgroundThreadContext;
+    NSManagedObjectContext* mainQueueContext       = NSManagedObjectContext.og_mainQueueContext;
+    NSManagedObjectContext* backgroundQueueContext = NSManagedObjectContext.og_backgroundQueueContext;
 	
-	XCTAssertTrue([Person og_countWithRequest:nil context:mainThreadContext] == 0, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:mainQueueContext] == 0, @"");
 	
-	[OGCoreDataStackTestHelper seedPeople:3 inContext:backgroundThreadContext];
-	[backgroundThreadContext og_save];
+	[OGCoreDataStackTestHelper seedPeople:3 inContext:backgroundQueueContext];
+	[backgroundQueueContext og_save];
 	
-	XCTAssertTrue([Person og_countWithRequest:nil context:mainThreadContext] == 3, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:mainQueueContext] == 3, @"");
 	
-	[OGCoreDataStackTestHelper deleteDataInContext:backgroundThreadContext];
+	[OGCoreDataStackTestHelper deleteDataInContext:backgroundQueueContext];
 	
-	XCTAssertTrue([Person og_countWithRequest:nil context:mainThreadContext] == 0, @"");
+	XCTAssertTrue([Person og_countWithRequest:nil context:mainQueueContext] == 0, @"");
 }
 
 @end

@@ -24,6 +24,10 @@
 
 @import CoreData;
 
+/*
+ Extensions to NSPersistentStoreCoordinator.
+ */
+
 @interface NSPersistentStoreCoordinator (OGCoreDataStack)
 
 #pragma mark - Lifecycle

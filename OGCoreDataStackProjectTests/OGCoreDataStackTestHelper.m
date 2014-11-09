@@ -20,13 +20,11 @@
 {
 	[context performBlockAndWait:^{
 		
-		for (NSInteger i = 0; i < count; i++) {
-			
-			NSString* name	= [NSString stringWithFormat:@"person %li", (long)i];
-			Person* person	= [Person og_createObjectInContext:context];
-			
-			[person setName:name];
-			[person setId:@(i)];
+		for (NSInteger i = 0; i < count; i++)
+        {
+            Person* person = [Person og_createObjectInContext:context];
+            person.name    = [NSString stringWithFormat:@"person %li", (long)i];
+            person.id      = @(i);
 		}
 		
 		[context og_save];
@@ -42,7 +40,9 @@
 		[Creditcard og_deleteWithRequest:nil context:context];
 		
 		if (context.persistentStoreCoordinator.persistentStores.count)
-			[context og_save];
+        {
+            [context og_save];
+        }
 	}];
 }
 

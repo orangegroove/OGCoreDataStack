@@ -24,6 +24,10 @@
 
 @import CoreData;
 
+/*
+ Extensions to NSManagedObject.
+ */
+
 @interface NSManagedObject (OGCoreDataStack)
 
 #pragma mark - Lifecycle

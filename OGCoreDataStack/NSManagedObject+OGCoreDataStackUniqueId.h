@@ -24,6 +24,10 @@
 
 @import CoreData;
 
+/*
+ Extensions to NSManagedObject to support relational database style object id's.
+ */
+
 @interface NSManagedObject (OGCoreDataStackUniqueId)
 
 #pragma mark - Lifecycle

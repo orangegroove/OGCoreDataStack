@@ -8,6 +8,10 @@
 
 @import CoreData;
 
+/*
+ Extensions to NSString.
+ */
+
 @interface NSString (OGCoreDataStackValueMapping)
 
 /**
