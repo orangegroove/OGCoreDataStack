@@ -44,9 +44,12 @@
 
 - (void)og_addSortKey:(NSString *)key ascending:(BOOL)ascending
 {
-	NSParameterAssert(key);
-	
-	[self og_addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:key ascending:ascending]];
+	NSParameterAssert(key.length);
+    
+    if (key.length)
+    {
+        [self og_addSortDescriptor:[NSSortDescriptor sortDescriptorWithKey:key ascending:ascending]];
+    }
 }
 
 @end

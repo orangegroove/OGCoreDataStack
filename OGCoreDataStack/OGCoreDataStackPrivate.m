@@ -28,8 +28,8 @@
 
 NSURL* _ogMomdURL(void)
 {
-    NSString* bundle    = [NSBundle.mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
-	NSArray* urls       = [[NSBundle bundleWithIdentifier:bundle] URLsForResourcesWithExtension:@"momd" subdirectory:nil];
+    NSString* bundle = [NSBundle.mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+    NSArray* urls    = [[NSBundle bundleWithIdentifier:bundle] URLsForResourcesWithExtension:@"momd" subdirectory:nil];
 	
 	NSCAssert(urls.count == 1, @"Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %lu", (unsigned long)urls.count);
 	

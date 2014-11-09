@@ -57,10 +57,7 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 {
 	NSParameterAssert(context);
 	
-	if ([self og_isObservingSavesInContext:context])
-    {
-        return;
-    }
+	if ([self og_isObservingSavesInContext:context]) return;
 	
     __block id weakSelf                                = self;
     NSString* key                                      = [self og_observerKeyForContext:context];
