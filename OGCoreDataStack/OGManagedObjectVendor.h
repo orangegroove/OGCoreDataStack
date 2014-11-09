@@ -30,8 +30,7 @@
 
 typedef void (^OGCoreDataStackVendorObjectsUpdated)(NSIndexSet* insertedSections, NSIndexSet* deletedSections, NSArray* insertedItems, NSArray* deletedItems, NSArray* updatedItems);
 
-@interface OGManagedObjectVendor : NSObject
-<NSFetchedResultsControllerDelegate>
+@interface OGManagedObjectVendor : NSObject <NSFetchedResultsControllerDelegate>
 
 /**
  Toggles whether the vendor is enabled and serving objects.

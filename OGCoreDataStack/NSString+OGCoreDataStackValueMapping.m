@@ -32,10 +32,7 @@
 
 - (NSString *)og_firstLetterCapitalizedString
 {
-    if (self.length < 2)
-    {
-        return self.uppercaseString;
-    }
+    if (self.length < 2) return self.uppercaseString;
     
     NSString* first = [self substringToIndex:1];
     NSString* rest	= [self substringFromIndex:1];

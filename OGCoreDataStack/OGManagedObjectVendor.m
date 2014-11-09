@@ -58,10 +58,10 @@
         block(request);
     }
 	
-	self.fetchRequest			= request;
-	self.managedObjectContext	= context;
-	self.sectionNameKeyPath		= sectionNameKeyPath;
-	self.cacheName				= cacheName;
+    self.fetchRequest         = request;
+    self.managedObjectContext = context;
+    self.sectionNameKeyPath   = sectionNameKeyPath;
+    self.cacheName            = cacheName;
 }
 
 - (NSInteger)numberOfSections
@@ -73,10 +73,7 @@
 {
 	NSArray* sections = self.fetchedResultsController.sections;
 	
-	if (section > ((NSInteger)sections.count)-1)
-    {
-        return 0;
-    }
+	if (section > ((NSInteger)sections.count)-1) return 0;
 	
 	id<NSFetchedResultsSectionInfo> sectionInfo = sections[(NSUInteger)section];
 	
@@ -97,10 +94,7 @@
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (![self indexPathIsValid:indexPath])
-    {
-        return nil;
-    }
+	if (![self indexPathIsValid:indexPath]) return nil;
 	
 	return [self.fetchedResultsController objectAtIndexPath:indexPath];
 }
@@ -112,10 +106,7 @@
 
 - (id)objectForKeyedSubscript:(id)key
 {
-	if (![key isKindOfClass:NSIndexPath.class] || ![self indexPathIsValid:key])
-    {
-        return nil;
-    }
+	if (![key isKindOfClass:NSIndexPath.class] || ![self indexPathIsValid:key]) return nil;
 	
 	return [self.fetchedResultsController objectAtIndexPath:key];
 }
@@ -129,8 +120,8 @@
 
 - (id)lastObjectInSection:(NSInteger)section
 {
-	NSInteger item			= [self numberOfObjectsInSection:section]-1;
-	NSIndexPath* indexPath	= [NSIndexPath indexPathForItem:item inSection:section];
+    NSInteger item         = [self numberOfObjectsInSection:section]-1;
+    NSIndexPath* indexPath = [NSIndexPath indexPathForItem:item inSection:section];
 	
 	return [self objectAtIndexPath:indexPath];
 }
@@ -149,10 +140,7 @@
 {
 	NSArray* sections = self.fetchedResultsController.sections;
 	
-	if (section > ((NSInteger)sections.count)-1)
-    {
-        return nil;
-    }
+	if (section > ((NSInteger)sections.count)-1) return nil;
 	
 	return sections[(NSUInteger)section];
 }
@@ -161,10 +149,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-	if (self.isPaused)
-    {
-        return;
-    }
+	if (self.isPaused) return;
 	
 	if (self.objectsUpdated)
     {
@@ -240,30 +225,22 @@
 
 - (BOOL)indexPathIsValid:(NSIndexPath *)indexPath
 {
-	if (indexPath.section >= self.fetchedResultsController.sections.count)
-    {
-        return NO;
-    }
+	if (indexPath.section >= self.fetchedResultsController.sections.count) return NO;
 	
 	id<NSFetchedResultsSectionInfo> info = self.fetchedResultsController.sections[(NSUInteger)indexPath.section];
-	
-	if (indexPath.item >= info.numberOfObjects)
-    {
-        return NO;
-    }
-	
-	return YES;
+    
+    return indexPath.item < info.numberOfObjects;
 }
 
 - (void)callObjectsUpdatedBlock
 {
 	self.objectsUpdated(self.insertedSections, self.deletedSections, self.insertedObjects, self.deletedObjects, self.updatedObjects);
 	
-	self.deletedSections	= nil;
-	self.insertedSections	= nil;
-	self.deletedObjects		= nil;
-	self.insertedObjects	= nil;
-	self.updatedObjects		= nil;
+    self.deletedSections  = nil;
+    self.insertedSections = nil;
+    self.deletedObjects   = nil;
+    self.insertedObjects  = nil;
+    self.updatedObjects   = nil;
 }
 
 #pragma mark - Properties
@@ -273,17 +250,14 @@
     NSAssert(!self.fetchRequest, @"Must set fetchRequest before vending");
     NSAssert(!self.managedObjectContext, @"Must set managedObjectContext before vending");
     
-	if (!self.fetchRequest || !self.managedObjectContext)
-    {
-        return;
-    }
+	if (!self.fetchRequest || !self.managedObjectContext) return;
 	
 	if (vending && !_vending)
     {
-		self.fetchedResultsController			= [[NSFetchedResultsController alloc] initWithFetchRequest:self.fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:self.sectionNameKeyPath cacheName:self.cacheName];
-		self.fetchedResultsController.delegate	= self;
-		NSError* error							= nil;
-		_vending								= [self.fetchedResultsController performFetch:&error];
+        self.fetchedResultsController          = [[NSFetchedResultsController alloc] initWithFetchRequest:self.fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:self.sectionNameKeyPath cacheName:self.cacheName];
+        self.fetchedResultsController.delegate = self;
+        NSError* error                         = nil;
+        _vending                               = [self.fetchedResultsController performFetch:&error];
 		
 		NSAssert(vending, @"Enable vending error: %@", error);
 		
@@ -294,9 +268,9 @@
 	}
 	else if (!vending)
     {
-		self.fetchedResultsController.delegate	= nil;
-		self.fetchedResultsController			= nil;
-		_vending								= NO;
+        self.fetchedResultsController.delegate = nil;
+        self.fetchedResultsController          = nil;
+        _vending                               = NO;
 	}
 }
 
@@ -312,10 +286,7 @@
 
 - (NSMutableIndexSet *)deletedSections
 {
-	if (_deletedSections)
-    {
-        return _deletedSections;
-    }
+	if (_deletedSections) return _deletedSections;
 	
 	_deletedSections = [NSMutableIndexSet indexSet];
 	
@@ -324,10 +295,7 @@
 
 - (NSMutableIndexSet *)insertedSections
 {
-	if (_insertedSections)
-    {
-        return _insertedSections;
-    }
+	if (_insertedSections) return _insertedSections;
     
 	_insertedSections = [NSMutableIndexSet indexSet];
 	
@@ -336,10 +304,7 @@
 
 - (NSMutableArray *)insertedObjects
 {
-	if (_insertedObjects)
-    {
-        return _insertedObjects;
-    }
+	if (_insertedObjects) return _insertedObjects;
 	
 	_insertedObjects = [NSMutableArray array];
 	
@@ -348,10 +313,7 @@
 
 - (NSMutableArray *)deletedObjects
 {
-	if (_deletedObjects)
-    {
-        return _deletedObjects;
-    }
+	if (_deletedObjects) return _deletedObjects;
 	
 	_deletedObjects = [NSMutableArray array];
 	
@@ -360,10 +322,7 @@
 
 - (NSMutableArray *)updatedObjects
 {
-	if (_updatedObjects)
-    {
-        return _updatedObjects;
-    }
+	if (_updatedObjects) return _updatedObjects;
     
 	_updatedObjects = [NSMutableArray array];
 	

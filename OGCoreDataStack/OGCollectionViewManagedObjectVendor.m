@@ -30,7 +30,9 @@
 
 - (id)init
 {
-	if (self = [super init])
+    self = [super init];
+    
+	if (self)
     {
 		_reloadThreshold = 50;
 	}
@@ -42,8 +44,8 @@
 
 - (void)setCollectionView:(UICollectionView *)collectionView
 {
-	_collectionView										= collectionView;
-	__weak OGCollectionViewManagedObjectVendor* wSelf	= self;
+    _collectionView                                   = collectionView;
+    __weak OGCollectionViewManagedObjectVendor* wSelf = self;
 	
 	if (collectionView)
     {

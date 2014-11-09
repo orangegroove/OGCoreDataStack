@@ -18,10 +18,7 @@
 {
     NSParameterAssert(dictionary);
     
-    if (!dictionary)
-    {
-        return;
-    }
+    if (!dictionary) return;
     
     BOOL transformKey   = [mapper respondsToSelector:@selector(og_mappedKeyForDestination:source:sourceKey:)];
     BOOL transformValue = [mapper respondsToSelector:@selector(og_mappedValue:fromSource:sourceKey:destination:destinationKey:)];

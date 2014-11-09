@@ -38,10 +38,7 @@ NSURL* _ogMomdURL(void)
 
 NSURL* _ogPersistentStoreURL(NSString* storeType)
 {
-	if ([storeType isEqualToString:NSInMemoryStoreType])
-    {
-        return nil;
-    }
+	if ([storeType isEqualToString:NSInMemoryStoreType]) return nil;
 	
 	NSString* filename	= _ogMomdURL().lastPathComponent;
 	NSString* modelname	= [filename substringWithRange:NSMakeRange(0, filename.length-5)];

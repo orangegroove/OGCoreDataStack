@@ -31,8 +31,8 @@
 
 + (instancetype)og_mainThreadContext
 {
-	static NSManagedObjectContext* context	= nil;
-	static dispatch_once_t token			= 0;
+    static NSManagedObjectContext* context = nil;
+    static dispatch_once_t token           = 0;
 	
 	dispatch_once(&token, ^{
 		
@@ -45,8 +45,8 @@
 
 + (instancetype)og_backgroundThreadContext
 {
-	static NSManagedObjectContext* context	= nil;
-	static dispatch_once_t token			= 0;
+    static NSManagedObjectContext* context = nil;
+    static dispatch_once_t token           = 0;
 	
 	dispatch_once(&token, ^{
 		

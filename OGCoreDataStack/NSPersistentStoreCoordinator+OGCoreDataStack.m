@@ -44,14 +44,14 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
 + (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
 {
-	__block BOOL success			= YES;
-	static dispatch_once_t token	= 0;
-	_ogCoreDataStackTokenRef		= &token;
+    __block BOOL success         = YES;
+    static dispatch_once_t token = 0;
+    _ogCoreDataStackTokenRef     = &token;
 	
 	dispatch_once(&token, ^{
 		
-		NSString* coordinatorStoreType		= storeType;
-		NSDictionary* coordinatorOptions	= options;
+        NSString* coordinatorStoreType   = storeType;
+        NSDictionary* coordinatorOptions = options;
 		
 		if (!coordinatorStoreType)
         {
@@ -63,10 +63,10 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
             coordinatorOptions = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
         }
 		
-		NSError* error								= nil;
-		NSManagedObjectModel* model					= [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
-		_ogCoreDataStackPersistentStoreCoordinator	= [[self alloc] initWithManagedObjectModel:model];
-		success										= !![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogPersistentStoreURL(storeType) options:coordinatorOptions error:&error];
+        NSError* error                             = nil;
+        NSManagedObjectModel* model                = [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
+        _ogCoreDataStackPersistentStoreCoordinator = [[self alloc] initWithManagedObjectModel:model];
+        success                                    = !![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogPersistentStoreURL(storeType) options:coordinatorOptions error:&error];
 		
 		NSAssert(success, @"Add Persistent Store Error: %@\nMissing migration? %@", error.localizedDescription, ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
 	});
@@ -76,22 +76,16 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
 
 + (BOOL)og_reset
 {
-	if (!_ogCoreDataStackPersistentStoreCoordinator.persistentStores.count)
-    {
-        return YES;
-    }
+	if (!_ogCoreDataStackPersistentStoreCoordinator.persistentStores.count) return YES;
 	
-	NSError* error				= nil;
-	NSPersistentStore* store	= _ogCoreDataStackPersistentStoreCoordinator.persistentStores.firstObject;
-	NSString* path				= _ogPersistentStoreURL(store.type).path;
-	BOOL success				= [_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:store error:&error];
+    NSError* error           = nil;
+    NSPersistentStore* store = _ogCoreDataStackPersistentStoreCoordinator.persistentStores.firstObject;
+    NSString* path           = _ogPersistentStoreURL(store.type).path;
+    BOOL success             = [_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:store error:&error];
 	
 	NSAssert(success, @"Remove Persistent Store Error: %@", error.localizedDescription);
 	
-	if (!success)
-    {
-        return NO;
-    }
+	if (!success) return NO;
 	
 	NSArray* paths = @[path, [path stringByAppendingString:@"-wal"], [path stringByAppendingString:@"-shm"]];
 	
@@ -107,9 +101,9 @@ static NSManagedObjectModel*			_ogCoreDataStackManagedObjectModel			= nil;
         }
 	}
 	
-	*_ogCoreDataStackTokenRef					= 0;
-	_ogCoreDataStackPersistentStoreCoordinator	= nil;
-	_ogCoreDataStackManagedObjectModel			= nil;
+    *_ogCoreDataStackTokenRef                  = 0;
+    _ogCoreDataStackPersistentStoreCoordinator = nil;
+    _ogCoreDataStackManagedObjectModel         = nil;
 	
 	return YES;
 }

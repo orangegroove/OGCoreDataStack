@@ -151,8 +151,8 @@
 {
     NSParameterAssert(block);
     
-    NSBatchUpdateRequest* request    = [NSBatchUpdateRequest batchUpdateRequestWithEntityName:self.og_entityName];
-    NSError* error                   = nil;
+    NSBatchUpdateRequest* request = [NSBatchUpdateRequest batchUpdateRequestWithEntityName:self.og_entityName];
+    NSError* error                = nil;
     
     block(request);
     

@@ -43,8 +43,8 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 
 - (BOOL)og_save
 {
-	NSError* error	= nil;
-	BOOL success	= [self save:&error];
+    NSError* error = nil;
+    BOOL success   = [self save:&error];
 	
 	NSAssert(success, @"Save error: %@", error.localizedDescription);
 	
@@ -62,9 +62,9 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
         return;
     }
 	
-	__block id weakSelf									= self;
-	NSString* key										= [self og_observerKeyForContext:context];
-	_ogCoreDataStackManagedObjectContextObservers[key]	= [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
+    __block id weakSelf                                = self;
+    NSString* key                                      = [self og_observerKeyForContext:context];
+    _ogCoreDataStackManagedObjectContextObservers[key] = [NSNotificationCenter.defaultCenter addObserverForName:NSManagedObjectContextDidSaveNotification object:context queue:nil usingBlock:^(NSNotification* note) {
 		
 		[weakSelf performBlock:^{ [weakSelf mergeChangesFromContextDidSaveNotification:note]; }];
 	}];
@@ -74,8 +74,8 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 {
 	NSParameterAssert(context);
 	
-	NSString* key	= [self og_observerKeyForContext:context];
-	id observer		= key.length? _ogCoreDataStackManagedObjectContextObservers[key] : nil;
+    NSString* key = [self og_observerKeyForContext:context];
+    id observer   = key.length? _ogCoreDataStackManagedObjectContextObservers[key] : nil;
 	
 	if (observer)
     {
@@ -116,8 +116,8 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 			
 			if (!objectID.isTemporaryID)
             {
-				NSError* error	= nil;
-				object			= [self existingObjectWithID:objectID error:&error];
+                NSError* error = nil;
+                object         = [self existingObjectWithID:objectID error:&error];
 			}
 			
 			if (!object)
@@ -153,8 +153,8 @@ static NSMutableDictionary* _ogCoreDataStackManagedObjectContextObservers = nil;
 			
 			if (!objectID.isTemporaryID)
             {
-				NSError* error	= nil;
-				object			= [self existingObjectWithID:objectID error:&error];
+                NSError* error = nil;
+                object         = [self existingObjectWithID:objectID error:&error];
 			}
 			
 			if (!object)

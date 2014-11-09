@@ -30,7 +30,9 @@
 
 - (id)init
 {
-	if (self = [super init])
+    self = [super init];
+    
+	if (self)
     {
 		_insertionAnimation	= UITableViewRowAnimationAutomatic;
 		_deletionAnimation	= UITableViewRowAnimationAutomatic;
@@ -45,8 +47,8 @@
 
 - (void)setTableView:(UITableView *)tableView
 {
-	_tableView										= tableView;
-	__weak OGTableViewManagedObjectVendor* wSelf    = self;
+    _tableView                                   = tableView;
+    __weak OGTableViewManagedObjectVendor* wSelf = self;
 	
 	if (tableView)
     {

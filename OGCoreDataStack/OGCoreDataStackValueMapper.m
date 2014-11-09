@@ -11,175 +11,85 @@
 
 static NSNumber* _ogCastToInt16(id value)
 {
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return @([(NSString *)value intValue]);
-    }
+    if ([value isKindOfClass:NSNumber.class]) return value;
+    if ([value isKindOfClass:NSString.class]) return @([(NSString *)value intValue]);
     
     return nil;
 }
 
 static NSNumber* _ogCastToInt32(id value)
 {
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return @([(NSString *)value intValue]);
-    }
+    if ([value isKindOfClass:NSNumber.class]) return value;
+    if ([value isKindOfClass:NSString.class]) return @([(NSString *)value intValue]);
     
     return nil;
 }
 
 static NSNumber* _ogCastToInt64(id value)
 {
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return @([(NSString *)value longLongValue]);
-    }
+    if ([value isKindOfClass:NSNumber.class]) return value;
+    if ([value isKindOfClass:NSString.class]) return @([(NSString *)value longLongValue]);
     
     return nil;
 }
 
 static NSDecimalNumber* _ogCastToDecimalNumber(id value)
 {
-    if ([value isKindOfClass:NSDecimalNumber.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        [NSDecimalNumber decimalNumberWithString:[(NSNumber *)value stringValue]];
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return [NSDecimalNumber decimalNumberWithString:value];
-    }
+    if ([value isKindOfClass:NSDecimalNumber.class]) return value;
+    if ([value isKindOfClass:NSNumber.class])        return [NSDecimalNumber decimalNumberWithString:[(NSNumber *)value stringValue]];
+    if ([value isKindOfClass:NSString.class])        return [NSDecimalNumber decimalNumberWithString:value];
     
     return nil;
 }
 
 static NSNumber* _ogCastToDouble(id value)
 {
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return @([(NSString *)value doubleValue]);
-    }
+    if ([value isKindOfClass:NSNumber.class]) return value;
+    if ([value isKindOfClass:NSString.class]) return @([(NSString *)value doubleValue]);
     
     return nil;
 }
 
 static NSNumber* _ogCastToFloat(id value)
 {
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return @([(NSString *)value floatValue]);
-    }
+    if ([value isKindOfClass:NSNumber.class]) return value;
+    if ([value isKindOfClass:NSString.class]) return @([(NSString *)value floatValue]);
     
     return nil;
 }
 
 static NSNumber* _ogCastToBool(id value)
 {
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return @([(NSString *)value boolValue]);
-    }
-    
-    if (value)
-    {
-        return @YES;
-    }
-    
-    if (!value && value != nil)
-    {
-        return @NO;
-    }
+    if ([value isKindOfClass:NSNumber.class]) return value;
+    if ([value isKindOfClass:NSString.class]) return @([(NSString *)value boolValue]);
+    if (value)                                return @YES;
+    if (!value && value != nil)               return @NO;
     
     return nil;
 }
 
 static NSString* _ogCastToString(id value)
 {
-    if ([value isKindOfClass:NSString.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        [(NSNumber *)value stringValue];
-    }
+    if ([value isKindOfClass:NSString.class]) return value;
+    if ([value isKindOfClass:NSNumber.class]) [(NSNumber *)value stringValue];
     
     return nil;
 }
 
 static NSDate* _ogCastToDate(id value)
 {
-    if ([value isKindOfClass:NSDate.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return [NSDate dateWithTimeIntervalSince1970:((NSNumber *)value).doubleValue];
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return [NSDate dateWithTimeIntervalSince1970:((NSString *)value).doubleValue];
-    }
+    if ([value isKindOfClass:NSDate.class])   return value;
+    if ([value isKindOfClass:NSNumber.class]) return [NSDate dateWithTimeIntervalSince1970:((NSNumber *)value).doubleValue];
+    if ([value isKindOfClass:NSString.class]) return [NSDate dateWithTimeIntervalSince1970:((NSString *)value).doubleValue];
     
     return nil;
 }
 
 static NSData* _ogCastToData(id value)
 {
-    if ([value isKindOfClass:NSData.class])
-    {
-        return value;
-    }
-    
-    if ([value isKindOfClass:NSString.class])
-    {
-        return [(NSString *)value dataUsingEncoding:NSUTF8StringEncoding];
-    }
-    
-    if ([value isKindOfClass:NSNumber.class])
-    {
-        return [[(NSNumber *)value stringValue] dataUsingEncoding:NSUTF8StringEncoding];
-    }
+    if ([value isKindOfClass:NSData.class])   return value;
+    if ([value isKindOfClass:NSString.class]) return [(NSString *)value dataUsingEncoding:NSUTF8StringEncoding];
+    if ([value isKindOfClass:NSNumber.class]) return [[(NSNumber *)value stringValue] dataUsingEncoding:NSUTF8StringEncoding];
     
     return nil;
 }
