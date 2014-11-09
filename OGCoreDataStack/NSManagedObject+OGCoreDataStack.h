@@ -69,7 +69,7 @@
  @param completion The block run on completion.
  @return The result future.
  */
-+ (NSPersistentStoreAsynchronousResult *)og_fetchAsynchronouslyWithRequest:(void (^)(NSFetchRequest* request))block progressTotal:(int64_t)progressTotal context:(NSManagedObjectContext *)context completion:(void (^)(BOOL success, NSArray* result, NSError* error))completion;
++ (NSPersistentStoreAsynchronousResult *)og_fetchAsynchronouslyWithRequest:(void (^)(NSFetchRequest* request))block progressTotal:(int64_t)progressTotal context:(NSManagedObjectContext *)context completion:(void (^)(BOOL success, NSArray* objects, NSError* error))completion;
 
 #pragma mark - Counting
 /** @name Counting */

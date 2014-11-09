@@ -76,6 +76,48 @@ or via a fetch:
 	
 	} context:context];
 
+### Batch update (requires iOS 8+)
+
+To update attribute values on objects without fetching them to memory, use:
+    
+    NSNumber* updatedObjectCount;
+    
+    BOOL success = [MyManagedObjectClass og_updateWithRequest:^(NSBatchUpdateRequest* request) {
+        
+        // set filter predicate and resultType here, e.g
+        
+        request.resultType = NSUpdatedObjectsCountResultType;
+        
+    } context:context result:&updatedObjectsCount];
+
+### Asynchronous fetch (requires iOS 8+)
+
+To fetch objects asynchronously:
+
+    NSPersistentStoreAsynchronousResult* result = [MyManagedObjectClass og_fetchAsynchronouslyWithRequest:^(NSFetchRequest* request) {
+            
+            // set filter predicate here
+            
+        } progressTotal:1 context:context completion:^(BOOL success, NSArray* objects, NSError* error) {
+            
+            if (success)
+            {
+                // do something the the objects
+            }
+            else
+            {
+                // check the error
+            }
+        }];
+
+You can check the progress of the operation:
+
+    NSProgress* progress = result.progress;
+
+You can cancel the operation:
+
+    [result cancel];
+
 ## Unique ID's
 
 While Core Data is not a relational database, it's often used to cache data from a database such as this. If this is something you want to do, it's useful to give each object an id property. To do this, use the *UniqueId* subspec, and in your NSManagedObject subclass, override:
