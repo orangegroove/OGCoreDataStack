@@ -247,8 +247,8 @@
 
 - (void)setVending:(BOOL)vending
 {
-    NSAssert(!self.fetchRequest, @"Must set fetchRequest before vending");
-    NSAssert(!self.managedObjectContext, @"Must set managedObjectContext before vending");
+    NSAssert(!!self.fetchRequest, @"Must set fetchRequest before vending");
+    NSAssert(!!self.managedObjectContext, @"Must set managedObjectContext before vending");
     
 	if (!self.fetchRequest || !self.managedObjectContext) return;
 	
