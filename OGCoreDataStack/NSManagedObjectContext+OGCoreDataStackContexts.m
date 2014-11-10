@@ -24,6 +24,7 @@
 
 #import "NSManagedObjectContext+OGCoreDataStackContexts.h"
 #import "NSManagedObjectContext+OGCoreDataStack.h"
+#import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
 
 @implementation NSManagedObjectContext (OGCoreDataStackContexts)
 
@@ -36,7 +37,9 @@
 	
 	dispatch_once(&token, ^{
 		
-        context = [[self alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        context                            = [[self alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+        context.persistentStoreCoordinator = NSPersistentStoreCoordinator.og_sharedPersistentStoreCoordinator;
+        
 		[context og_observeSavesInContext:self.og_backgroundQueueContext];
 	});
 	

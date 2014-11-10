@@ -2,7 +2,7 @@
 
 A lightweight, multi-threaded Core Data stack. Design goals are ease of use, compile-time checks, and wrappers for some common use cases.
 
-This library is intended to cover most use-cases, favor convention of configuration, and simply make your life easier. It's probably not for you if you have some special requirements, e.g., a complex setup with multiple managed object models. For something that covers all your bases, you might want to check out [MagicalRecord](https://github.com/magicalpanda/MagicalRecord).
+This library is intended to cover most use-cases, favor convention over configuration, and simply make your life easier. It's probably not for you if you have some special requirements, e.g., a complex setup with multiple managed object models. For something that covers all your bases, you might want to check out [MagicalRecord](https://github.com/magicalpanda/MagicalRecord).
 
 # Installation and setup
 
