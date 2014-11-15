@@ -47,9 +47,11 @@
 + (NSArray *)og_fetchWithRequest:(void (^)(NSFetchRequest* request))block context:(NSManagedObjectContext *)context
 {
 	NSParameterAssert(context);
-	
-	NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:self.og_entityName];
-	NSError* error			= nil;
+    
+    NSError* error              = nil;
+    NSEntityDescription* entity = [NSEntityDescription entityForName:self.og_entityName inManagedObjectContext:context];
+    NSFetchRequest* request     = [[NSFetchRequest alloc] init];
+    request.entity              = entity;
 	
 	if (block)
     {

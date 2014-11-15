@@ -53,7 +53,8 @@
 	
 	dispatch_once(&token, ^{
 		
-        context = [[self alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        context                            = [[self alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        context.persistentStoreCoordinator = NSPersistentStoreCoordinator.og_sharedPersistentStoreCoordinator;
 	});
 	
 	return context;

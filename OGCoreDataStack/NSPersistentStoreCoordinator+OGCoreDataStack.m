@@ -23,7 +23,9 @@
 //
 
 #import "NSPersistentStoreCoordinator+OGCoreDataStack.h"
-#import "OGCoreDataStackPrivate.h"
+
+NSString * const OGCoreDataStackStoreOptionDirectoryURL = @"OGCoreDataStackStoreOptionDirectoryURL";
+NSString * const OGCoreDataStackStoreOptionICloudBackup = @"OGCoreDataStackStoreOptionICloudBackup";
 
 static dispatch_once_t* _ogCoreDataStackTokenRef                                = 0;
 static NSPersistentStoreCoordinator* _ogCoreDataStackPersistentStoreCoordinator = nil;
@@ -35,14 +37,14 @@ static NSManagedObjectModel* _ogCoreDataStackManagedObjectModel                 
 
 + (instancetype)og_sharedPersistentStoreCoordinator
 {
-	BOOL success __attribute__((unused)) = [self og_setupWithStoreType:nil options:nil];
+	BOOL success __attribute__((unused)) = [self og_setupWithStoreType:nil options:nil error:nil];
 	
 	NSAssert(success, @"Persistent Store setup failed");
 	
 	return _ogCoreDataStackPersistentStoreCoordinator;
 }
 
-+ (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options
++ (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options error:(NSError *__autoreleasing *)error
 {
     __block BOOL success         = YES;
     static dispatch_once_t token = 0;
@@ -50,25 +52,37 @@ static NSManagedObjectModel* _ogCoreDataStackManagedObjectModel                 
 	
 	dispatch_once(&token, ^{
 		
-        NSString* coordinatorStoreType   = storeType;
-        NSDictionary* coordinatorOptions = options;
+        NSManagedObjectModel* model         = [[NSManagedObjectModel alloc] initWithContentsOfURL:[self og_MomdURL]];
+        NSMutableDictionary* mutableOptions = [NSMutableDictionary dictionaryWithDictionary:options];
+        NSString* coordinatorStoreType      = storeType;
 		
 		if (!coordinatorStoreType)
         {
             coordinatorStoreType = NSSQLiteStoreType;
         }
-		
-		if (!coordinatorOptions)
-        {
-            coordinatorOptions = @{NSMigratePersistentStoresAutomaticallyOption: @YES, NSInferMappingModelAutomaticallyOption: @YES};
-        }
-		
-        NSError* error                             = nil;
-        NSManagedObjectModel* model                = [[NSManagedObjectModel alloc] initWithContentsOfURL:_ogMomdURL()];
+        
+        NSURL* storeURL               = options[OGCoreDataStackStoreOptionDirectoryURL];
+        NSNumber* cloudBackup         = options[OGCoreDataStackStoreOptionICloudBackup];
+        if (!storeURL)    storeURL    = [self og_persistentStoreURLForType:storeType];
+        if (!cloudBackup) cloudBackup = @NO;
+        
+        [self og_validateOptions:mutableOptions];
+        
+        NSError* storeError                        = nil;
         _ogCoreDataStackPersistentStoreCoordinator = [[self alloc] initWithManagedObjectModel:model];
-        success                                    = !![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:_ogPersistentStoreURL(storeType) options:coordinatorOptions error:&error];
-		
-		NSAssert(success, @"Add Persistent Store Error: %@\nMissing migration? %@", error.localizedDescription, ![error.userInfo[@"sourceModel"] isEqual:error.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
+        success                                    = !![_ogCoreDataStackPersistentStoreCoordinator addPersistentStoreWithType:coordinatorStoreType configuration:nil URL:storeURL options:mutableOptions error:&storeError];
+        
+        if (success && storeURL && [NSFileManager.defaultManager fileExistsAtPath:storeURL.path])
+        {
+            success = [storeURL setResourceValue:@(!cloudBackup.boolValue) forKey:NSURLIsExcludedFromBackupKey error:&storeError];
+        }
+        
+		NSAssert(success, @"Add Persistent Store Error: %@\nMissing migration? %@", storeError.localizedDescription, ![storeError.userInfo[@"sourceModel"] isEqual:storeError.userInfo[@"destinationModel"]] ? @"YES" : @"NO");
+        
+        if (error)
+        {
+            *error = storeError;
+        }
 	});
 	
 	return success;
@@ -80,7 +94,7 @@ static NSManagedObjectModel* _ogCoreDataStackManagedObjectModel                 
 	
     NSError* error           = nil;
     NSPersistentStore* store = _ogCoreDataStackPersistentStoreCoordinator.persistentStores.firstObject;
-    NSString* path           = _ogPersistentStoreURL(store.type).path;
+    NSString* path           = [self og_persistentStoreURLForType:store.type].path;
     BOOL success             = [_ogCoreDataStackPersistentStoreCoordinator removePersistentStore:store error:&error];
 	
 	NSAssert(success, @"Remove Persistent Store Error: %@", error.localizedDescription);
@@ -106,6 +120,45 @@ static NSManagedObjectModel* _ogCoreDataStackManagedObjectModel                 
     _ogCoreDataStackManagedObjectModel         = nil;
 	
 	return YES;
+}
+
+#pragma mark - Private
+
++ (void)og_validateOptions:(NSMutableDictionary *)options
+{
+    [options removeObjectForKey:OGCoreDataStackStoreOptionDirectoryURL];
+    [options removeObjectForKey:OGCoreDataStackStoreOptionICloudBackup];
+    
+    if (!options[NSMigratePersistentStoresAutomaticallyOption])
+    {
+        options[NSMigratePersistentStoresAutomaticallyOption] = @YES;
+    }
+    
+    if (!options[NSInferMappingModelAutomaticallyOption])
+    {
+        options[NSInferMappingModelAutomaticallyOption] = @YES;
+    }
+}
+
++ (NSURL *)og_MomdURL
+{
+    NSString* bundle = [NSBundle.mainBundle objectForInfoDictionaryKey:(NSString *)kCFBundleIdentifierKey];
+    NSArray* urls    = [[NSBundle bundleWithIdentifier:bundle] URLsForResourcesWithExtension:@"momd" subdirectory:nil];
+    
+    NSCAssert(urls.count == 1, @"Create Managed Object Model Error: Looking for 1 Momd in main bundle, found %lu", (unsigned long)urls.count);
+    
+    return urls.firstObject;
+}
+
++ (NSURL *)og_persistentStoreURLForType:(NSString *)storeType
+{
+    if ([storeType isEqualToString:NSInMemoryStoreType]) return nil;
+    
+    NSString* filename	= [self og_MomdURL].lastPathComponent;
+    NSString* modelname	= [filename substringWithRange:NSMakeRange(0, filename.length-5)];
+    NSArray* urls		= [NSFileManager.defaultManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+    
+    return [urls.lastObject URLByAppendingPathComponent:modelname];
 }
 
 @end

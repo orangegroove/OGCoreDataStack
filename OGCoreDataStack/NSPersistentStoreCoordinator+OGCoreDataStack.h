@@ -24,6 +24,25 @@
 
 @import CoreData;
 
+#pragma mark - Store Options
+/** @name Store Options */
+
+/**
+ The directory in which to store the sqlite file.
+ Defaults to NSLibraryDirectory in the user domain.
+ Not relevant for NSInMemoryStoreType.
+ The value should be an NSURL.
+ */
+extern NSString * const OGCoreDataStackStoreOptionDirectoryURL;
+
+/**
+ Whether to back up the sqlite file to iCloud.
+ Only applicable if the file is stored in certain directories.
+ Defaults to NO.
+ The value should be an NSNumber.
+ */
+extern NSString * const OGCoreDataStackStoreOptionICloudBackup;
+
 /*
  Extensions to NSPersistentStoreCoordinator.
  */
@@ -42,11 +61,12 @@
 /**
  Customize the persistent store coordinator.
  @param storeType The type of store to create. Defaults to NSSQLiteStoreType.
- @param options The store options. Defaults to NSMigratePersistentStoresAutomaticallyOption and NSInferMappingModelAutomaticallyOption being YES for automatic light migrations.
+ @param options The store options. Defaults to NSMigratePersistentStoresAutomaticallyOption and NSInferMappingModelAutomaticallyOption being YES for automatic light migrations. For additional options @see Store Options.
+ @param error Failure reason.
  @return Whether the operation is successful.
  @note Call this before accessing any other part of the stack. E.g., in application:didFinishLaunchingWithOptions:.
  */
-+ (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options;
++ (BOOL)og_setupWithStoreType:(NSString *)storeType options:(NSDictionary *)options error:(NSError **)error;
 
 /**
  Delete the persistent store.

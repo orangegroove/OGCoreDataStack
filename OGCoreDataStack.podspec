@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                 = "OGCoreDataStack"
-  s.version              = "0.5.3"
+  s.version              = "0.5.4"
   s.summary              = "A multi-threaded Core Data stack. Design goals are ease of use, compile-time checks, and wrappers for some common use cases."
   s.homepage             = "https://github.com/OrangeGroove/OGCoreDataStack"
   s.license              = { :type => "MIT" }
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.social_media_url     = "https://twitter.com/jskrufve"
   
   s.subspec "Core" do |sc|
-    sc.source_files      = "OGCoreDataStack/OGCoreDataStackCore.h", "OGCoreDataStack/OGCoreDataStackPrivate.[hm]", "OGCoreDataStack/*+OGCoreDataStack.[hm]"
+    sc.source_files      = "OGCoreDataStack/OGCoreDataStackCore.h", "OGCoreDataStack/*+OGCoreDataStack.[hm]"
   end
   
   s.subspec "Vendor" do |sv|
